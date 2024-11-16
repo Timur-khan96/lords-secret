@@ -1,0 +1,165 @@
+[gd_scene load_steps=2 format=3 uid="uid://de1vatx8ijc0f"]
+
+[ext_resource type="Script" path="res://ui/ui_main.gd" id="1_qev2k"]
+
+[node name="UILayer" type="CanvasLayer"]
+script = ExtResource("1_qev2k")
+
+[node name="selling_overlay" type="MarginContainer" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -136.0
+offset_top = -113.0
+offset_right = 136.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 64
+
+[node name="Label" type="Label" parent="selling_overlay"]
+layout_mode = 2
+text = "Select a plot or establish a new one
+Desired cost: "
+horizontal_alignment = 1
+
+[node name="middle_bottom" type="MarginContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -44.5
+offset_top = -40.0
+offset_right = 44.5
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_bottom = 24
+
+[node name="PanelContainer" type="PanelContainer" parent="middle_bottom"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="middle_bottom/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="plot_button" type="Button" parent="middle_bottom/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Edit plots"
+
+[node name="bell_button" type="Button" parent="middle_bottom/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Bell ring"
+
+[node name="vampire_button" type="Button" parent="middle_bottom/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Vampire"
+
+[node name="middle_top" type="MarginContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -44.5
+offset_right = 44.5
+offset_bottom = 40.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 24
+
+[node name="PanelContainer" type="PanelContainer" parent="middle_top"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="middle_top/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="money_label" type="Label" parent="middle_top/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "hello"
+
+[node name="blood_label" type="Label" parent="middle_top/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "hello"
+
+[node name="village_name_control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="village_name_control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="village_name_control/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="village_name_control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Enter the name of your village"
+
+[node name="LineEdit" type="LineEdit" parent="village_name_control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="village_name_control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="top_right" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+
+[node name="PanelContainer" type="PanelContainer" parent="top_right"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="top_right/PanelContainer"]
+layout_mode = 2
+
+[node name="time_of_day_label" type="Label" parent="top_right/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Night"
+horizontal_alignment = 1
+
+[node name="time_button" type="Button" parent="top_right/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "00:00 x1"
+
+[node name="date_label" type="Label" parent="top_right/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="debug_label" type="Label" parent="."]
+unique_name_in_owner = true
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+
+[connection signal="pressed" from="middle_bottom/PanelContainer/HBoxContainer/plot_button" to="." method="_on_plot_button_pressed"]
+[connection signal="pressed" from="middle_bottom/PanelContainer/HBoxContainer/bell_button" to="." method="_on_bell_button_pressed"]
+[connection signal="pressed" from="middle_bottom/PanelContainer/HBoxContainer/vampire_button" to="." method="_on_vampire_button_pressed"]
+[connection signal="pressed" from="top_right/PanelContainer/VBoxContainer/time_button" to="." method="_on_time_button_pressed"]

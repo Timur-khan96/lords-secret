@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://s7lvb474oiqx"]
+
+[ext_resource type="Script" path="res://plots/corner.gd" id="1_8ibnb"]
+[ext_resource type="Material" uid="uid://cnlhpp84l2rur" path="res://plots/abstract_corner_material.tres" id="1_cfmk3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cf8fc"]
+radius = 0.125
+
+[sub_resource type="SphereMesh" id="SphereMesh_65u3m"]
+resource_local_to_scene = true
+material = ExtResource("1_cfmk3")
+radius = 0.125
+height = 0.25
+
+[node name="corner" type="StaticBody3D"]
+collision_layer = 4
+script = ExtResource("1_8ibnb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_cf8fc")
+disabled = true
+
+[node name="mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_65u3m")
+skeleton = NodePath("")

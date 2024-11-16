@@ -1,0 +1,244 @@
+[gd_scene load_steps=25 format=3 uid="uid://da4y2mlnmjic6"]
+
+[ext_resource type="Script" path="res://world/world.gd" id="1_wiqad"]
+[ext_resource type="Texture2D" uid="uid://ddyj2lca6g2c1" path="res://aerial_grass_rock_diff_1k.jpg" id="2_0vngl"]
+[ext_resource type="Script" path="res://world/npc_spawner.gd" id="2_ds2w1"]
+[ext_resource type="Script" path="res://world/object_spawner.gd" id="3_y03j2"]
+[ext_resource type="Script" path="res://player/player_controls.gd" id="4_1pruo"]
+[ext_resource type="Script" path="res://camera/camera_base.gd" id="5_ecwqr"]
+[ext_resource type="Script" path="res://camera/camera.gd" id="6_v42ng"]
+[ext_resource type="PackedScene" uid="uid://de1vatx8ijc0f" path="res://ui/ui_layer.tscn" id="8_8f12b"]
+[ext_resource type="Script" path="res://plots/plot_controller.gd" id="9_gj3pp"]
+[ext_resource type="PackedScene" uid="uid://d2c8qp07tqnfl" path="res://mansion/mansion_scene.tscn" id="10_sfi2x"]
+[ext_resource type="PackedScene" uid="uid://bp6utlfdm5xmu" path="res://player/lord.tscn" id="12_8d6ve"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_drvy8"]
+vertices = PackedVector3Array(-6, 1, -8, -4, 1, -8, -4, 1, -224.5, -6.25, 1, -6.25, -224.5, 1, -224.5, -224.5, 1, -6.5, 8, 1, -8, 8, 1, -224.5, 10, 1, -8, 10.25, 1, -6.25, 224.5, 1, -6.5, 224.5, 1, -224.5, 10.75, 1, 0.5, 10.75, 1, -0.25, 10, 1, -0.5, 10, 1, 0.75, 9, 1, -2, 9, 1, -6.75, -4.75, 1, -6.75, 9, 1, 2, 10, 1, 1.75, 10, 1, -1.75, -4.75, 1, 6.75, 9, 1, 6.75, -224.5, 1, 6.75, -6.25, 1, 6.5, 10.25, 1, -3, 11.75, 1, -3, 12, 1, -2.25, 224.5, 1, -2.25, 11.5, 1, 0.75, 11.5, 1, -0.5, 12, 1, 2.5, 224.5, 1, 2.5, 11.75, 1, 3.25, 10.25, 1, 3.25, 10.25, 1, 6.5, 224.5, 1, 6.75, -4.75, 1, 224.5, -4.5, 1, 8.25, -6.25, 1, 8, -224.5, 1, 224.5, 10, 1, 8.25, 8.75, 1, 224.5, 224.5, 1, 224.5, 8.5, 1, 8.25)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(0, 3, 2), PackedInt32Array(2, 3, 5), PackedInt32Array(2, 5, 4), PackedInt32Array(2, 7, 1), PackedInt32Array(1, 7, 6), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 11), PackedInt32Array(11, 8, 7), PackedInt32Array(8, 6, 7), PackedInt32Array(12, 15, 13), PackedInt32Array(13, 15, 14), PackedInt32Array(18, 17, 16), PackedInt32Array(15, 20, 19), PackedInt32Array(16, 21, 14), PackedInt32Array(15, 19, 14), PackedInt32Array(14, 19, 16), PackedInt32Array(16, 19, 22), PackedInt32Array(16, 22, 18), PackedInt32Array(19, 23, 22), PackedInt32Array(25, 24, 3), PackedInt32Array(3, 24, 5), PackedInt32Array(26, 9, 27), PackedInt32Array(27, 9, 10), PackedInt32Array(28, 27, 29), PackedInt32Array(29, 27, 10), PackedInt32Array(13, 31, 12), PackedInt32Array(12, 31, 30), PackedInt32Array(31, 28, 30), PackedInt32Array(30, 28, 32), PackedInt32Array(32, 28, 29), PackedInt32Array(32, 29, 33), PackedInt32Array(35, 34, 36), PackedInt32Array(36, 34, 37), PackedInt32Array(32, 33, 34), PackedInt32Array(34, 33, 37), PackedInt32Array(39, 38, 40), PackedInt32Array(40, 38, 41), PackedInt32Array(40, 41, 24), PackedInt32Array(24, 25, 40), PackedInt32Array(36, 37, 42), PackedInt32Array(42, 37, 44), PackedInt32Array(42, 44, 43), PackedInt32Array(43, 45, 42), PackedInt32Array(39, 45, 38), PackedInt32Array(38, 45, 43)]
+geometry_parsed_geometry_type = 1
+geometry_collision_mask = 4294967275
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"navigation_mesh_group"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ggtxq"]
+size = Vector3(450, 1, 450)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7c2ly"]
+albedo_color = Color(1, 1, 1, 0.560784)
+albedo_texture = ExtResource("2_0vngl")
+uv1_scale = Vector3(20, 20, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tarkb"]
+material = SubResource("StandardMaterial3D_7c2ly")
+size = Vector3(450, 1, 450)
+
+[sub_resource type="Animation" id="Animation_mejjv"]
+length = 0.001
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DirectionalLight3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WorldEnvironment:environment:sky:sky_material:sky_top_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.226122, 0.465928, 0.678869, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WorldEnvironment:environment:sky:sky_material:sky_cover_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.370364, 0.370364, 0.370364, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DirectionalLight3D:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_j40u6"]
+resource_name = "day_night_cycle"
+length = 720.0
+loop_mode = 1
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DirectionalLight3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 720),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(6.28319, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WorldEnvironment:environment:sky:sky_material:sky_top_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 360),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.0728868, 0.195753, 0.303357, 1), Color(0.346182, 0.617255, 0.879955, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WorldEnvironment:environment:sky:sky_material:sky_cover_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 360),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.164224, 0.255225, 0.406376, 1), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DirectionalLight3D:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 360),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ko6x5"]
+_data = {
+"RESET": SubResource("Animation_mejjv"),
+"day_night_cycle": SubResource("Animation_j40u6")
+}
+
+[sub_resource type="Gradient" id="Gradient_c2nll"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_l3jfh"]
+noise_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6guiq"]
+seamless = true
+color_ramp = SubResource("Gradient_c2nll")
+noise = SubResource("FastNoiseLite_l3jfh")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vslq3"]
+sky_top_color = Color(0.226122, 0.465928, 0.678869, 1)
+sky_curve = 0.0265165
+sky_cover = SubResource("NoiseTexture2D_6guiq")
+sky_cover_modulate = Color(0.370364, 0.370364, 0.370364, 1)
+sun_angle_max = 62.22
+
+[sub_resource type="Sky" id="Sky_iyjfn"]
+sky_material = SubResource("ProceduralSkyMaterial_vslq3")
+
+[sub_resource type="Environment" id="Environment_c7cso"]
+background_mode = 2
+sky = SubResource("Sky_iyjfn")
+adjustment_brightness = 2.0
+
+[node name="world" type="Node3D"]
+script = ExtResource("1_wiqad")
+
+[node name="NPCSpawner" type="Node3D" parent="."]
+script = ExtResource("2_ds2w1")
+
+[node name="ObjectSpawner" type="Node3D" parent="."]
+script = ExtResource("3_y03j2")
+
+[node name="nav_region" type="NavigationRegion3D" parent="."]
+visible = false
+navigation_mesh = SubResource("NavigationMesh_drvy8")
+
+[node name="player_controls" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_1pruo")
+
+[node name="UILayer" parent="player_controls" instance=ExtResource("8_8f12b")]
+
+[node name="camera_base" type="Node3D" parent="player_controls"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+script = ExtResource("5_ecwqr")
+
+[node name="camera_socket" type="Node3D" parent="player_controls/camera_base"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+
+[node name="Camera" type="Camera3D" parent="player_controls/camera_base/camera_socket"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+current = true
+script = ExtResource("6_v42ng")
+
+[node name="game_timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="Floor" type="StaticBody3D" parent="." groups=["navigation_mesh_group"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_ggtxq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_tarkb")
+skeleton = NodePath("../..")
+
+[node name="day_night" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ko6x5")
+}
+autoplay = "day_night_cycle"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120, 80, 85)
+light_color = Color(1, 1, 0.643137, 1)
+light_energy = 0.0
+directional_shadow_mode = 0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_c7cso")
+
+[node name="plots" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("9_gj3pp")
+
+[node name="mansion_scene" parent="." instance=ExtResource("10_sfi2x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="lord" parent="." instance=ExtResource("12_8d6ve")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[connection signal="timeout" from="game_timer" to="." method="_on_game_timer_timeout"]

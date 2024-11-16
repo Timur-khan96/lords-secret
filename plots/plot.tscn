@@ -1,0 +1,140 @@
+[gd_scene load_steps=11 format=3 uid="uid://52avnsgxo2ak"]
+
+[ext_resource type="Script" path="res://plots/plot.gd" id="1_ai81j"]
+[ext_resource type="PackedScene" uid="uid://s7lvb474oiqx" path="res://plots/corner.tscn" id="2_gg7m8"]
+[ext_resource type="Material" uid="uid://cnlhpp84l2rur" path="res://plots/abstract_corner_material.tres" id="3_fvgms"]
+[ext_resource type="Texture2D" uid="uid://dwu8x0d7iffst" path="res://ui/ui_images/round_check_atlas.png" id="4_snuto"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_cdh1v"]
+resource_local_to_scene = true
+points = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_btylp"]
+resource_local_to_scene = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_momb3"]
+atlas = ExtResource("4_snuto")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xki3w"]
+atlas = ExtResource("4_snuto")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5kje"]
+atlas = ExtResource("4_snuto")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6jxrm"]
+atlas = ExtResource("4_snuto")
+region = Rect2(384, 0, 128, 128)
+
+[node name="plot" type="Area3D" groups=["plots"]]
+collision_layer = 2
+collision_mask = 10
+script = ExtResource("1_ai81j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_cdh1v")
+
+[node name="corners" type="Node3D" parent="."]
+
+[node name="corner_1" parent="corners" instance=ExtResource("2_gg7m8")]
+
+[node name="corner_2" parent="corners" instance=ExtResource("2_gg7m8")]
+
+[node name="corner_3" parent="corners" instance=ExtResource("2_gg7m8")]
+
+[node name="corner_4" parent="corners" instance=ExtResource("2_gg7m8")]
+
+[node name="border_mesh" type="MeshInstance3D" parent="."]
+material_override = ExtResource("3_fvgms")
+mesh = SubResource("ImmediateMesh_btylp")
+
+[node name="plot_name_3D" type="Label3D" parent="."]
+visible = false
+sorting_offset = 40.0
+pixel_size = 0.01
+billboard = 1
+text = "Hello world"
+font_size = 64
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="plot_control" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/plot_control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/plot_control/PanelContainer"]
+layout_mode = 2
+
+[node name="plot_name" type="LineEdit" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="owner_label" type="Label" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Owner:"
+
+[node name="size_label" type="Label" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Size:"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="price_label" type="Label" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Price: "
+
+[node name="price_box" type="SpinBox" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1000.0
+rounded = true
+allow_greater = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="accept_button" type="TextureButton" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_momb3")
+texture_hover = SubResource("AtlasTexture_xki3w")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="decline_button" type="TextureButton" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_n5kje")
+texture_hover = SubResource("AtlasTexture_6jxrm")
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

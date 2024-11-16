@@ -1,0 +1,7 @@
+Sorry, my lord, but this is not exactly what I was hoping for.
+- Fine, let me see what I can do.
+	do Global.plot_selling()
+	[end_timeline]
+- Then out of my sight!
+	do Global.handle_dialogue_result(true)
+	[end_timeline]

@@ -1,0 +1,295 @@
+[gd_scene load_steps=17 format=3 uid="uid://bp6utlfdm5xmu"]
+
+[ext_resource type="Script" path="res://player/lord.gd" id="1_fv86s"]
+[ext_resource type="Script" path="res://camera/camera.gd" id="2_d8cc3"]
+[ext_resource type="Texture2D" uid="uid://dai1xewsojhle" path="res://player/assets/pointer.png" id="3_fkln2"]
+[ext_resource type="PackedScene" uid="uid://3myhu07ak17e" path="res://player/assets/model.glb" id="4_px752"]
+[ext_resource type="AnimationLibrary" uid="uid://b6qgo12wjf04j" path="res://villagers/animations/anim_pack_1.glb" id="5_20bdp"]
+[ext_resource type="Script" path="res://animations/anim_controller.gd" id="6_nvpiw"]
+[ext_resource type="Texture2D" uid="uid://dh2h4b2uxngy6" path="res://effects/fire_01.png" id="7_2d0am"]
+[ext_resource type="Script" path="res://player/danger_area.gd" id="8_jce3h"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5li63"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01o7l"]
+atlas = ExtResource("3_fkln2")
+region = Rect2(0, 0, 10, 10)
+
+[sub_resource type="Animation" id="Animation_sw5ag"]
+resource_name = "Armature|mixamo_com|Layer0"
+length = 0.0666667
+tracks/0/type = "position_3d"
+tracks/0/imported = true
+tracks/0/enabled = true
+tracks/0/path = NodePath("%GeneralSkeleton:Hips")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -6.75297e-08, 1.00013, -0.0153699)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = true
+tracks/1/enabled = true
+tracks/1/path = NodePath("%GeneralSkeleton:LeftShoulder")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.500007, -0.499993, -0.500007, 0.499993)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = true
+tracks/2/enabled = true
+tracks/2/path = NodePath("%GeneralSkeleton:LeftLowerArm")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, -0.00616939, -0.70708, -0.00617055, 0.707079)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = true
+tracks/3/enabled = true
+tracks/3/path = NodePath("%GeneralSkeleton:LeftMiddleIntermediate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 1.12504e-05, 1.93715e-07, 0, 1)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = true
+tracks/4/enabled = true
+tracks/4/path = NodePath("%GeneralSkeleton:LeftMiddleDistal")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -6.98864e-06, -1.19209e-07, -1.12802e-05, 1)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = true
+tracks/5/enabled = true
+tracks/5/path = NodePath("%GeneralSkeleton:LeftRingIntermediate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 9.59635e-06, 1.19209e-07, 1.5825e-05, 1)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = true
+tracks/6/enabled = true
+tracks/6/path = NodePath("%GeneralSkeleton:LeftRingDistal")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, -7.01845e-06, 2.98023e-08, -1.13845e-05, 1)
+tracks/7/type = "rotation_3d"
+tracks/7/imported = true
+tracks/7/enabled = true
+tracks/7/path = NodePath("%GeneralSkeleton:RightLowerArm")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = PackedFloat32Array(0, 1, -0.00617187, 0.70708, 0.00617181, 0.70708)
+tracks/8/type = "rotation_3d"
+tracks/8/imported = true
+tracks/8/enabled = true
+tracks/8/path = NodePath("%GeneralSkeleton:RightLittleIntermediate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = PackedFloat32Array(0, 1, 1.3262e-05, -2.83122e-07, -8.9407e-08, 1)
+tracks/9/type = "rotation_3d"
+tracks/9/imported = true
+tracks/9/enabled = true
+tracks/9/path = NodePath("%GeneralSkeleton:RightLittleDistal")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = PackedFloat32Array(0, 1, -1.50353e-05, 3.8743e-07, 8.67248e-06, 1)
+tracks/10/type = "rotation_3d"
+tracks/10/imported = true
+tracks/10/enabled = true
+tracks/10/path = NodePath("%GeneralSkeleton:LeftUpperLeg")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = PackedFloat32Array(0, 1, -4.90731e-09, 0.000234362, 1, -1.7953e-07)
+tracks/11/type = "rotation_3d"
+tracks/11/imported = true
+tracks/11/enabled = true
+tracks/11/path = NodePath("%GeneralSkeleton:LeftLowerLeg")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = PackedFloat32Array(0, 1, 1.18348e-08, 1, -0.000476388, -4.05145e-09)
+tracks/12/type = "rotation_3d"
+tracks/12/imported = true
+tracks/12/enabled = true
+tracks/12/path = NodePath("%GeneralSkeleton:LeftFoot")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = PackedFloat32Array(0, 1, -4.15073e-07, 0.706935, -0.707278, -2.56656e-07)
+tracks/13/type = "rotation_3d"
+tracks/13/imported = true
+tracks/13/enabled = true
+tracks/13/path = NodePath("%GeneralSkeleton:RightUpperLeg")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = PackedFloat32Array(0, 1, -4.5333e-08, 0.000236575, 1, -1.39612e-07)
+tracks/14/type = "rotation_3d"
+tracks/14/imported = true
+tracks/14/enabled = true
+tracks/14/path = NodePath("%GeneralSkeleton:RightLowerLeg")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = PackedFloat32Array(0, 1, -7.68653e-08, 1, -0.000481615, -1.61498e-08)
+tracks/15/type = "rotation_3d"
+tracks/15/imported = true
+tracks/15/enabled = true
+tracks/15/path = NodePath("%GeneralSkeleton:RightFoot")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = PackedFloat32Array(0, 1, -3.88941e-07, 0.706933, -0.70728, 2.76503e-07)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ypmma"]
+_data = {
+"Armature|mixamo_com|Layer0": SubResource("Animation_sw5ag")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tgxnl"]
+emission_shape = 3
+emission_box_extents = Vector3(0.4, 0.5, 0.4)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bqtgf"]
+transparency = 1
+albedo_color = Color(47.027, 4.324, 0, 1)
+albedo_texture = ExtResource("7_2d0am")
+billboard_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_umu3h"]
+material = SubResource("StandardMaterial3D_bqtgf")
+size = Vector2(0.2, 0.2)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ixjx2"]
+height = 3.5
+radius = 20.0
+
+[node name="lord" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 16
+collision_mask = 121
+script = ExtResource("1_fv86s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_5li63")
+
+[node name="camera_base" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.23135, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="camera_base"]
+collision_mask = 41
+spring_length = 2.0
+margin = 0.5
+
+[node name="lords_camera" type="Camera3D" parent="camera_base/SpringArm3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.999991, -0.00425875, 0, 0.00425875, 0.999991, 0, 0.369778, 1.63329)
+script = ExtResource("2_d8cc3")
+
+[node name="UILayer2" type="CanvasLayer" parent="."]
+
+[node name="3dperson" type="Control" parent="UILayer2"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="pointer" type="TextureRect" parent="UILayer2/3dperson"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_01o7l")
+
+[node name="model" parent="." instance=ExtResource("4_px752")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1, 0)
+
+[node name="GeneralSkeleton" parent="model/Armature" index="0"]
+bones/0/position = Vector3(-8.01686e-08, 1.18732, -0.0182466)
+bones/1/rotation = Quaternion(0.103731, 0.0162895, 0.00290765, 0.994468)
+bones/2/rotation = Quaternion(0.056331, 0.0249847, -0.00859325, 0.998063)
+bones/3/rotation = Quaternion(-0.0303906, 0.0259277, -0.00606422, 0.999183)
+bones/4/rotation = Quaternion(-0.0437239, -0.0490166, 0.027675, 0.997457)
+bones/5/rotation = Quaternion(-0.053359, -0.0334454, -0.0173406, 0.997864)
+bones/8/rotation = Quaternion(0.500007, 0.499993, 0.500007, -0.499993)
+bones/9/rotation = Quaternion(0.0192954, 0.874583, -0.484491, 0.000701688)
+bones/10/rotation = Quaternion(-0.00616939, -0.70708, -0.00617055, 0.70708)
+bones/11/rotation = Quaternion(-0.00615664, 0.61376, 0.106392, 0.782267)
+bones/12/rotation = Quaternion(-0.323287, 0.740951, 0.194368, 0.555605)
+bones/13/rotation = Quaternion(0.203948, 0.0255369, 0.145623, 0.967754)
+bones/14/rotation = Quaternion(0.0823438, 0.0900858, -0.00528023, 0.99251)
+bones/15/position = Vector3(-0.0405452, 0.081353, 0.00726307)
+bones/16/rotation = Quaternion(0.193798, -0.0268437, -0.0150639, 0.980558)
+bones/17/rotation = Quaternion(0.380375, 0.107003, 0.0136221, 0.91852)
+bones/18/rotation = Quaternion(0.25972, 0.0708135, 0.0101143, 0.963031)
+bones/21/rotation = Quaternion(1.12504e-05, 1.93715e-07, 0, 1)
+bones/22/rotation = Quaternion(-6.98864e-06, -1.19209e-07, -1.12802e-05, 1)
+bones/25/rotation = Quaternion(9.59635e-06, 1.19209e-07, 1.5825e-05, 1)
+bones/26/rotation = Quaternion(-7.01845e-06, 2.98023e-08, -1.13845e-05, 1)
+bones/32/rotation = Quaternion(0.527768, -0.395634, -0.598677, -0.454445)
+bones/33/rotation = Quaternion(-0.199504, 0.875751, -0.401227, -0.179652)
+bones/34/rotation = Quaternion(-0.00617187, 0.70708, 0.00617181, 0.70708)
+bones/35/rotation = Quaternion(0.026576, -0.600796, -0.0290184, 0.798433)
+bones/36/rotation = Quaternion(-0.30831, -0.689439, -0.188853, 0.627657)
+bones/37/rotation = Quaternion(0.212295, -0.00436577, -0.0584288, 0.975448)
+bones/38/rotation = Quaternion(0.100077, -0.0719014, 0.000623822, 0.992378)
+bones/39/position = Vector3(0.0405542, 0.0813577, 0.00725718)
+bones/40/rotation = Quaternion(0.0723414, 0.0915035, 0.0319602, 0.992659)
+bones/41/rotation = Quaternion(0.151542, -0.0700707, -0.0057731, 0.985947)
+bones/42/rotation = Quaternion(0.0782986, -0.0413276, -0.00211206, 0.996071)
+bones/53/rotation = Quaternion(1.3262e-05, -2.83122e-07, -8.9407e-08, 1)
+bones/54/rotation = Quaternion(-1.50353e-05, 3.8743e-07, 8.67247e-06, 1)
+bones/56/rotation = Quaternion(-4.90731e-09, 0.000234362, 1, -1.7953e-07)
+bones/57/rotation = Quaternion(1.18348e-08, 1, -0.000476388, -4.05145e-09)
+bones/58/rotation = Quaternion(-4.15073e-07, 0.706936, -0.707278, -2.56656e-07)
+bones/59/rotation = Quaternion(-0.00395494, 0.951109, 0.307965, -0.0230907)
+bones/59/scale = Vector3(1, 1.00001, 0.999991)
+bones/61/rotation = Quaternion(-4.5333e-08, 0.000236575, 1, -1.39612e-07)
+bones/62/rotation = Quaternion(-7.68653e-08, 1, -0.000481615, -1.61498e-08)
+bones/63/rotation = Quaternion(-3.88941e-07, 0.706933, -0.70728, 2.76503e-07)
+bones/64/rotation = Quaternion(0.0721783, 0.989538, -0.124829, -0.0047079)
+
+[node name="AnimationPlayer" parent="model" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_ypmma"),
+"anim_pack_1": ExtResource("5_20bdp")
+}
+
+[node name="anim_controller" type="Node" parent="."]
+script = ExtResource("6_nvpiw")
+
+[node name="day_burning" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166077, 0)
+emitting = false
+amount = 128
+process_material = SubResource("ParticleProcessMaterial_tgxnl")
+draw_pass_1 = SubResource("QuadMesh_umu3h")
+
+[node name="blood_timer" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
+[node name="roof_check" type="RayCast3D" parent="."]
+target_position = Vector3(0, 100, 0)
+collision_mask = 8
+
+[node name="danger_area" type="Area3D" parent="."]
+collision_layer = 128
+collision_mask = 16
+monitorable = false
+script = ExtResource("8_jce3h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="danger_area"]
+shape = SubResource("CylinderShape3D_ixjx2")
+
+[connection signal="timeout" from="blood_timer" to="." method="_on_blood_timer_timeout"]
+[connection signal="area_entered" from="danger_area" to="danger_area" method="_on_area_entered"]
+[connection signal="area_exited" from="danger_area" to="danger_area" method="_on_area_exited"]
+
+[editable path="model"]

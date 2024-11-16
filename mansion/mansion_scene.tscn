@@ -1,0 +1,188 @@
+[gd_scene load_steps=17 format=3 uid="uid://d2c8qp07tqnfl"]
+
+[ext_resource type="Script" path="res://mansion/mansion_scene.gd" id="1_r84c0"]
+[ext_resource type="PackedScene" uid="uid://b2v5uf0876wqg" path="res://mansion/mansion.glb" id="1_y6y34"]
+[ext_resource type="PackedScene" uid="uid://doge3a85fcrhy" path="res://mansion/mansion_door.glb" id="2_cloo7"]
+[ext_resource type="Script" path="res://mansion/doors_script.gd" id="3_3e2nx"]
+[ext_resource type="Script" path="res://mansion/mansion_table.gd" id="5_5mcn7"]
+[ext_resource type="Script" path="res://mansion/mansion_bell.gd" id="5_dhb2t"]
+[ext_resource type="PackedScene" uid="uid://chxpsicsfb61" path="res://mansion/table.blend" id="6_4kevg"]
+[ext_resource type="PackedScene" uid="uid://rq1c8guqqfa1" path="res://mansion/bell.blend" id="8_gg6tj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vvxby"]
+size = Vector3(15.2615, 1, 15.6699)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_545jj"]
+size = Vector3(1.22701, 1, 4.73541)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vw3h0"]
+size = Vector3(0.386841, 3.81677, 1.88208)
+
+[sub_resource type="Animation" id="Animation_t75ei"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("doors_body/door_left:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -3.14159, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("doors_body/door_right:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("doors_body/CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ioakj"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("doors_body/door_left:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -3.14159, 0), Vector3(0, -1.13446, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("doors_body/door_right:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -1.76627, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("doors_body/CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m3atm"]
+_data = {
+"RESET": SubResource("Animation_t75ei"),
+"open": SubResource("Animation_ioakj")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xoayy"]
+size = Vector3(1.46191, 1, 3.12445)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lq24a"]
+size = Vector3(1.53027, 1.76849, 1.02466)
+
+[node name="mansion_scene" type="Node3D"]
+script = ExtResource("1_r84c0")
+
+[node name="mansion" parent="." groups=["navigation_mesh_group"] instance=ExtResource("1_y6y34")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.80946, 0)
+
+[node name="StaticBody3D" parent="mansion/floor " index="0"]
+collision_layer = 8
+
+[node name="collision " parent="mansion" index="3"]
+collision_layer = 8
+
+[node name="roof_collisions" type="Node3D" parent="mansion"]
+
+[node name="big box" type="StaticBody3D" parent="mansion/roof_collisions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.13776, 0)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="mansion/roof_collisions/big box"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15266, 0, 0.014864)
+shape = SubResource("BoxShape3D_vvxby")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="mansion/roof_collisions/big box"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2111, -0.40273, 0.0376892)
+shape = SubResource("BoxShape3D_545jj")
+
+[node name="doors_body" type="StaticBody3D" parent="." groups=["interactable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5273, 3.49524, -0.17121)
+collision_layer = 64
+script = ExtResource("3_3e2nx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="doors_body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30658, -0.682434, 0.140503)
+shape = SubResource("BoxShape3D_vw3h0")
+
+[node name="door_right" parent="doors_body" instance=ExtResource("2_cloo7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2512, 0, -0.844329)
+
+[node name="door_left" parent="doors_body" instance=ExtResource("2_cloo7")]
+transform = Transform3D(-1, 0, -2.53518e-06, 0, 1, 0, 2.53518e-06, 0, -1, 0.2512, 0, 1.18048)
+
+[node name="door_anim" type="AnimationPlayer" parent="doors_body"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_m3atm")
+}
+
+[node name="queue_end" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.7, 0)
+
+[node name="petition_pos" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.31136, 0, 0)
+
+[node name="mansion_table" type="StaticBody3D" parent="." groups=["interactable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35487, 1.3073, 0)
+collision_layer = 64
+script = ExtResource("5_5mcn7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="mansion_table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.509249, 0, -0.0700779)
+shape = SubResource("BoxShape3D_xoayy")
+
+[node name="table" parent="mansion_table" instance=ExtResource("6_4kevg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.540781, -0.113086)
+
+[node name="mansion_bell" type="StaticBody3D" parent="." groups=["interactable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.65175, 1.6558, -6.6606)
+collision_layer = 64
+script = ExtResource("5_dhb2t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="mansion_bell"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.540793, -0.00741577, 0.521396)
+shape = SubResource("BoxShape3D_lq24a")
+
+[node name="bell2" parent="mansion_bell" instance=ExtResource("8_gg6tj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.144806, -1.08251, 0.5)
+
+[editable path="mansion"]
