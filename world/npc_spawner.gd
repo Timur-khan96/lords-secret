@@ -22,9 +22,7 @@ func spawn_villager(pos: Vector3):
 	v.exploded.connect(NPC_exploded)
 	var dest = get_parent().get_node("mansion_scene").append_mansion_queue(v)
 	add_child(v)
-	var b = v.get_node("visitor_tree/Blackboard")
-	b.set_value("destination", dest)
-	b.set_value("is_petitioner", false)
+	v.blackboard.set_value("destination", dest)
 	v.global_position = pos
 	
 func spawn_baddies():

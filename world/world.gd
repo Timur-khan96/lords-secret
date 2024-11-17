@@ -10,6 +10,7 @@ extends Node3D
 @onready var camera = %Camera
 @onready var lord = %lord
 @onready var plots = %plots
+@onready var day_night = $day_night
 
 const MAX_TIME_SCALE = 10.0
 var POS_Y = WorldUtility.POS_Y
@@ -60,8 +61,13 @@ func _ready():
 	lord._init_lord()
 	lord.deactivate_lord()
 	lord.deactivated.connect(transition_to_world_camera)
-	#is not turning on
-	#plots.create_plot(Vector3(-16.0,0.0,16.0),Vector3(-16.0,0.0,16.0),"You")
+	
+	plots.create_plot(Vector3(-10.0,0.0,16.0),Vector3(16.0,0.0,-16.0),"You", "Warmhearth")
+	plots.hide_plots()
+	Dialogic.Styles.load_style("dialogic_style")
+	
+	day_night.play("day_night_cycle")
+	day_night.seek(180) #6 hours, i think
 	
 func _process(_delta):
 	debug_label.text = "FPS " + str(float(Engine.get_frames_per_second()))
@@ -108,34 +114,21 @@ func _on_bell_button_pressed():
 func _on_control_mode_changed(control_mode):
 	match control_mode:
 		player_controls.CONTROL_MODES.VILLAGE:
-			hide_plots()
+			plots.hide_plots()
 		player_controls.CONTROL_MODES.PLOT:
 			if lord.is_active:
 				lord.deactivate_lord()
-			show_plots()
+			plots.show_plots()
 		player_controls.CONTROL_MODES.VAMPIRE:
-			hide_plots()
+			plots.hide_plots()
 			time_scale = 0.0;
 			_on_time_button_pressed();
 			transition_to_lord_camera()
 			
-func hide_plots():
-	var plots_arr = plots.get_children()
-	if plots_arr.is_empty(): return
-	for p in plots_arr:
-		if p.plot_status != p.PLOT_STATUS.DONE:
-			p.queue_free()
-			continue
-		p.hide()
-		
-func show_plots():
-	var plots_arr = plots.get_children()
-	if plots_arr.is_empty(): return
-	for p in plots_arr:
-		p.show()
-			
 func transition_to_lord_camera():
 	var tween = get_tree().create_tween()
+	%camera_base.set_process_input(false)
+	%camera_base.set_process(false)
 	var c = lord.get_node("%lords_camera");
 	camera_original_global_pos = camera.global_position
 	tween.tween_property(camera, "global_position", c.global_position, 1.0)
@@ -143,7 +136,6 @@ func transition_to_lord_camera():
 	
 func switch_to_lord_camera():
 	camera.current = false;
-	%camera_base.set_process_input(false)
 	mansion.show_roof()
 	lord.activate_lord()
 	
@@ -155,5 +147,6 @@ func transition_to_world_camera():
 	
 func switch_to_world_camera():
 	%camera_base.set_process_input(true)
-	UILayer.third_person_off()
+	%camera_base.set_process(true)
+	player_controls.control_mode = player_controls.CONTROL_MODES.VILLAGE
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

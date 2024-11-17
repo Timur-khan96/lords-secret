@@ -1,5 +1,5 @@
 Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. I am here to ask you for some land for my humble family of {visitor.family_size}, I am ready to pay as long as the pay is fair.
-- Let's see what we can do
+- Let's see what we can do.
 	do Global.plot_selling()
 	[end_timeline]
 - How much are you ready to pay?
@@ -10,6 +10,6 @@ Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. I am h
 	- Out of my sight!
 		do Global.handle_dialogue_result(true)
 		[end_timeline]
-- Go to hell
+- Out of my sight!
 	do Global.handle_dialogue_result(true)
 	[end_timeline]

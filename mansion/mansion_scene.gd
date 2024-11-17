@@ -18,24 +18,23 @@ func append_mansion_queue(villager) -> Vector3:
 		next_petitioner = villager
 	return r
 	
-func pop_mansion_queue():
+func pop_mansion_queue(): #ringing a bell
+	$mansion_bell.bell_ring()
 	if mansion_queue.is_empty() || !next_petitioner: return
 	if !petitioner && next_petitioner.has_arrived:
 		petitioner = mansion_queue.pop_front()
 		next_petitioner = mansion_queue[0]
 		
-		var b = petitioner.get_node("visitor_tree/Blackboard")
-		b.set_value("destination", $petition_pos.global_position)
-		b.set_value("is_petitioner", true)
+		petitioner.blackboard.set_value("destination", $petition_pos.global_position)
+		petitioner.game_info.status = NpcUtility.NPC_Status.PETITIONER
 		open_doors()
 		shift_queue()
 		
 func shift_queue():
 	for v in mansion_queue:
-		var b = v.get_node("visitor_tree/Blackboard")
-		var new_pos = b.get_value("destination")
+		var new_pos = v.blackboard.get_value("destination")
 		new_pos.x -= 2
-		b.set_value("destination", new_pos)
+		v.blackboard.set_value("destination", new_pos)
 	$queue_end.global_position.x -= 2
 		
 func open_doors():
@@ -44,18 +43,16 @@ func open_doors():
 func send_petitioner_to_plot():
 	var o = petitioner.game_info.name + " " + petitioner.game_info.surname
 	var plot = PlotUtility.find_plot_by_owner(o)
-	var b = petitioner.get_node("visitor_tree/Blackboard")
-	b.set_value("destination", plot.plot_game_info.center)
-	b.set_value("is_petitioner", false)
+	petitioner.blackboard.set_value("plot", plot)
+	petitioner.blackboard.set_value("destination", plot.plot_game_info.center)
+	petitioner.game_info.status = NpcUtility.NPC_Status.VILLAGER
 	petitioner = null
 	open_doors()
 	
 func send_petitioner_away():
 	var point = WorldUtility.get_random_point_outside_bounds()
-	var b = petitioner.get_node("visitor_tree/Blackboard")
-	b.set_value("destination", point)
-	b.set_value("is_petitioner", false)
-	b.set_value("is_leaving", true)
+	petitioner.blackboard.set_value("destination", point)
+	petitioner.game_info.status = NpcUtility.NPC_Status.LEAVING
 	petitioner = null
 	open_doors()
 	
@@ -63,9 +60,8 @@ func send_queue_away(): #currently happens at dusk
 	while !mansion_queue.is_empty():
 		var v = mansion_queue.pop_back()
 		if v != null:
-			var b = v.get_node("visitor_tree/Blackboard")
-			b.set_value("destination", WorldUtility.get_random_point_outside_bounds())
-			b.set_value("is_leaving", true)
+			v.blackboard.set_value("destination", WorldUtility.get_random_point_outside_bounds())
+			v.game_info.status = NpcUtility.NPC_Status.LEAVING
 		$queue_end.global_position.x -= 2
 		
 func _on_petitioner_exploded(p):

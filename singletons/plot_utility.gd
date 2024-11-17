@@ -1,5 +1,13 @@
 extends Node
 
+var house_project_scene = load("res://village/house_project.tscn")
+
+func put_house_project(plot):
+	var project = house_project_scene.instantiate();
+	plot.add_child(project)
+	project.global_position = plot.plot_game_info.center
+	plot.has_house = true
+
 func find_plot_by_owner(owner_name): #owner is full name
 	for p in get_tree().get_nodes_in_group("plots"):
 		if p.plot_game_info.owner:

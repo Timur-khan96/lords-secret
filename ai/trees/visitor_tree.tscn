@@ -1,0 +1,47 @@
+[gd_scene load_steps=11 format=3 uid="uid://bmtb6am4dijyi"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_053cq"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_6ra3o"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="3_5fn04"]
+[ext_resource type="Script" path="res://ai/tasks/check_navigation.gd" id="4_xkq0t"]
+[ext_resource type="Script" path="res://ai/tasks/MoveToDestination.gd" id="5_0w6bo"]
+[ext_resource type="Script" path="res://ai/tasks/check_petitioner.gd" id="6_r6vti"]
+[ext_resource type="Script" path="res://ai/tasks/talk_animation.gd" id="7_ua870"]
+[ext_resource type="Script" path="res://ai/tasks/start_dialogue.gd" id="8_lgvnf"]
+[ext_resource type="Script" path="res://ai/tasks/check_leaving.gd" id="9_ed0a3"]
+[ext_resource type="Script" path="res://ai/tasks/idle_animation.gd" id="10_fnnv8"]
+
+[node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_053cq")
+blackboard = NodePath("@Node@133408")
+actor = NodePath("")
+
+[node name="SelectorComposite" type="Node" parent="."]
+script = ExtResource("2_6ra3o")
+
+[node name="Moving_Sequence" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_5fn04")
+
+[node name="CheckNavigation" type="Node" parent="SelectorComposite/Moving_Sequence"]
+script = ExtResource("4_xkq0t")
+
+[node name="MoveToDestination" type="Node" parent="SelectorComposite/Moving_Sequence"]
+script = ExtResource("5_0w6bo")
+
+[node name="Petition_Sequence" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_5fn04")
+
+[node name="CheckPetitioner" type="Node" parent="SelectorComposite/Petition_Sequence"]
+script = ExtResource("6_r6vti")
+
+[node name="TalkAnimation" type="Node" parent="SelectorComposite/Petition_Sequence"]
+script = ExtResource("7_ua870")
+
+[node name="StartDialogue" type="Node" parent="SelectorComposite/Petition_Sequence"]
+script = ExtResource("8_lgvnf")
+
+[node name="CheckLeaving" type="Node" parent="SelectorComposite"]
+script = ExtResource("9_ed0a3")
+
+[node name="IdleAnimation" type="Node" parent="SelectorComposite"]
+script = ExtResource("10_fnnv8")

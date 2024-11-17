@@ -1,6 +1,7 @@
 extends Node
 
 var village_name: String = "Brightlands"
+var lord_name: String = "Vlad Drakula"
 var village_reputation = 100.0
 var money = 100
 var blood = 100:
@@ -16,8 +17,12 @@ var current_dialogue
 #these are set in respective scripts
 var player_controls
 var mansion_scene
+var lord
+
+var menu_opened = false;
 
 func context_menu_opened(menu = null):
+	menu_opened = true
 	player_controls.set_process_input(false)
 	if player_controls.control_mode == player_controls.CONTROL_MODES.VAMPIRE:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -25,6 +30,7 @@ func context_menu_opened(menu = null):
 		menu.show()
 	
 func context_menu_closed(menu = null):
+	menu_opened = false
 	player_controls.set_process_input(true)
 	if player_controls.control_mode == player_controls.CONTROL_MODES.VAMPIRE:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -33,11 +39,13 @@ func context_menu_closed(menu = null):
 		
 func start_dialogue(dialogue_name: String):
 	current_dialogue = dialogue_name
+	player_controls.hide_bottom_panel()
 	context_menu_opened()
 	Dialogic.start(dialogue_name)
 	Dialogic.timeline_ended.connect(end_dialogue)
 	
 func end_dialogue():
+	player_controls.show_bottom_panel()
 	handle_dialogue_result()
 	Dialogic.timeline_ended.disconnect(end_dialogue)
 	context_menu_closed()
@@ -73,6 +81,5 @@ func day_burning_on():
 	
 func day_burning_off():
 	blood_rate = 1;
-	
 	
 	

@@ -13,7 +13,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_01o7l"]
 atlas = ExtResource("3_fkln2")
-region = Rect2(0, 0, 10, 10)
+region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="Animation" id="Animation_sw5ag"]
 resource_name = "Armature|mixamo_com|Layer0"
@@ -206,6 +206,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_01o7l")
+stretch_mode = 2
 
 [node name="model" parent="." instance=ExtResource("4_px752")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1, 0)

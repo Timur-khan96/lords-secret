@@ -3,9 +3,10 @@ class_name Lord
 
 var is_active: bool = false
 var mouse_sens = 0.5
+var game_info = {}
 var interactable = null;
 
-const SPEED = 5.0
+var speed = 5.0
 const JUMP_VELOCITY = 4.5
 
 @onready var camera = %lords_camera
@@ -22,8 +23,14 @@ var is_day = false:
 
 func _init_lord(): #instead of ready because we turn him off aparrently
 	anim_controller.anim_player = model.get_node("AnimationPlayer")
+	game_info = {
+		"name": Global.lord_name,
+		"gender": 1
+	}
+	Global.lord = self
 
 func _input(event):
+	if Global.menu_opened: return
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x / 100 * mouse_sens)
 		$camera_base.rotate_x(-event.relative.y / 100 * mouse_sens)
@@ -44,6 +51,11 @@ func _physics_process(delta):
 	handle_screen_raycast();
 	handle_day_raycast();
 	
+func _process(_delta):
+	if !is_active:
+		if !anim_controller.check_anim("idle"):
+			anim_controller.play_animation("idle")
+	
 func handle_day_raycast():
 	if is_day && !$roof_check.is_colliding():
 		Global.day_burning_on()
@@ -57,7 +69,7 @@ func handle_screen_raycast():
 	if ray_result:
 		if ray_result.collider.is_in_group("interactable"):
 			interactable = ray_result.collider
-			pointer.texture.region.position.x = 10;
+			pointer.texture.region.position.x = 16;
 		else:
 			pointer.texture.region.position.x = 0;
 			interactable = null
@@ -72,8 +84,12 @@ func handle_movement(delta):
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		if Input.is_action_pressed("shift"):
+			speed = 7.0
+		else:
+			speed = 5.0
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
 	else:
 		velocity.x = 0
 		velocity.z = 0

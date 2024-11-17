@@ -1,8 +1,8 @@
 extends ConditionLeaf
 
 
-func tick(_actor, blackboard: Blackboard):
-	if blackboard.get_value("is_petitioner"):
+func tick(actor, _blackboard: Blackboard):
+	if actor.game_info.status == NpcUtility.NPC_Status.PETITIONER:
 		return SUCCESS
 	else:
 		return FAILURE

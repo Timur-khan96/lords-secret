@@ -1,5 +1,8 @@
 extends Area3D
 
+@onready var collision_points = $CollisionShape3D.shape.points
+@onready var border_mesh = $border_mesh
+
 var plot_game_info = {
 	"name": null,
 	"size": null,
@@ -7,9 +10,7 @@ var plot_game_info = {
 	"price": null,
 	"center": null
 }
-@onready var collision_points = $CollisionShape3D.shape.points
-@onready var border_mesh = $border_mesh
-
+var has_house = false 
 const POS_Y = 0.6
 
 enum PLOT_STATUS {BEGIN, EDIT, DONE}
@@ -35,7 +36,7 @@ func _ready():
 		c.plot = self
 		c.moved.connect(_on_corner_moved)
 		
-func create_plot(corner1_pos, corner3_pos, new_owner): #make it automatically
+func create_plot(corner1_pos, corner3_pos, new_owner, plot_name): #make it automatically
 	$corners/corner_1.global_position = corner1_pos;
 	$corners/corner_3.global_position = corner3_pos
 	set_corners()
@@ -44,7 +45,7 @@ func create_plot(corner1_pos, corner3_pos, new_owner): #make it automatically
 	
 	plot_status = PLOT_STATUS.DONE
 	plot_game_info = {
-		"name": Global.village_name + " " + str(Global.plot_count),
+		"name": plot_name,
 		"owner": new_owner,
 		"size": int(PlotUtility.get_area(get_corners_2D())),
 		"price":0,
@@ -52,18 +53,23 @@ func create_plot(corner1_pos, corner3_pos, new_owner): #make it automatically
 	}
 	var p = PlotUtility.find_furthest_point_from_edges(get_corners_2D())
 	plot_game_info.center = Vector3(p.x, POS_Y, p.y)
+	$plot_name_3D.text = plot_game_info.name
+	%plot_name.text = plot_game_info.name
+	$plot_name_3D.global_position = plot_game_info.center
+	$plot_name_3D.global_position.y += 1.0
+	$plot_name_3D.show()
+	$corners.queue_free()
 
 func update_position(ray_results: Dictionary): #used when made by player
 	if ray_results:
 		$corners/corner_3.global_position = ray_results.position
 		set_corners()
-		print($corners/corner_1.global_position)
-		print($corners/corner_3.global_position)
 		if $corners/corner_1.global_position.distance_to($corners/corner_4.global_position) > 1:
 			draw_borders() 
 			update_collision()
 			
 func set_corners(): #finishing positioning of the last corners
+	$corners/corner_3.global_position.y = $corners/corner_1.global_position.y
 	$corners/corner_2.global_position = Vector3(
 		$corners/corner_1.global_position.x,
 		$corners/corner_1.global_position.y,
@@ -71,7 +77,7 @@ func set_corners(): #finishing positioning of the last corners
 	)
 	$corners/corner_4.global_position = Vector3(
 		$corners/corner_3.global_position.x,
-		$corners/corner_3.global_position.y,
+		$corners/corner_1.global_position.y,
 		$corners/corner_1.global_position.z
 	)
 	position.y = POS_Y

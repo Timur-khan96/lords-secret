@@ -1,26 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbrkq277kqlm0"]
+[gd_scene load_steps=3 format=3 uid="uid://dbrkq277kqlm0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1d4s3"]
-albedo_color = Color(0.566178, 0.210283, 0.0976185, 1)
+transparency = 1
+albedo_color = Color(0.564706, 0.211765, 0.0980392, 0.752941)
 
 [sub_resource type="BoxMesh" id="BoxMesh_wvw6v"]
 material = SubResource("StandardMaterial3D_1d4s3")
 size = Vector3(4, 2, 2)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_3img3"]
-radius = 0.4
-height = 1.5
 
 [node name="house" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_wvw6v")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 1.569)
-mesh = SubResource("CapsuleMesh_3img3")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.562, -0.25, 5.052)
-mesh = SubResource("CapsuleMesh_3img3")

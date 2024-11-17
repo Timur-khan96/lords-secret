@@ -7,6 +7,10 @@ var control_mode: CONTROL_MODES = CONTROL_MODES.VILLAGE:
 	set(value):
 		control_mode = value
 		control_mode_changed.emit(value)
+		if value == CONTROL_MODES.VAMPIRE:
+			hide_bottom_panel()
+		else:
+			show_bottom_panel()
 
 var is_selling_plot = false:
 	set(value):
@@ -90,10 +94,10 @@ func handle_plot_selection(plot): #for clicking at existing plots
 	plot.show_plot_menu(is_selling_plot)
 				
 func handle_mouse_motion():
-	if current_plot_project:
+	if current_plot_project != null:
 		current_plot_project.update_position(%Camera.mouse_ray_check())
 		can_put_plot = current_plot_project.is_buildable()
-	elif current_corner:
+	elif current_corner != null:
 		current_corner.moved.emit(current_corner, %Camera.mouse_ray_check())
 	else:
 		var ray_result = %Camera.mouse_ray_check()
@@ -119,6 +123,12 @@ func _on_plot_button_pressed():
 
 func _on_vampire_button_pressed():
 	control_mode = CONTROL_MODES.VAMPIRE
+	
+func hide_bottom_panel():
+	$UILayer.hide_bottom_panel()
+	
+func show_bottom_panel():
+	$UILayer.show_bottom_panel()
 				
 			
 		

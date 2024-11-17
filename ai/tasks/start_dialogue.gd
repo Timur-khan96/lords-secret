@@ -9,6 +9,7 @@ func tick(actor, _blackboard: Blackboard):
 		v.surname = g.surname
 		v.family_size = g.family_size
 		v.money = g.money
+		actor.look_at(Global.lord.global_position, Vector3.UP)
 		Global.start_dialogue("visitor_1")
 	return SUCCESS
 	

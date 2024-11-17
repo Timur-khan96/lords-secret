@@ -1,17 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://bs4osscxqcpcy"]
+[gd_scene load_steps=6 format=3 uid="uid://bs4osscxqcpcy"]
 
 [ext_resource type="Script" path="res://villagers/villager.gd" id="1_i5sqc"]
-[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_vu8li"]
-[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="3_qy3ck"]
-[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_2w08i"]
-[ext_resource type="Script" path="res://ai/tasks/check_navigation.gd" id="5_ckh3p"]
-[ext_resource type="Script" path="res://ai/tasks/MoveToDestination.gd" id="6_1ouu3"]
-[ext_resource type="Script" path="res://ai/tasks/check_petitioner.gd" id="7_rkrcv"]
-[ext_resource type="Script" path="res://ai/tasks/talk_animation.gd" id="8_n6i8i"]
-[ext_resource type="Script" path="res://ai/tasks/idle_animation.gd" id="8_r25ls"]
+[ext_resource type="PackedScene" uid="uid://bmtb6am4dijyi" path="res://ai/trees/visitor_tree.tscn" id="2_1j2vh"]
 [ext_resource type="Script" path="res://addons/beehave/blackboard.gd" id="9_8h0k3"]
-[ext_resource type="Script" path="res://ai/tasks/start_dialogue.gd" id="9_liua4"]
-[ext_resource type="Script" path="res://ai/tasks/check_leaving.gd" id="10_rbtrw"]
 [ext_resource type="Script" path="res://animations/anim_controller.gd" id="13_a14y5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_edfeh"]
@@ -24,50 +15,17 @@ script = ExtResource("1_i5sqc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_edfeh")
 
-[node name="visitor_tree" type="Node3D" parent="."]
-
-[node name="BeehaveTree" type="Node" parent="visitor_tree" node_paths=PackedStringArray("blackboard", "actor")]
-script = ExtResource("2_vu8li")
-blackboard = NodePath("../Blackboard")
-actor = NodePath("../..")
-
-[node name="SelectorComposite" type="Node" parent="visitor_tree/BeehaveTree"]
-script = ExtResource("3_qy3ck")
-
-[node name="Moving_Sequence" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite"]
-script = ExtResource("4_2w08i")
-
-[node name="CheckNavigation" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite/Moving_Sequence"]
-script = ExtResource("5_ckh3p")
-
-[node name="MoveToDestination" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite/Moving_Sequence"]
-script = ExtResource("6_1ouu3")
-
-[node name="Petition_Sequence" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite"]
-script = ExtResource("4_2w08i")
-
-[node name="CheckPetitioner" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite/Petition_Sequence"]
-script = ExtResource("7_rkrcv")
-
-[node name="TalkAnimation" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite/Petition_Sequence"]
-script = ExtResource("8_n6i8i")
-
-[node name="StartDialogue" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite/Petition_Sequence"]
-script = ExtResource("9_liua4")
-
-[node name="CheckLeaving" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite"]
-script = ExtResource("10_rbtrw")
-
-[node name="IdleAnimation" type="Node" parent="visitor_tree/BeehaveTree/SelectorComposite"]
-script = ExtResource("8_r25ls")
-
-[node name="Blackboard" type="Node" parent="visitor_tree"]
-script = ExtResource("9_8h0k3")
+[node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_1j2vh")]
+blackboard = NodePath("@Node@144293")
+actor = NodePath("..")
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
 path_height_offset = 0.6
 
 [node name="anim_controller" type="Node" parent="."]
 script = ExtResource("13_a14y5")
+
+[node name="Blackboard" type="Node" parent="."]
+script = ExtResource("9_8h0k3")
 
 [connection signal="navigation_finished" from="nav_agent" to="." method="_on_nav_agent_navigation_finished"]

@@ -71,6 +71,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/plot_control"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -117,6 +118,7 @@ allow_greater = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer"]
 layout_mode = 2
+alignment = 1
 
 [node name="accept_button" type="TextureButton" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true

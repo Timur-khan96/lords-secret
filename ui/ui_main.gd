@@ -66,8 +66,8 @@ func _on_plot_button_pressed():
 func _on_vampire_button_pressed():
 	vampire_pressed.emit()
 	
-func third_person_on():
+func hide_bottom_panel(): #during 3d-person and dialogues 
 	$middle_bottom.hide()
 	
-func third_person_off():
+func show_bottom_panel():
 	$middle_bottom.show()
