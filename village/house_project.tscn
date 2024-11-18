@@ -1,30 +1,21 @@
 [gd_scene load_steps=4 format=3 uid="uid://c0d82otwxx4am"]
 
-[ext_resource type="PackedScene" uid="uid://dbrkq277kqlm0" path="res://house.tscn" id="1_ekk1y"]
 [ext_resource type="Script" path="res://village/house_project.gd" id="1_ipbun"]
+[ext_resource type="PackedScene" uid="uid://bpbv6q0l50ts3" path="res://village/house_project_1.glb" id="2_h5tu1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xff1w"]
-size = Vector3(4, 2, 2)
+size = Vector3(4, 2, 5.79578)
 
 [node name="house_project" type="StaticBody3D"]
 script = ExtResource("1_ipbun")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01851, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01851, -0.0165405)
 shape = SubResource("BoxShape3D_xff1w")
 
-[node name="house" parent="." instance=ExtResource("1_ekk1y")]
+[node name="house_project_1" parent="." instance=ExtResource("2_h5tu1")]
 
-[node name="Label3D" type="Label3D" parent="."]
+[node name="house_project" parent="house_project_1" index="0"]
+transparency = 1.0
 
-[node name="plot_name_3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.95678, 0)
-visible = false
-sorting_offset = 40.0
-pixel_size = 0.01
-billboard = 1
-text = "Construction: "
-font_size = 64
-
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[editable path="house_project_1"]

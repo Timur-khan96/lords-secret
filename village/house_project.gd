@@ -1,23 +1,14 @@
 extends StaticBody3D
 
-var construction: int = 0
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	if construction >= 100:
-		$plot_name_3D.text = "Construction finished"
+var construction: float = 0.0
+var resources: float = 1.0 #resources needed for building
+var plot;
+	
+func build_iteration():
+	if resources >= 0.1 && construction < 1.0:
+		construction += 0.1
+		if construction > 1.0: construction = 1.0
+		resources -= 0.1
+		$house_project_1/house_project.transparency = 1.0 - construction
 	else:
-		$plot_name_3D.text = "Construction: " + str(construction)
-
-
-func _on_mouse_entered():
-	$plot_name_3D.show()
-
-
-func _on_mouse_exited():
-	$plot_name_3D.hide()
+		print("unnecesary build iteration")

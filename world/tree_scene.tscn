@@ -1,12 +1,67 @@
-[gd_scene load_steps=4 format=3 uid="uid://d8eqwr8ld3i5"]
+[gd_scene load_steps=9 format=3 uid="uid://d8eqwr8ld3i5"]
 
 [ext_resource type="PackedScene" uid="uid://b4nmf1ohh826e" path="res://world/models/tree_1.glb" id="1_2jy25"]
+[ext_resource type="Script" path="res://world/tree_scene.gd" id="1_ldpi2"]
 [ext_resource type="PackedScene" uid="uid://cyl715yq3k44d" path="res://world/models/tree_2.glb" id="2_bfena"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q5rd4"]
 size = Vector3(0.573517, 1.50145, 0.652908)
 
+[sub_resource type="Animation" id="Animation_rrep1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_euux8"]
+resource_name = "fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.43117, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_loert"]
+resource_name = "shake"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.0872665, 0, 0.0872665), Vector3(-0.0872665, 0, -0.0872665), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o12dp"]
+_data = {
+"RESET": SubResource("Animation_rrep1"),
+"fall": SubResource("Animation_euux8"),
+"shake": SubResource("Animation_loert")
+}
+
 [node name="tree_scene" type="Node3D" groups=["navigation_mesh_group", "trees"]]
+script = ExtResource("1_ldpi2")
 
 [node name="tree_1" parent="." instance=ExtResource("1_2jy25")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -20,3 +75,8 @@ collision_layer = 32
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0040741, 0.561098, -0.012764)
 shape = SubResource("BoxShape3D_q5rd4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_o12dp")
+}

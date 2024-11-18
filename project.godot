@@ -29,6 +29,7 @@ BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 
 directories/dch_directory={}
 directories/dtl_directory={
+"villager_interaction": "res://dialogic/villager_interaction.dtl",
 "visitor_1": "res://dialogic/visitor_1.dtl",
 "visitor_buying_plot": "res://dialogic/visitor_buying_plot.dtl",
 "visitor_interaction": "res://dialogic/visitor_interaction.dtl",

@@ -11,6 +11,7 @@ extends Node3D
 @onready var lord = %lord
 @onready var plots = %plots
 @onready var day_night = $day_night
+@onready var buildings = $buildings
 
 const MAX_TIME_SCALE = 10.0
 var POS_Y = WorldUtility.POS_Y
@@ -68,6 +69,7 @@ func _ready():
 	
 	day_night.play("day_night_cycle")
 	day_night.seek(180) #6 hours, i think
+	PlotUtility.buildings_node = buildings
 	
 func _process(_delta):
 	debug_label.text = "FPS " + str(float(Engine.get_frames_per_second()))

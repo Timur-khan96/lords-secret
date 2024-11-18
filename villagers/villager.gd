@@ -21,6 +21,7 @@ signal exploded
 func _ready():
 	game_info = NpcUtility.get_visitor_game_info(self)
 	anim_controller.anim_player = model.get_node("AnimationPlayer")
+	anim_controller.anim_player.animation_finished.connect(anim_controller._on_anim_finished)
 	init_tree()
 	
 func init_tree():
@@ -49,13 +50,21 @@ func _on_nav_agent_navigation_finished():
 func interact():
 	current_tree.enabled = false
 	velocity = Vector3.ZERO
-	look_at(Global.lord.global_position, Vector3.UP)
+	var target_position = Global.lord.global_position
+	var direction = (target_position - global_position).normalized()
+	direction.y = 0
+	look_at(global_position + direction, Vector3.UP)
 	play_animation("talk")
-	if game_info.status == NpcUtility.NPC_Status.VISITOR:
-		Global.start_dialogue("visitor_interaction")
-		Dialogic.timeline_ended.connect(_on_dialogue_finished)
+	match game_info.status:
+		NpcUtility.NPC_Status.VISITOR:
+			Global.start_dialogue("visitor_interaction")
+			Dialogic.timeline_ended.connect(_on_dialogue_finished)
+		NpcUtility.NPC_Status.VILLAGER:
+			Global.start_dialogue("villager_interaction")
+			Dialogic.timeline_ended.connect(_on_dialogue_finished)
 		
 func _on_dialogue_finished():
+	Dialogic.timeline_ended.disconnect(_on_dialogue_finished)
 	current_tree.enabled = true
 	
 func lord_attack():
@@ -64,5 +73,7 @@ func lord_attack():
 	blackboard.set_value("destination", WorldUtility.get_random_point_outside_bounds())
 	
 func explode():
+	if game_info.status == NpcUtility.NPC_Status.VILLAGER:
+		blackboard.get_value("plot").plot_game_info.owner = null
 	exploded.emit(self)
 	queue_free()

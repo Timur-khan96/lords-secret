@@ -2,6 +2,8 @@ extends Node
 
 var anim_player = null
 
+signal anim_finished
+
 func play_animation(anim_name: String):
 	match anim_name:
 		"idle":
@@ -14,6 +16,9 @@ func play_animation(anim_name: String):
 		"talk":
 			var a = "anim_pack_1/talk_m" if get_parent().game_info.gender else "anim_pack_1/talk_f"
 			anim_player.play(a)
+		"attack":
+			anim_player.play("anim_pack_1/attack")
+			
 				
 func check_anim(anim: String) -> bool:
 	if anim_player.is_playing():
@@ -25,4 +30,9 @@ func check_anim(anim: String) -> bool:
 			"talk":
 				var a = "anim_pack_1/talk_m" if get_parent().game_info.gender else "anim_pack_1/talk_f"
 				return anim_player.current_animation == a
+			"attack":
+				return anim_player.current_animation == "anim_pack_1/attack"
 	return false
+	
+func _on_anim_finished(_anim_name):
+	anim_finished.emit()
