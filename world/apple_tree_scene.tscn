@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2nud6qkx3rob"]
+[gd_scene load_steps=4 format=3 uid="uid://b2nud6qkx3rob"]
 
+[ext_resource type="Script" path="res://world/apple_tree_scene.gd" id="1_e62e0"]
 [ext_resource type="PackedScene" uid="uid://brl0lfq3ibbg2" path="res://world/models/apple_tree.glb" id="1_m6du7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_cjewe"]
 size = Vector3(0.618134, 1.48959, 0.616806)
 
-[node name="apple_tree_scene" type="Node3D" groups=["food_source", "navigation_mesh_group"]]
+[node name="apple_tree_scene" type="Node3D" groups=["apple_trees", "navigation_mesh_group"]]
+script = ExtResource("1_e62e0")
 
 [node name="apple_tree" parent="." instance=ExtResource("1_m6du7")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)

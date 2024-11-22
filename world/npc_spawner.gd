@@ -8,7 +8,8 @@ func morning_spawn():
 	has_spawned_villagers = true
 	var rep = Global.village_reputation
 	if rep != 0:
-		var spawn_count = int(Global.village_reputation / 10.0)
+		var spawn_count = 5
+		#int(Global.village_reputation / 10.0)
 		if spawn_count > 0:
 			for i in range(spawn_count):
 				var spawn_delay = randf_range(4.0, 14.0)
@@ -21,6 +22,7 @@ func spawn_villager(pos: Vector3):
 	var v = villager_scene.instantiate()
 	v.exploded.connect(NPC_exploded)
 	var dest = get_parent().get_node("mansion_scene").append_mansion_queue(v)
+	get_parent().time_of_day_changed.connect(v._on_time_of_day_changed)
 	add_child(v)
 	v.blackboard.set_value("destination", dest)
 	v.global_position = pos
@@ -28,11 +30,12 @@ func spawn_villager(pos: Vector3):
 func spawn_baddies():
 	pass
 	
-func NPC_exploded(NPC):
-	var pos = NPC.global_position
+func NPC_exploded(curr_NPC):
+	var pos = curr_NPC.global_position
 	var blood_explosion = blood_explosion_scene.instantiate()
 	add_child(blood_explosion)
 	blood_explosion.global_position = pos
 	blood_explosion.global_position.y += 1.2
 	blood_explosion.emitting = true;
+	
 	

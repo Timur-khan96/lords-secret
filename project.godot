@@ -74,11 +74,11 @@ enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/dialo
 [global_group]
 
 trees=""
-food_source=""
 navigation_mesh_group=""
 plots=""
 interactable=""
 NPC=""
+apple_trees=""
 
 [input]
 
@@ -157,3 +157,4 @@ shift={
 3d_physics/layer_6="world_objects"
 3d_physics/layer_7="interact_objects"
 3d_physics/layer_8="danger_area"
+3d_physics/layer_9="other"

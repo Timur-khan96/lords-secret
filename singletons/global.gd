@@ -4,7 +4,7 @@ var village_name: String = "Brightlands"
 var lord_name: String = "Vlad Drakula"
 var village_reputation = 100.0
 var money = 100
-var blood = 100:
+var blood = 1000:
 	set(value):
 		blood = value
 		if blood < 1:
@@ -45,7 +45,8 @@ func start_dialogue(dialogue_name: String):
 	Dialogic.timeline_ended.connect(end_dialogue)
 	
 func end_dialogue():
-	player_controls.show_bottom_panel()
+	if player_controls.control_mode != player_controls.CONTROL_MODES.VAMPIRE:
+		player_controls.show_bottom_panel()
 	handle_dialogue_result()
 	Dialogic.timeline_ended.disconnect(end_dialogue)
 	context_menu_closed()

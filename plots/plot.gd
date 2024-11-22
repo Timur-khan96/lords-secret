@@ -10,7 +10,9 @@ var plot_game_info = {
 	"price": null,
 	"center": null
 }
-var has_house = false 
+var house = null
+var food_storage = null
+var corner_positions = []
 const POS_Y = 0.6
 
 enum PLOT_STATUS {BEGIN, EDIT, DONE}
@@ -32,6 +34,7 @@ var plot_color: Color = Color.WHITE:
 
 func _ready():
 	border_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	corner_positions.resize(4)
 	for c in $corners.get_children():
 		c.plot = self
 		c.moved.connect(_on_corner_moved)
@@ -43,7 +46,6 @@ func create_plot(corner1_pos, corner3_pos, new_owner, plot_name): #make it autom
 	draw_borders()
 	update_collision()
 	
-	plot_status = PLOT_STATUS.DONE
 	plot_game_info = {
 		"name": plot_name,
 		"owner": new_owner,
@@ -51,8 +53,8 @@ func create_plot(corner1_pos, corner3_pos, new_owner, plot_name): #make it autom
 		"price":0,
 		"center": null
 	}
-	var p = PlotUtility.find_furthest_point_from_edges(get_corners_2D())
-	plot_game_info.center = Vector3(p.x, POS_Y, p.y)
+	plot_game_info.center = PlotUtility.find_furthest_point_from_edges(get_corners_2D())
+	plot_status = PLOT_STATUS.DONE
 	$plot_name_3D.text = plot_game_info.name
 	%plot_name.text = plot_game_info.name
 	$plot_name_3D.global_position = plot_game_info.center
@@ -113,7 +115,7 @@ func check_corner_distance(corner: StaticBody3D):
 		
 func is_buildable():
 	var c = get_corners_2D()
-	if PlotUtility.get_area(c) >= 20.0 && PlotUtility.min_edge_distance(c) >= 6.0:
+	if PlotUtility.get_area(c) >= 20.0 && PlotUtility.min_edge_distance(c) >= 8.0:
 		return !has_overlapping_areas()
 	else:
 		return false
@@ -155,10 +157,13 @@ func hide_plot_menu():
 	%decline_button.pressed.disconnect(_on_decline_button_pressed)
 	
 func get_corners_2D():
-	var points = []
-	for c in $corners.get_children():
-		points.append(Vector2(c.global_position.x, c.global_position.z))
-	return points
+	if plot_status == PLOT_STATUS.DONE:
+		return corner_positions
+	else:
+		var points = []
+		for c in $corners.get_children():
+			points.append(Vector2(c.global_position.x, c.global_position.z))
+		return points
 	
 func set_plot_info():
 	if !plot_game_info.name:
@@ -176,9 +181,11 @@ func _on_accept_button_pressed():
 	plot_game_info.price = int(%price_box.value)
 	$plot_name_3D.text = plot_game_info.name
 	if plot_status != PLOT_STATUS.DONE:
+		plot_game_info.center = PlotUtility.find_furthest_point_from_edges(get_corners_2D())
 		plot_status = PLOT_STATUS.DONE
-		var p = PlotUtility.find_furthest_point_from_edges(get_corners_2D())
-		plot_game_info.center = Vector3(p.x, POS_Y, p.y)
+		for i in range(4):
+			var c = $corners.get_node("corner_" + str(i + 1)).global_position
+			corner_positions[i] = Vector2(c.x, c.z)
 		$corners.queue_free()
 		
 		$plot_name_3D.global_position = plot_game_info.center

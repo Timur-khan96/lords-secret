@@ -2,7 +2,7 @@ extends CanvasLayer
 
 signal time_button_pressed
 signal bell_pressed
-signal plot_edit_pressed
+signal plot_edit_toggled
 signal vampire_pressed
 
 var mouse_on_ui = false;
@@ -14,9 +14,10 @@ var camera_base;
 @onready var time_button = $top_right/PanelContainer/VBoxContainer/time_button
 @onready var money_label = $middle_top/PanelContainer/HBoxContainer/money_label
 @onready var blood_label = $middle_top/PanelContainer/HBoxContainer/blood_label
+@onready var rep_label = $middle_top/PanelContainer/HBoxContainer/reputation_label
 
 func _ready():
-	for c in $middle_bottom/PanelContainer/HBoxContainer.get_children():
+	for c in $middle_bottom/TextureRect/MarginContainer/HBoxContainer.get_children():
 		c.mouse_entered.connect(_on_ui_mouse_entered)
 		c.mouse_exited.connect(_on_ui_mouse_exited)
 		
@@ -27,6 +28,7 @@ func _ready():
 func _process(_delta):
 	money_label.text = "money: " + str(Global.money)
 	blood_label.text = "blood: " + str(Global.blood)
+	rep_label.text = "reputation: " + str(Global.village_reputation)
 		
 func set_time_and_date(game_time: Dictionary, month: String, time_scale: String):
 	date_label.text = str(game_time.day) + " " + month
@@ -50,6 +52,8 @@ func _on_plot_selling_start():
 	$selling_overlay/Label.text = """Select a plot or establish a new one
 	desired cost: """ + str(c)
 	$selling_overlay.show()
+	%plot_button.button_pressed = true
+	#plot_edit_toggled.emit(%plot_button.button_pressed)
 	
 func _on_plot_selling_end():
 	$selling_overlay.hide()
@@ -60,8 +64,8 @@ func _on_time_button_pressed():
 func _on_bell_button_pressed():
 	bell_pressed.emit()
 	
-func _on_plot_button_pressed():
-	plot_edit_pressed.emit()
+func _on_plot_button_toggled(toggled_on):
+	plot_edit_toggled.emit(toggled_on)
 
 func _on_vampire_button_pressed():
 	vampire_pressed.emit()

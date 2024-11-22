@@ -3,6 +3,7 @@ extends Node
 var villager_tree_scene = load("res://ai/trees/villager_tree.tscn")
 
 enum NPC_Status {VISITOR, PETITIONER, VILLAGER, HIRED, ENEMY, LEAVING}
+enum OCCUPATIONS {VISITING, BUILDING, CHOPPING, GATHERING, EATING, CARRYING, LEAVING, SLEEPING, IDLE}
 
 var vowels = ['a', 'e', 'i', 'o', 'u']
 var consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 

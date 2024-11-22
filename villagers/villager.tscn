@@ -16,11 +16,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_edfeh")
 
 [node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_1j2vh")]
-blackboard = NodePath("@Node@66382")
+blackboard = NodePath("@Node@18002")
 actor = NodePath("..")
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
-path_height_offset = 0.6
+path_height_offset = 0.4
+path_max_distance = 100.01
 
 [node name="anim_controller" type="Node" parent="."]
 script = ExtResource("13_a14y5")
@@ -28,4 +29,10 @@ script = ExtResource("13_a14y5")
 [node name="Blackboard" type="Node" parent="."]
 script = ExtResource("9_8h0k3")
 
+[node name="hunger_timer" type="Timer" parent="."]
+wait_time = 240.0
+one_shot = true
+autostart = true
+
 [connection signal="navigation_finished" from="nav_agent" to="." method="_on_nav_agent_navigation_finished"]
+[connection signal="timeout" from="hunger_timer" to="." method="_on_hunger_timer_timeout"]

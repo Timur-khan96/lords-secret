@@ -80,3 +80,8 @@ shape = SubResource("BoxShape3D_q5rd4")
 libraries = {
 "": SubResource("AnimationLibrary_o12dp")
 }
+
+[node name="death_timer" type="Timer" parent="."]
+wait_time = 6.0
+
+[connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]

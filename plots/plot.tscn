@@ -55,6 +55,7 @@ visible = false
 sorting_offset = 40.0
 pixel_size = 0.01
 billboard = 1
+no_depth_test = true
 text = "Hello world"
 font_size = 64
 

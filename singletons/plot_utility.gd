@@ -1,14 +1,19 @@
 extends Node
 
-var house_project_scene = load("res://village/house_project.tscn")
+var house_project_scene = load("res://village/house.tscn")
 var buildings_node #set in world script
+const POS_Y = 0.6
+
+signal house_put
 
 func put_house_project(plot):
 	var project = house_project_scene.instantiate();
 	buildings_node.add_child(project)
+	project.rotation.y = randf_range(0, 2 * PI)
 	project.global_position = plot.plot_game_info.center
 	project.plot = plot
-	plot.has_house = true #get rid of plot-house dependency???
+	plot.house = project #get rid of plot-house dependency???
+	house_put.emit()
 	return project
 
 func find_plot_by_owner(owner_name): #owner is full name 
@@ -51,7 +56,7 @@ func get_area(points: Array) -> float:
 	var area = 0.5 * d1 * d2 * sin(angle)
 	return abs(area)
 
-func find_furthest_point_from_edges(points: Array) -> Vector2:
+func find_furthest_point_from_edges(points: Array) -> Vector3:
 	var furthest_point = Vector2.ZERO
 	var max_min_distance = 0.0
 
@@ -92,7 +97,21 @@ func find_furthest_point_from_edges(points: Array) -> Vector2:
 			y += step_size
 		x += step_size
 
-	return furthest_point
+	return Vector3(furthest_point.x, POS_Y, furthest_point.y)
+	
+func get_random_point_in_polygon(polygon: Array) -> Vector3:
+	var bounds = Rect2(polygon[0], Vector2.ZERO)
+	for point in polygon:
+		bounds = bounds.expand(point)
+
+	while true:
+		var random_point = Vector2(
+		randf_range(bounds.position.x, bounds.position.x + bounds.size.x),
+		randf_range(bounds.position.y, bounds.position.y + bounds.size.y)
+		)
+		if Geometry2D.is_point_in_polygon(random_point, polygon):
+			return Vector3(random_point.x, POS_Y, random_point.y)
+	return Vector3.ZERO
 	
 func distance_point_to_segment(point: Vector2, seg_a: Vector2, seg_b: Vector2) -> float:
 	var seg_v = seg_b - seg_a

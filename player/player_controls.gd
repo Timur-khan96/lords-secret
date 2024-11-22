@@ -16,7 +16,6 @@ var is_selling_plot = false:
 	set(value):
 		is_selling_plot = value
 		if value:
-			control_mode = CONTROL_MODES.PLOT
 			$UILayer._on_plot_selling_start()
 		else:
 			$UILayer._on_plot_selling_end()
@@ -38,7 +37,7 @@ var can_put_plot = true:
 func _ready():
 	Global.player_controls = self
 	$UILayer.player_controls = self
-	$UILayer.plot_edit_pressed.connect(_on_plot_button_pressed)
+	$UILayer.plot_edit_toggled.connect(_on_plot_button_toggled)
 	$UILayer.vampire_pressed.connect(_on_vampire_button_pressed)
 	control_mode_changed.connect(%Camera._on_control_mode_changed)
 
@@ -115,8 +114,8 @@ func _on_ui_mouse_entered():
 func _on_ui_mouse_exited():
 	%camera_base.can_pan = true
 	
-func _on_plot_button_pressed():
-	if control_mode == CONTROL_MODES.VILLAGE:
+func _on_plot_button_toggled(toggled_on):
+	if toggled_on:
 		control_mode = CONTROL_MODES.PLOT
 	else:
 		control_mode = CONTROL_MODES.VILLAGE

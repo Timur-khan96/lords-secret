@@ -12,6 +12,7 @@ extends Node3D
 @onready var plots = %plots
 @onready var day_night = $day_night
 @onready var buildings = $buildings
+@onready var border_mesh = $border_mesh
 
 const MAX_TIME_SCALE = 10.0
 var POS_Y = WorldUtility.POS_Y
@@ -49,6 +50,7 @@ func _ready():
 	player_controls.control_mode_changed.connect(_on_control_mode_changed)
 	UILayer.time_button_pressed.connect(_on_time_button_pressed)
 	UILayer.bell_pressed.connect(_on_bell_button_pressed)
+	PlotUtility.house_put.connect(_on_house_put)
 	
 	game_time = WorldUtility.initial_game_time
 	months = WorldUtility.months
@@ -84,13 +86,28 @@ func set_world_bounds():
 	$Floor/CollisionShape3D.shape.size.z = WORLD_SIZE * 1.5;
 	$Floor/MeshInstance3D.mesh.size.x = WORLD_SIZE * 1.5
 	$Floor/MeshInstance3D.mesh.size.z = WORLD_SIZE * 1.5
-	%camera_base.bound_camera(WORLD_SIZE * 0.5)
+	var half_world = WORLD_SIZE * 0.5
+	%camera_base.bound_camera(half_world)
+	border_mesh.mesh.surface_begin(Mesh.PRIMITIVE_LINES)
+	border_mesh.mesh.surface_add_vertex(Vector3(half_world, POS_Y, half_world))
+	border_mesh.mesh.surface_add_vertex(Vector3(half_world, POS_Y, -half_world))
+	
+	border_mesh.mesh.surface_add_vertex(Vector3(half_world, POS_Y, -half_world))
+	border_mesh.mesh.surface_add_vertex(Vector3(-half_world, POS_Y, -half_world))
+	
+	border_mesh.mesh.surface_add_vertex(Vector3(-half_world, POS_Y, -half_world))
+	border_mesh.mesh.surface_add_vertex(Vector3(-half_world, POS_Y, half_world))
+	
+	border_mesh.mesh.surface_add_vertex(Vector3(-half_world, POS_Y, half_world))
+	border_mesh.mesh.surface_add_vertex(Vector3(half_world, POS_Y, half_world))
+	border_mesh.mesh.surface_end()
 
 func _on_time_button_pressed():
 	time_scale += 1.0
 	if time_scale > MAX_TIME_SCALE:
 		time_scale = 1.0
 	Engine.time_scale = time_scale
+	#print(str(Engine.time_scale))
 	%camera_base.update_pan_speed()
 
 func _on_game_timer_timeout():
@@ -117,12 +134,15 @@ func _on_control_mode_changed(control_mode):
 	match control_mode:
 		player_controls.CONTROL_MODES.VILLAGE:
 			plots.hide_plots()
+			border_mesh.hide()
 		player_controls.CONTROL_MODES.PLOT:
 			if lord.is_active:
 				lord.deactivate_lord()
 			plots.show_plots()
+			border_mesh.show()
 		player_controls.CONTROL_MODES.VAMPIRE:
 			plots.hide_plots()
+			border_mesh.hide()
 			time_scale = 0.0;
 			_on_time_button_pressed();
 			transition_to_lord_camera()
@@ -145,10 +165,14 @@ func transition_to_world_camera():
 	camera.current = true;
 	var tween = get_tree().create_tween()
 	tween.tween_property(camera, "global_position", camera_original_global_pos, 1.0)
+	if player_controls.control_mode == player_controls.CONTROL_MODES.VAMPIRE:
+		player_controls.control_mode = player_controls.CONTROL_MODES.VILLAGE
 	tween.finished.connect(switch_to_world_camera)
 	
 func switch_to_world_camera():
 	%camera_base.set_process_input(true)
 	%camera_base.set_process(true)
-	player_controls.control_mode = player_controls.CONTROL_MODES.VILLAGE
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+func _on_house_put():
+	nav_region.bake_navigation_mesh()

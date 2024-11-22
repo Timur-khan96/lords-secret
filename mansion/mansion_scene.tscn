@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://mansion/mansion_scene.gd" id="1_r84c0"]
 [ext_resource type="PackedScene" uid="uid://b2v5uf0876wqg" path="res://mansion/mansion.glb" id="1_y6y34"]
 [ext_resource type="PackedScene" uid="uid://doge3a85fcrhy" path="res://mansion/mansion_door.glb" id="2_cloo7"]
-[ext_resource type="Script" path="res://mansion/doors_script.gd" id="3_3e2nx"]
+[ext_resource type="Script" path="res://village/doors_script.gd" id="3_3e2nx"]
 [ext_resource type="Script" path="res://mansion/mansion_table.gd" id="5_5mcn7"]
 [ext_resource type="Script" path="res://mansion/mansion_bell.gd" id="5_dhb2t"]
 [ext_resource type="PackedScene" uid="uid://chxpsicsfb61" path="res://mansion/table.blend" id="6_4kevg"]

@@ -18,6 +18,14 @@ func play_animation(anim_name: String):
 			anim_player.play(a)
 		"attack":
 			anim_player.play("anim_pack_1/attack")
+		"carry":
+			anim_player.play("carrying/carry")
+		"gather":
+			anim_player.play("gathering/gathering_above")
+		"eat":
+			anim_player.play("gathering/drinking")
+		"sleep":
+			anim_player.play("anim_pack_1/sleep")
 			
 				
 func check_anim(anim: String) -> bool:
@@ -32,6 +40,15 @@ func check_anim(anim: String) -> bool:
 				return anim_player.current_animation == a
 			"attack":
 				return anim_player.current_animation == "anim_pack_1/attack"
+			"carry":
+				return anim_player.current_animation == "carrying/carry"
+			"gather":
+				return anim_player.current_animation == "gathering/gathering_above"
+			"eat":
+				return anim_player.current_animation == "gathering/drinking"
+			"sleep":
+				return anim_player.current_animation == "anim_pack_1/sleep"
+			
 	return false
 	
 func _on_anim_finished(_anim_name):

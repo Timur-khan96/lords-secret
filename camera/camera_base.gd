@@ -38,8 +38,12 @@ func _process(delta:float) -> void:
 	
 func _input(event:InputEvent) -> void:
 	#camera zoom
-	if event.is_action("camera_zoom_in"): zoom_direction -= 1;
-	elif event.is_action("camera_zoom_out"): zoom_direction += 1;
+	if event.is_action("camera_zoom_in"): 
+		zoom_direction -= 1;
+		update_pan_speed()
+	elif event.is_action("camera_zoom_out"): 
+		zoom_direction += 1;
+		update_pan_speed()
 	
 	if event.is_action_pressed("camera_rotate_left"): 
 		rotation_direction = 1;
@@ -56,6 +60,7 @@ func bound_camera(half_world_size):
 	
 func update_pan_speed():
 	adjusted_pan_speed = pan_speed * (1.0 + abs(camera.position.z) * 0.1)
+	adjusted_pan_speed = adjusted_pan_speed / max(Engine.time_scale, 1.0)
 
 func camera_automatic_pan(delta: float) -> void:
 	if !can_pan: return
@@ -74,7 +79,7 @@ func camera_automatic_pan(delta: float) -> void:
 		pan_direction.z = 1
 
 	if pan_direction != Vector3.ZERO:
-		translate(pan_direction * adjusted_pan_speed * (delta / Engine.time_scale))
+		translate(pan_direction * adjusted_pan_speed * delta)
 		global_position.x = clamp(global_position.x, min_bounds.x, max_bounds.x)
 		global_position.z = clamp(global_position.z, min_bounds.y, max_bounds.y)
 		
@@ -84,7 +89,6 @@ func camera_zoom_update(delta:float) -> void:
 	zoom_min, zoom_max)
 	camera.position.z = new_zoom;
 	zoom_direction *= zoom_speed_damp;
-	#update_pan_speed()
 	
 func camera_rotate(delta:float) -> void:
 	if !can_rotate || !is_rotating: return
@@ -92,4 +96,4 @@ func camera_rotate(delta:float) -> void:
 		
 func _on_screen_resized():
 	viewport_size = get_viewport().get_visible_rect().size
-	#update_pan_speed()
+	update_pan_speed()

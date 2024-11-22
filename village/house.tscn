@@ -1,0 +1,144 @@
+[gd_scene load_steps=11 format=3 uid="uid://c0d82otwxx4am"]
+
+[ext_resource type="Script" path="res://village/house_project.gd" id="1_lakpe"]
+[ext_resource type="PackedScene" uid="uid://btdvbqb88iw8k" path="res://village/house_1.glb" id="2_q18p8"]
+[ext_resource type="PackedScene" uid="uid://wntukselhu8w" path="res://village/door_1.glb" id="3_2ou8k"]
+[ext_resource type="Script" path="res://village/doors_script.gd" id="3_n74qw"]
+[ext_resource type="PackedScene" uid="uid://bxxh0oo3yo878" path="res://village/planks.glb" id="5_gsain"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dcjyb"]
+size = Vector3(1.3009, 1.94727, 0.246216)
+
+[sub_resource type="Animation" id="Animation_ga0kw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("door_1/door:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_58eed"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("door_1/door:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -2.51327, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_db4df"]
+_data = {
+"RESET": SubResource("Animation_ga0kw"),
+"open": SubResource("Animation_58eed")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w15qg"]
+size = Vector3(1.41724, 1, 2.89447)
+
+[node name="house" type="Node3D"]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+script = ExtResource("1_lakpe")
+
+[node name="house_1" parent="." instance=ExtResource("2_q18p8")]
+
+[node name="house" parent="house_1" index="0"]
+transparency = 1.0
+
+[node name="roof " parent="house_1" index="1"]
+transparency = 1.0
+
+[node name="StaticBody3D" parent="house_1/roof " index="0"]
+collision_layer = 256
+
+[node name="house " parent="house_1" index="2" groups=["navigation_mesh_group"]]
+collision_layer = 256
+
+[node name="floor " parent="house_1" index="3"]
+transparency = 1.0
+
+[node name="door_body" type="StaticBody3D" parent="." groups=["interactable"]]
+visible = false
+collision_layer = 64
+script = ExtResource("3_n74qw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="door_body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0117798, 1.00294, 3.50016)
+shape = SubResource("BoxShape3D_dcjyb")
+
+[node name="door_anim" type="AnimationPlayer" parent="door_body"]
+libraries = {
+"": SubResource("AnimationLibrary_db4df")
+}
+
+[node name="door_1" parent="door_body" instance=ExtResource("3_2ou8k")]
+
+[node name="door_open_area" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.34876)
+collision_layer = 256
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="door_open_area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0213623, 0, -0.01474)
+shape = SubResource("BoxShape3D_w15qg")
+
+[node name="planks" type="Node3D" parent="."]
+
+[node name="planks" parent="planks" instance=ExtResource("5_gsain")]
+transform = Transform3D(0.96837, 0, -0.249518, 0, 1, 0, 0.249518, 0, 0.96837, 0.51247, 0, 2.64085)
+visible = false
+
+[node name="planks2" parent="planks" instance=ExtResource("5_gsain")]
+transform = Transform3D(0.631055, 0, -0.775738, 0, 1, 0, 0.775738, 0, 0.631055, 1.08704, 0, 0.931214)
+visible = false
+
+[node name="planks3" parent="planks" instance=ExtResource("5_gsain")]
+transform = Transform3D(0.579011, 0, 0.81532, 0, 1, 0, -0.81532, 0, 0.579011, 0, 0, 0.404559)
+visible = false
+
+[node name="planks4" parent="planks" instance=ExtResource("5_gsain")]
+transform = Transform3D(0.591971, 0, 0.805959, 0, 1, 0, -0.805959, 0, 0.591971, -1.52706, 0, 1.15907)
+visible = false
+
+[node name="planks5" parent="planks" instance=ExtResource("5_gsain")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.60104)
+visible = false
+
+[editable path="house_1"]
+[editable path="door_body/door_1"]

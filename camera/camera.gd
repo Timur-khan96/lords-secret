@@ -37,10 +37,6 @@ func screen_center_ray_check():
 	query.collide_with_bodies = true;
 	query.collide_with_areas = true;
 	query.set_collision_mask(80)
-	#print(query.collision_mask)
 	return space.intersect_ray(query);
-	#if result:
-		#print(result.collider)
-		#print(result.position)
 	
 			
