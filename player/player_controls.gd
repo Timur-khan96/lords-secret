@@ -5,12 +5,14 @@ signal control_mode_changed
 enum CONTROL_MODES {VILLAGE, PLOT, VAMPIRE}
 var control_mode: CONTROL_MODES = CONTROL_MODES.VILLAGE:
 	set(value):
-		control_mode = value
-		control_mode_changed.emit(value)
 		if value == CONTROL_MODES.VAMPIRE:
+			if control_mode == CONTROL_MODES.PLOT:
+				$UILayer.get_node("%plot_button").button_pressed = false
 			hide_bottom_panel()
 		else:
 			show_bottom_panel()
+		control_mode = value
+		control_mode_changed.emit(value)
 
 var is_selling_plot = false:
 	set(value):
@@ -42,12 +44,12 @@ func _ready():
 	control_mode_changed.connect(%Camera._on_control_mode_changed)
 
 func _input(event):
+	if event.is_action_pressed("quit"):
+		get_tree().quit()
 	if $UILayer.mouse_on_ui: return
-	match control_mode:
-		CONTROL_MODES.PLOT:
-			handle_plot_control_mode_input(event)
+	if control_mode == CONTROL_MODES.PLOT:
+		handle_plot_control_mode_input(event)
 	
-			
 func handle_plot_control_mode_input(event):
 	if event is InputEventMouseMotion: 
 		handle_mouse_motion()
@@ -128,6 +130,11 @@ func hide_bottom_panel():
 	
 func show_bottom_panel():
 	$UILayer.show_bottom_panel()
+	
+func lord_deactivated():
+	control_mode = CONTROL_MODES.VILLAGE
+	
+
 				
 			
 		

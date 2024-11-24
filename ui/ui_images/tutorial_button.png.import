@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csg4fqk8p0x6u"
-path="res://.godot/imported/vampire_button.png-b034b85d915d19770254442a7c133832.ctex"
+uid="uid://gf80g5iolu5p"
+path="res://.godot/imported/tutorial_button.png-1129381e698997b08c69d2367aa36897.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/ui_images/reserve/vampire_button.png"
-dest_files=["res://.godot/imported/vampire_button.png-b034b85d915d19770254442a7c133832.ctex"]
+source_file="res://ui/ui_images/tutorial_button.png"
+dest_files=["res://.godot/imported/tutorial_button.png-1129381e698997b08c69d2367aa36897.ctex"]
 
 [params]
 

@@ -14,7 +14,6 @@ class_name NPC
 var game_info = {}
 var velocity = Vector3.ZERO;
 var model
-var has_arrived = false #boolean to check if got to the destination in blackboard
 var in_danger = false #this one is to reduce reputation when leaving
 var speed = 2.5
 
@@ -56,8 +55,7 @@ func _on_nav_agent_navigation_finished():
 func interact():
 	current_tree.enabled = false
 	velocity = Vector3.ZERO
-	var target_position = Global.lord.global_position
-	var direction = (target_position - global_position).normalized()
+	var direction = (Global.lord.global_position - global_position).normalized()
 	direction.y = 0
 	look_at(global_position + direction, Vector3.UP)
 	play_animation("talk")

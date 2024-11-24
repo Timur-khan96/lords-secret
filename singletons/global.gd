@@ -1,25 +1,24 @@
 extends Node
 
 var village_name: String = "Brightlands"
-var lord_name: String = "Vlad Drakula"
-var village_reputation = 100.0
-var money = 100
-var blood = 1000:
-	set(value):
-		blood = value
-		if blood < 1:
-			blood = 0
-			print("game over")
-var blood_rate = 1 #how fast player looses blood
+var lord_name: String = "Vlad Stoker"
+
+var menu_opened = false;
+var current_dialogue = null
+
 var plot_count = 1;
 var current_plot_project_name #this one is to check if plot_count should be changed
-var current_dialogue
+
 #these are set in respective scripts
 var player_controls
 var mansion_scene
 var lord
 
-var menu_opened = false;
+var village_reputation = 100.0
+var money = 100
+var blood:
+	get():
+		return lord.blood
 
 func context_menu_opened(menu = null):
 	menu_opened = true
@@ -48,6 +47,7 @@ func end_dialogue():
 	if player_controls.control_mode != player_controls.CONTROL_MODES.VAMPIRE:
 		player_controls.show_bottom_panel()
 	handle_dialogue_result()
+	current_dialogue = null
 	Dialogic.timeline_ended.disconnect(end_dialogue)
 	context_menu_closed()
 	
@@ -58,6 +58,7 @@ func handle_dialogue_result(is_leaving = false):
 		match current_dialogue:
 			"visitor_buying_plot":
 				mansion_scene.send_petitioner_to_plot()
+				village_reputation += 5
 		
 func plot_selling(): #for giving selected plot to villagers, called from Dialogic
 	player_controls.is_selling_plot = true
@@ -76,11 +77,4 @@ func plot_selling_end(plot): #called on plot accept button as signal
 		dic.money -= price
 		money += price
 		start_dialogue("visitor_buying_plot")
-		
-func day_burning_on():
-	blood_rate = 3;
-	
-func day_burning_off():
-	blood_rate = 1;
-	
 	

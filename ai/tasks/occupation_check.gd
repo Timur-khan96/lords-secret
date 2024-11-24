@@ -9,10 +9,11 @@ func tick(actor, blackboard: Blackboard):
 			blackboard.set_value("destination", WorldUtility.get_random_point_outside_bounds())
 		return FAILURE
 	if blackboard.get_value("is_nightime"):
-		if !curr_occup == NpcUtility.OCCUPATIONS.SLEEPING:
-			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.SLEEPING)
-			blackboard.set_value("destination", 
-			blackboard.get_value("plot").plot_game_info.center)
+		if curr_occup != NpcUtility.OCCUPATIONS.CARRYING:
+			if !curr_occup == NpcUtility.OCCUPATIONS.SLEEPING:
+				blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.SLEEPING)
+				blackboard.set_value("destination", 
+				blackboard.get_value("plot").plot_game_info.center)
 	elif blackboard.get_value("is_hungry"):
 		if curr_occup == NpcUtility.OCCUPATIONS.CARRYING && blackboard.get_value("attached") == "planks":
 			handle_house_construction(actor, blackboard, curr_occup)

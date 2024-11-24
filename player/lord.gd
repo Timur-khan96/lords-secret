@@ -1,33 +1,70 @@
 extends CharacterBody3D
 class_name Lord
 
-var is_active: bool = false
+@onready var camera = %lords_camera
+@onready var pointer = $"UILayer2/3dperson/pointer"
+@onready var model = $model
+@onready var anim_controller = $anim_controller
+@onready var nav_agent = $nav_agent
+
+signal deactivated
+signal wild_on
+signal wild_off
+
+enum LORD_STATES {ACTIVATED, DEACTIVATED, WILD}
+var wild_victim = null
+var wild_victim_pos = Vector3.ZERO
+var lord_state: LORD_STATES:
+	set(value):
+		match value:
+			LORD_STATES.ACTIVATED:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+				set_process_input(true)
+				%lords_camera.current = true
+				$danger_area/CollisionShape3D.disabled = false
+				$UILayer2.show()
+			LORD_STATES.DEACTIVATED:
+				if lord_state == LORD_STATES.ACTIVATED:
+					deactivate_lord()
+			LORD_STATES.WILD:
+				if lord_state == LORD_STATES.ACTIVATED:
+					deactivate_lord() #deactivates danger_area
+				$danger_area/CollisionShape3D.disabled = false
+				wild_on.emit()
+				if Global.current_dialogue:
+					Dialogic.end_timeline()
+		lord_state = value
+
 var mouse_sens = 0.5
 var game_info = {}
 var interactable = null;
 
 var speed = 5.0
-const JUMP_VELOCITY = 4.5
-
-@onready var camera = %lords_camera
-@onready var pointer = $"UILayer2/3dperson/pointer"
-@onready var model = $model
-@onready var anim_controller = $anim_controller
-
-signal deactivated
+var blood = 100
+var blood_rate = 1 #how fast blood runs out
+var is_burning = false:
+	set(value):
+		is_burning = value
+		if value:
+			blood_rate = 3
+		else:
+			blood_rate = 1
 
 var is_day = false:
 	set(value):
-		is_day = value;
-		$roof_check.enabled = value
+		is_day = value
+		if !value:
+			is_burning = false
+			$day_burning.emitting = false
 
-func _init_lord(): #instead of ready because we turn him off aparrently
+func _ready():
 	anim_controller.anim_player = model.get_node("AnimationPlayer")
 	game_info = {
 		"name": Global.lord_name,
 		"gender": 1
 	}
 	Global.lord = self
+	nav_agent.target_reached.connect(_on_nav_target_reached)
 
 func _input(event):
 	if Global.menu_opened: return
@@ -37,32 +74,74 @@ func _input(event):
 		$camera_base.rotation.x = clamp($camera_base.rotation.x, -1.0, 0.25)
 	elif event.is_action_pressed("LMB") && interactable:
 		if interactable is MansionTable:
-			deactivate_lord()
+			lord_state = LORD_STATES.DEACTIVATED
 		else:
 			interactable.interact()
 	elif event.is_action_pressed("RMB") && interactable:
 		if interactable.is_in_group("NPC"):
-			Global.blood += randi_range(20,30)
-			interactable.explode()
+			blood += randi_range(20,30)
 			$danger_area.lord_attack()
+			interactable.explode()
 
 func _physics_process(delta):
-	handle_movement(delta);
-	handle_screen_raycast();
-	handle_day_raycast();
+	match lord_state:
+		LORD_STATES.ACTIVATED:
+			handle_movement(delta);
+			handle_screen_raycast();
+		LORD_STATES.DEACTIVATED:
+			if !anim_controller.check_anim("idle"):
+				anim_controller.play_animation("idle")
+		LORD_STATES.WILD:
+			handle_wild_search()
+			handle_navigation_movement()
+				
+	if is_day: handle_day_raycast()
 	
-func _process(_delta):
-	if !is_active:
-		if !anim_controller.check_anim("idle"):
-			anim_controller.play_animation("idle")
+func handle_wild_search():
+	if wild_victim == null:
+		wild_victim = get_wild_state_victim()
+		if wild_victim == null:
+			if wild_victim_pos == Vector3.ZERO:
+				wild_victim_pos = WorldUtility.get_random_point_inside_bounds()
+		else:
+			wild_victim_pos = wild_victim.global_position
+	else:
+		wild_victim_pos = wild_victim.global_position
+	if nav_agent.target_position != wild_victim_pos:
+		nav_agent.target_position = wild_victim_pos
+				
+func handle_navigation_movement():
+	if NavigationServer3D.map_get_iteration_id(nav_agent.get_navigation_map()) == 0:
+		return
+	if nav_agent.is_navigation_finished():
+		if !nav_agent.is_target_reached():
+			wild_victim = null
+			wild_victim_pos = Vector3.ZERO 
+		return
+	var new_pos = nav_agent.get_next_path_position()
+	velocity = global_position.direction_to(new_pos) * speed
+	velocity.y = 0
+	look_at(global_position + velocity, Vector3.UP)
+	move_and_slide()
+	if !check_anim("walk"):
+		play_animation("walk")
+				
+func get_wild_state_victim():
+	var arr = get_tree().get_nodes_in_group("NPC")
+	if arr.is_empty():
+		return null
+	else:
+		var r = arr[0]
+		var pos = global_position
+		for v in arr:
+			if v == r: continue
+			if pos.distance_to(v.global_position) < pos.distance_to(r.global_position):
+				r = v
+		return r
 	
 func handle_day_raycast():
-	if is_day && !$roof_check.is_colliding():
-		Global.day_burning_on()
-		$day_burning.emitting = true;
-	else:
-		Global.day_burning_off()
-		$day_burning.emitting = false;
+	is_burning = !$roof_check.is_colliding()
+	$day_burning.emitting = is_burning
 	
 func handle_screen_raycast():
 	var ray_result = camera.screen_center_ray_check();
@@ -107,23 +186,31 @@ func play_animation(anim_name: String):
 func check_anim(anim_name: String) -> bool:
 	return anim_controller.check_anim(anim_name)
 	
-func activate_lord():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	set_physics_process(true)
-	set_process_input(true)
-	%lords_camera.current = true
-	$danger_area/CollisionShape3D.disabled = false
-	is_active = true;
-	$UILayer2.show()
-	
 func deactivate_lord():
-	set_physics_process(false);
 	set_process_input(false)
 	%lords_camera.current = false
 	$danger_area/CollisionShape3D.disabled = true
-	is_active = false;
 	$UILayer2.hide()
 	deactivated.emit()
 
 func _on_blood_timer_timeout():
-	Global.blood -= Global.blood_rate
+	blood -= blood_rate
+	if blood < 1:
+		blood = 0;
+		if lord_state != LORD_STATES.WILD:
+			lord_state = LORD_STATES.WILD
+		
+func _on_nav_target_reached():
+	if lord_state == LORD_STATES.WILD:
+		if wild_victim != null:
+			wild_victim.explode()
+			blood += randi_range(20,30)
+			$danger_area.lord_attack()
+			wild_victim = null
+			lord_state = LORD_STATES.DEACTIVATED
+			wild_off.emit()
+		wild_victim_pos = Vector3.ZERO
+		velocity = Vector3.ZERO
+	else:
+		print("lord's nav_agent target reached but it isn't wild, wut???????")
+		

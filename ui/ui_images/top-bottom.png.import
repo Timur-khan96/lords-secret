@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8psogcpnlawl"
-path="res://.godot/imported/bell_button.png-e416f6a37e84950ea2876d35c9ae5613.ctex"
+uid="uid://dkvpshe0ymald"
+path="res://.godot/imported/top-bottom.png-8958f822849442ce8f6f9acb2d11a875.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/ui_images/reserve/bell_button.png"
-dest_files=["res://.godot/imported/bell_button.png-e416f6a37e84950ea2876d35c9ae5613.ctex"]
+source_file="res://ui/ui_images/top-bottom.png"
+dest_files=["res://.godot/imported/top-bottom.png-8958f822849442ce8f6f9acb2d11a875.ctex"]
 
 [params]
 

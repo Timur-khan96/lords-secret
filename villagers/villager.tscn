@@ -15,9 +15,8 @@ script = ExtResource("1_i5sqc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_edfeh")
 
-[node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_1j2vh")]
-blackboard = NodePath("@Node@18002")
-actor = NodePath("..")
+[node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard") instance=ExtResource("2_1j2vh")]
+blackboard = NodePath("@Node@42940")
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
 path_height_offset = 0.4

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvf760mn2rpk7"
-path="res://.godot/imported/plot_button.png-6dc93ac501d1d0f7a282c41f7d0af216.ctex"
+uid="uid://dqllo42us0ktp"
+path="res://.godot/imported/rep_circle.png-bedf20db0432853c20d3b81de5ce5ab3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/ui_images/reserve/plot_button.png"
-dest_files=["res://.godot/imported/plot_button.png-6dc93ac501d1d0f7a282c41f7d0af216.ctex"]
+source_file="res://ui/ui_images/rep_circle.png"
+dest_files=["res://.godot/imported/rep_circle.png-bedf20db0432853c20d3b81de5ce5ab3.ctex"]
 
 [params]
 

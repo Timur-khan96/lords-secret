@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://d2c8qp07tqnfl"]
+[gd_scene load_steps=21 format=3 uid="uid://d2c8qp07tqnfl"]
 
 [ext_resource type="Script" path="res://mansion/mansion_scene.gd" id="1_r84c0"]
 [ext_resource type="PackedScene" uid="uid://b2v5uf0876wqg" path="res://mansion/mansion.glb" id="1_y6y34"]
@@ -101,6 +101,9 @@ _data = {
 "RESET": SubResource("Animation_t75ei"),
 "open": SubResource("Animation_ioakj")
 }
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4uw7a"]
+size = Vector3(6.2587, 1, 2.75818)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xoayy"]
 size = Vector3(1.46191, 1, 3.12445)
@@ -216,13 +219,22 @@ libraries = {
 "": SubResource("AnimationLibrary_m3atm")
 }
 
-[node name="queue_end" type="Node3D" parent="."]
+[node name="door_open_area" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.0664, 0, -1.449)
+collision_layer = 256
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="door_open_area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34441, 1.38853, 1.33877)
+shape = SubResource("BoxShape3D_4uw7a")
+
+[node name="queue_start" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.7, 0)
 
 [node name="petition_pos" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.31136, 0, 0)
 
-[node name="mansion_table" type="StaticBody3D" parent="." groups=["interactable"]]
+[node name="mansion_table" type="StaticBody3D" parent="." groups=["interactable", "navigation_mesh_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35487, 1.3073, 0)
 collision_layer = 64
 script = ExtResource("5_5mcn7")
@@ -250,6 +262,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.144806, -1.08251, 0.5)
 libraries = {
 "": SubResource("AnimationLibrary_1ppi0")
 }
+
+[connection signal="body_entered" from="door_open_area" to="." method="_on_door_open_area_body_entered"]
 
 [editable path="mansion"]
 [editable path="mansion_bell/bell"]

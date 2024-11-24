@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u3vtxiy612tv"
-path="res://.godot/imported/middle-bottom.png-7b2c00b2d94c54cd43784b811588040a.ctex"
+uid="uid://btpfiqr4ufyj"
+path="res://.godot/imported/money_circle.png-b05428e095fd6a4e36e3a8124df74578.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/ui_images/reserve/middle-bottom.png"
-dest_files=["res://.godot/imported/middle-bottom.png-7b2c00b2d94c54cd43784b811588040a.ctex"]
+source_file="res://ui/ui_images/money_circle.png"
+dest_files=["res://.godot/imported/money_circle.png-b05428e095fd6a4e36e3a8124df74578.ctex"]
 
 [params]
 

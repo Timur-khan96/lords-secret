@@ -61,17 +61,18 @@ func _ready():
 	OBJSpawner.initial_spawn()
 	nav_region.bake_navigation_mesh()
 	
-	lord._init_lord()
-	lord.deactivate_lord()
-	lord.deactivated.connect(transition_to_world_camera)
-	
-	plots.create_plot(Vector3(-10.0,0.0,16.0),Vector3(16.0,0.0,-16.0),"You", "Warmhearth")
+	plots.create_plot(Vector3(-10.0,0.0,16.0),Vector3(32.0,0.0,-16.0),"You", "Warmhearth")
 	plots.hide_plots()
 	Dialogic.Styles.load_style("dialogic_style")
 	
 	day_night.play("day_night_cycle")
 	day_night.seek(180) #6 hours, i think
 	PlotUtility.buildings_node = buildings
+	
+	lord.lord_state = lord.LORD_STATES.DEACTIVATED
+	lord.deactivated.connect(transition_to_world_camera)
+	lord.wild_on.connect(player_controls.hide_bottom_panel)
+	lord.wild_off.connect(player_controls.show_bottom_panel)
 	
 func _process(_delta):
 	debug_label.text = "FPS " + str(float(Engine.get_frames_per_second()))
@@ -136,8 +137,8 @@ func _on_control_mode_changed(control_mode):
 			plots.hide_plots()
 			border_mesh.hide()
 		player_controls.CONTROL_MODES.PLOT:
-			if lord.is_active:
-				lord.deactivate_lord()
+			if lord.lord_state == lord.LORD_STATES.ACTIVATED:
+				lord.lord_state = lord.LORD_STATES.DEACTIVATED
 			plots.show_plots()
 			border_mesh.show()
 		player_controls.CONTROL_MODES.VAMPIRE:
@@ -154,19 +155,18 @@ func transition_to_lord_camera():
 	var c = lord.get_node("%lords_camera");
 	camera_original_global_pos = camera.global_position
 	tween.tween_property(camera, "global_position", c.global_position, 1.0)
-	tween.finished.connect(switch_to_lord_camera)
+	tween.finished.connect(switch_to_lord)
 	
-func switch_to_lord_camera():
+func switch_to_lord():
 	camera.current = false;
 	mansion.show_roof()
-	lord.activate_lord()
+	lord.lord_state = lord.LORD_STATES.ACTIVATED
 	
 func transition_to_world_camera():
 	camera.current = true;
 	var tween = get_tree().create_tween()
 	tween.tween_property(camera, "global_position", camera_original_global_pos, 1.0)
-	if player_controls.control_mode == player_controls.CONTROL_MODES.VAMPIRE:
-		player_controls.control_mode = player_controls.CONTROL_MODES.VILLAGE
+	player_controls.lord_deactivated()
 	tween.finished.connect(switch_to_world_camera)
 	
 func switch_to_world_camera():

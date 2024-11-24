@@ -12,9 +12,9 @@ var camera_base;
 
 @onready var date_label = $top_right/PanelContainer/VBoxContainer/date_label
 @onready var time_button = $top_right/PanelContainer/VBoxContainer/time_button
-@onready var money_label = $middle_top/PanelContainer/HBoxContainer/money_label
-@onready var blood_label = $middle_top/PanelContainer/HBoxContainer/blood_label
-@onready var rep_label = $middle_top/PanelContainer/HBoxContainer/reputation_label
+@onready var money_label = $middle_top/TextureRect/MarginContainer/HBoxContainer/money_circle/money_label
+@onready var blood_label = $middle_top/TextureRect/MarginContainer/HBoxContainer/blood_circle/blood_label
+@onready var rep_label = $middle_top/TextureRect/MarginContainer/HBoxContainer/rep_circle/rep_label
 
 func _ready():
 	for c in $middle_bottom/TextureRect/MarginContainer/HBoxContainer.get_children():
@@ -26,9 +26,9 @@ func _ready():
 		c.mouse_exited.connect(_on_ui_mouse_exited)
 		
 func _process(_delta):
-	money_label.text = "money: " + str(Global.money)
-	blood_label.text = "blood: " + str(Global.blood)
-	rep_label.text = "reputation: " + str(Global.village_reputation)
+	money_label.text = str(Global.money)
+	blood_label.text = str(Global.blood)
+	rep_label.text = str(Global.village_reputation)
 		
 func set_time_and_date(game_time: Dictionary, month: String, time_scale: String):
 	date_label.text = str(game_time.day) + " " + month
@@ -53,7 +53,6 @@ func _on_plot_selling_start():
 	desired cost: """ + str(c)
 	$selling_overlay.show()
 	%plot_button.button_pressed = true
-	#plot_edit_toggled.emit(%plot_button.button_pressed)
 	
 func _on_plot_selling_end():
 	$selling_overlay.hide()

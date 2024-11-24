@@ -32,7 +32,7 @@ func screen_center_ray_check():
 	var space = get_world_3d().direct_space_state
 	var screen_center = get_viewport().size / 2;
 	var from = project_ray_origin(screen_center);
-	var to = from + project_ray_normal(screen_center) * 8;
+	var to = from + project_ray_normal(screen_center) * 6;
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	query.collide_with_bodies = true;
 	query.collide_with_areas = true;

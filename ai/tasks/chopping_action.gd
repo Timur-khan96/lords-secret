@@ -5,6 +5,7 @@ var status = 0 #enum-like: 0-not started 1 running 2 finished
 func tick(actor, blackboard: Blackboard):
 	if !actor.check_anim("attack") && status == 0:
 		actor.look_at(blackboard.get_value("destination"), Vector3.UP)
+		actor.show_attached("axe")
 		actor.play_animation("attack")
 		status = 1
 		actor.anim_controller.anim_finished.connect(_on_finished)
@@ -16,6 +17,7 @@ func tick(actor, blackboard: Blackboard):
 		var result = blackboard.get_value("source").hit() #subject of change
 		if result: 
 			blackboard.set_value("carrying_resources", 0.2)
+			actor.hide_attached("axe")
 		actor.anim_controller.anim_finished.disconnect(_on_finished)
 		return SUCCESS
 	
