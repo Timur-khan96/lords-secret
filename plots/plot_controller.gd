@@ -11,7 +11,7 @@ func hide_plots():
 	var plots_arr = get_children()
 	if plots_arr.is_empty(): return
 	for p in plots_arr:
-		if p.plot_status != p.PLOT_STATUS.DONE:
+		if p.plot_status != PlotUtility.PLOT_STATUS.DONE:
 			p.queue_free()
 			continue
 		p.hide()

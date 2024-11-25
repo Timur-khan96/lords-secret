@@ -15,11 +15,10 @@ var food_storage = null
 var corner_positions = []
 const POS_Y = 0.6
 
-enum PLOT_STATUS {BEGIN, EDIT, DONE}
-var plot_status = PLOT_STATUS.BEGIN:
+var plot_status = PlotUtility.PLOT_STATUS.BEGIN:
 	set(value):
 		plot_status = value
-		if plot_status == PLOT_STATUS.EDIT:
+		if plot_status == PlotUtility.PLOT_STATUS.EDIT:
 			plot_color = Color.BLACK
 			for c in $corners.get_children():
 				c.get_node("CollisionShape3D").disabled = false
@@ -28,7 +27,7 @@ var plot_color: Color = Color.WHITE:
 	set(value):
 		plot_color = value
 		$border_mesh.material_override.albedo_color = value
-		if plot_status != PLOT_STATUS.DONE:
+		if plot_status != PlotUtility.PLOT_STATUS.DONE:
 			for c in $corners.get_children():
 				c.get_node("mesh").mesh.material.albedo_color = value
 
@@ -54,7 +53,7 @@ func create_plot(corner1_pos, corner3_pos, new_owner, plot_name): #make it autom
 		"center": null
 	}
 	plot_game_info.center = PlotUtility.find_furthest_point_from_edges(get_corners_2D())
-	plot_status = PLOT_STATUS.DONE
+	plot_status = PlotUtility.PLOT_STATUS.DONE
 	$plot_name_3D.text = plot_game_info.name
 	%plot_name.text = plot_game_info.name
 	$plot_name_3D.global_position = plot_game_info.center
@@ -66,7 +65,7 @@ func update_position(ray_results: Dictionary): #used when made by player
 	if ray_results:
 		$corners/corner_3.global_position = ray_results.position
 		set_corners()
-		if $corners/corner_1.global_position.distance_to($corners/corner_4.global_position) > 1:
+		if $corners/corner_1.global_position.distance_squared_to($corners/corner_4.global_position) > 1:
 			draw_borders() 
 			update_collision()
 			
@@ -109,13 +108,13 @@ func update_collision():
 func check_corner_distance(corner: StaticBody3D):
 	for c in $corners.get_children():
 		if c == corner: continue
-		if c.global_position.distance_to(corner.global_position) < 2:
+		if c.global_position.distance_squared_to(corner.global_position) < 2:
 			return false
 	return true
 		
 func is_buildable():
 	var c = get_corners_2D()
-	if PlotUtility.get_area(c) >= 20.0 && PlotUtility.min_edge_distance(c) >= 8.0:
+	if PlotUtility.get_area(c) >= 40.0 && PlotUtility.min_edge_distance(c) >= 10.0:
 		return !has_overlapping_areas()
 	else:
 		return false
@@ -132,14 +131,6 @@ func draw_line(pos_1: Vector3, pos_2: Vector3):
 	border_mesh.mesh.surface_add_vertex(pos_1)
 	border_mesh.mesh.surface_add_vertex(pos_2)
 	border_mesh.mesh.surface_end()
-
-func _on_mouse_entered():
-	if plot_status != PLOT_STATUS.BEGIN:
-		plot_color = Color.WHITE
-
-func _on_mouse_exited():
-	if plot_status != PLOT_STATUS.BEGIN:
-		plot_color = Color.BLACK
 		
 func show_plot_menu(is_selling = false):
 	set_plot_info()
@@ -157,7 +148,7 @@ func hide_plot_menu():
 	%decline_button.pressed.disconnect(_on_decline_button_pressed)
 	
 func get_corners_2D():
-	if plot_status == PLOT_STATUS.DONE:
+	if plot_status == PlotUtility.PLOT_STATUS.DONE:
 		return corner_positions
 	else:
 		var points = []
@@ -170,19 +161,19 @@ func set_plot_info():
 		plot_game_info.name = Global.village_name + " " + str(Global.plot_count)
 		Global.current_plot_project_name = plot_game_info.name
 		%plot_name.text = plot_game_info.name
-	if plot_status == PLOT_STATUS.EDIT:
+	if plot_status == PlotUtility.PLOT_STATUS.EDIT:
 		plot_game_info.size = int(PlotUtility.get_area(get_corners_2D()))
 	%size_label.text = "Size: " + str(plot_game_info.size)
-	if plot_game_info.owner:
+	if plot_game_info.owner != null:
 		%owner_label.text = "Owner:" + plot_game_info.owner
 
 func _on_accept_button_pressed():
 	plot_game_info.name = %plot_name.text
 	plot_game_info.price = int(%price_box.value)
 	$plot_name_3D.text = plot_game_info.name
-	if plot_status != PLOT_STATUS.DONE:
+	if plot_status != PlotUtility.PLOT_STATUS.DONE:
 		plot_game_info.center = PlotUtility.find_furthest_point_from_edges(get_corners_2D())
-		plot_status = PLOT_STATUS.DONE
+		plot_status = PlotUtility.PLOT_STATUS.DONE
 		for i in range(4):
 			var c = $corners.get_node("corner_" + str(i + 1)).global_position
 			corner_positions[i] = Vector2(c.x, c.z)

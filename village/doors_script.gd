@@ -18,4 +18,6 @@ func interact():
 	if is_mansion_door:
 		open_doors()
 	else:
+		if WorldUtility.is_daytime:
+			open_doors()
 		print("talk with the owner at night")

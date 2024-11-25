@@ -24,7 +24,7 @@ var months = {}
 
 var camera_original_global_pos = Vector3.ZERO
 
-signal time_of_day_changed
+#signal time_of_day_changed
 
 var time_of_day: String = "Night":
 	set(value):
@@ -32,18 +32,18 @@ var time_of_day: String = "Night":
 		else:
 			time_of_day = value
 			UILayer.set_time_of_day_label(value)
-			time_of_day_changed.emit(value)
+			#time_of_day_changed.emit(value)
 			match(value):
 				"Dawn":
 					Dialogic.VAR.time_of_day = "morning"
-					lord.is_day = true
+					WorldUtility.is_daytime = true
 					NPCSpawner.morning_spawn()
 				"Afternoon":
 					Dialogic.VAR.time_of_day = "afternoon"
 				"Evening":
 					Dialogic.VAR.time_of_day = "evening"
 				"Dusk":
-					lord.is_day = false
+					WorldUtility.is_daytime = false
 					mansion.send_queue_away()
 
 func _ready():
@@ -77,7 +77,7 @@ func _ready():
 func _process(_delta):
 	debug_label.text = "FPS " + str(float(Engine.get_frames_per_second()))
 	if camera.current:
-		if camera.global_position.distance_to(Vector3.ZERO) < 20:
+		if camera.global_position.distance_squared_to(Vector3.ZERO) < 20:
 			mansion.hide_roof()
 		else:
 			mansion.show_roof()

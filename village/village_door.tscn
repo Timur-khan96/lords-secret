@@ -1,0 +1,84 @@
+[gd_scene load_steps=7 format=3 uid="uid://28s2ltomwb0x"]
+
+[ext_resource type="Script" path="res://village/doors_script.gd" id="1_yeedj"]
+[ext_resource type="PackedScene" uid="uid://wntukselhu8w" path="res://village/door_1.glb" id="2_2gdqj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dcjyb"]
+size = Vector3(1.3009, 1.94727, 0.246216)
+
+[sub_resource type="Animation" id="Animation_ga0kw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("door_1/door:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_58eed"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("door_1/door:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -2.51327, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_db4df"]
+_data = {
+"RESET": SubResource("Animation_ga0kw"),
+"open": SubResource("Animation_58eed")
+}
+
+[node name="door_body" type="StaticBody3D" groups=["interactable"]]
+collision_layer = 64
+script = ExtResource("1_yeedj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0117798, 1.00294, 3.50016)
+shape = SubResource("BoxShape3D_dcjyb")
+
+[node name="door_anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_db4df")
+}
+
+[node name="door_1" parent="." instance=ExtResource("2_2gdqj")]
+
+[editable path="door_1"]

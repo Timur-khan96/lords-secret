@@ -25,7 +25,7 @@
 [node name="villager_tree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_cx637")
 blackboard = NodePath("@Node@18004")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_a1xil")

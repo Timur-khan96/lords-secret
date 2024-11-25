@@ -22,7 +22,6 @@ func spawn_villager(pos: Vector3):
 	var v = villager_scene.instantiate()
 	v.exploded.connect(NPC_exploded)
 	var dest = get_parent().get_node("mansion_scene").append_mansion_queue(v)
-	get_parent().time_of_day_changed.connect(v._on_time_of_day_changed)
 	add_child(v)
 	v.blackboard.set_value("destination", dest)
 	v.global_position = pos

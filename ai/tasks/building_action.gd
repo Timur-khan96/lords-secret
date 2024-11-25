@@ -16,6 +16,7 @@ func tick(actor, blackboard: Blackboard):
 		status = 0
 		blackboard.get_value("house").build_iteration()
 		actor.anim_controller.anim_finished.disconnect(_on_finished)
+		blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
 		return SUCCESS
 	
 func _on_finished():

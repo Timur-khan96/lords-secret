@@ -8,8 +8,9 @@ func mouse_ray_check():
 	var from = project_ray_origin(mouse_pos)
 	var to = from + project_ray_normal(mouse_pos) * ray_length
 	var space = get_world_3d().direct_space_state
-	var ray_query = PhysicsRayQueryParameters3D.create(from, to, col_mask)
+	var ray_query = PhysicsRayQueryParameters3D.create(from, to)
 	ray_query.collide_with_areas = true
+	ray_query.set_collision_mask(7)
 	var raycast_results = space.intersect_ray(ray_query)
 	
 	if raycast_results: #subject of change hopefully
@@ -17,16 +18,6 @@ func mouse_ray_check():
 		if WorldUtility.is_point_within_bounds(raycast_results.position):
 			return raycast_results
 	return {}
-	
-func _on_control_mode_changed(control_mode):
-	match control_mode:
-		0: #VILLAGE
-			col_mask = 0xFFFFFFFF
-		1: #PLOT, collide only with the floor, plots and corners (1, 2, 3)
-			col_mask = pow(2, 1-1) + pow(2, 2-1) + pow(2, 3-1)
-		2:
-			col_mask = pow(2, 5-1) + pow(2, 7-1) #this does not work for some reason
-	
 			
 func screen_center_ray_check():
 	var space = get_world_3d().direct_space_state

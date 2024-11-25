@@ -49,10 +49,10 @@ var is_burning = false:
 			blood_rate = 3
 		else:
 			blood_rate = 1
-
-var is_day = false:
+			
+var is_daytime = false:
 	set(value):
-		is_day = value
+		is_daytime = value
 		if !value:
 			is_burning = false
 			$day_burning.emitting = false
@@ -95,7 +95,7 @@ func _physics_process(delta):
 			handle_wild_search()
 			handle_navigation_movement()
 				
-	if is_day: handle_day_raycast()
+	if is_daytime: handle_day_raycast()
 	
 func handle_wild_search():
 	if wild_victim == null:
@@ -135,7 +135,7 @@ func get_wild_state_victim():
 		var pos = global_position
 		for v in arr:
 			if v == r: continue
-			if pos.distance_to(v.global_position) < pos.distance_to(r.global_position):
+			if pos.distance_squared_to(v.global_position) < pos.distance_squared_to(r.global_position):
 				r = v
 		return r
 	

@@ -32,16 +32,15 @@ func init_tree():
 	current_tree.blackboard = blackboard
 	
 func _physics_process(delta):
-	#if not is_on_floor():
-		#velocity += get_gravity() * delta
-	global_position += velocity * delta
-	if velocity.length() > 0:
+	if velocity.length_squared() > 0:
+		global_position += velocity * delta
 		look_at(global_position + velocity, Vector3.UP)
 		if blackboard.get_value("occupation") == NpcUtility.OCCUPATIONS.CARRYING:
 			if !check_anim("carry"):
 				play_animation("carry")
 		elif !check_anim("walk"):
 			play_animation("walk")
+	$occupation.text = NpcUtility.OCCUPATIONS.find_key(blackboard.get_value("occupation"))
 		
 func play_animation(anim_name: String):
 	anim_controller.play_animation(anim_name)
@@ -95,10 +94,3 @@ func show_attached(attached: String):
 	
 func hide_attached(attached: String):
 	model.get_node("%" + attached).hide()
-	
-func _on_time_of_day_changed(time_of_day):
-	if game_info.status == NpcUtility.NPC_Status.VILLAGER:
-		if time_of_day == "Dawn":
-			blackboard.set_value("is_nightime", false)
-		elif time_of_day == "Dusk":
-			blackboard.set_value("is_nightime", true)

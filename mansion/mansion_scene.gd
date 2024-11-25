@@ -12,7 +12,7 @@ func _ready():
 	
 func append_mansion_queue(villager) -> Vector3:
 	mansion_queue.append(villager)
-	villager.exploded.connect(_on_petitioner_exploded)
+	villager.exploded.connect(_on_villager_exploded)
 	var new_pos = $queue_start.global_position
 	new_pos.x += (mansion_queue.size() - 1) * 2
 	new_pos.y = 0.6
@@ -62,11 +62,12 @@ func send_queue_away(): #currently happens at dusk #TO CHANGE
 			v.blackboard.set_value("destination", WorldUtility.get_random_point_outside_bounds())
 			v.game_info.status = NpcUtility.NPC_Status.LEAVING
 		
-func _on_petitioner_exploded(p):
+func _on_villager_exploded(p): #to check queue for changing
 	var is_shifting = false
 	if mansion_queue.has(p):
 		is_shifting = true
 		mansion_queue.erase(p)
+	if mansion_queue.is_empty(): return
 	var indices_to_remove = []
 	for i in range(mansion_queue.size()):
 		if mansion_queue[i].game_info.status == NpcUtility.NPC_Status.LEAVING:

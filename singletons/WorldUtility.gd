@@ -3,6 +3,10 @@ extends Node
 var world_size = 200.0
 var half_world_size = world_size * 0.5
 var POS_Y = 0.6 #subject of change, hopefully
+var is_daytime = false:
+	set(value):
+		is_daytime = value
+		Global.lord.is_daytime = value
 
 var initial_game_time = {
 	"minute":50,
@@ -68,6 +72,6 @@ func get_random_point_inside_bounds() -> Vector3:
 	while true:
 		point.x = randf_range(-half_world_size, half_world_size)
 		point.z = randf_range(-half_world_size, half_world_size)
-		if point.distance_to(Vector3.ZERO) >= 40: break
+		if point.distance_squared_to(Vector3.ZERO) >= 40: break
 	point.y = POS_Y
 	return point

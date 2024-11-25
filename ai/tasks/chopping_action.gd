@@ -16,8 +16,9 @@ func tick(actor, blackboard: Blackboard):
 		status = 0
 		var result = blackboard.get_value("source").hit() #subject of change
 		if result: 
-			blackboard.set_value("carrying_resources", 0.2)
+			blackboard.set_value("carrying_resources", 2)
 			actor.hide_attached("axe")
+			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
 		actor.anim_controller.anim_finished.disconnect(_on_finished)
 		return SUCCESS
 	

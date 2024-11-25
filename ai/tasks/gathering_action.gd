@@ -1,7 +1,7 @@
 extends ActionLeaf
 
 var status = 0 #enum-like: 0-not started 1 running 2 finished
-var resources_gathered = 0.0
+var resources_gathered: int = 0
 
 func tick(actor, blackboard: Blackboard):
 	if !actor.check_anim("attack") && status == 0:
@@ -15,10 +15,10 @@ func tick(actor, blackboard: Blackboard):
 	elif status == 2:
 		status = 0
 		var result = blackboard.get_value("source").gather()
-		resources_gathered = snappedf(resources_gathered + 0.1, 0.1)
-		if resources_gathered == 1.0:
+		resources_gathered += 1
+		if resources_gathered == 10:
 			blackboard.set_value("carrying_resources", resources_gathered)
-			resources_gathered = 0.0
+			resources_gathered = 0
 		if result: #returns true only if this tree is empty
 			blackboard.set_value("carrying_resources", resources_gathered)
 		actor.anim_controller.anim_finished.disconnect(_on_finished)

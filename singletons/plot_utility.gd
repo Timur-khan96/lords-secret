@@ -1,5 +1,7 @@
 extends Node
 
+enum PLOT_STATUS {BEGIN, EDIT, DONE}
+
 var house_project_scene = load("res://village/house.tscn")
 var buildings_node #set in world script
 const POS_Y = 0.6
