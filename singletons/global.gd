@@ -14,11 +14,17 @@ var player_controls
 var mansion_scene
 var lord
 
-var village_reputation = 100.0
+var village_reputation = 50
 var money = 100
 var blood:
 	get():
 		return lord.blood
+		
+var is_villager_opening_door: bool: #used in Dialogic at nightime door interaction
+	get():
+		var result = randf() < 0.5
+		Dialogic.VAR.is_villager_opening_door = result #the door script gets it
+		return result
 
 func context_menu_opened(menu = null):
 	menu_opened = true
@@ -70,11 +76,8 @@ func plot_selling_end(plot): #called on plot accept button as signal
 	if price > desired_cost:
 		start_dialogue("visitor_not_buying_plot")
 	else:
-		var dic = mansion_scene.petitioner.game_info
-		var o = dic.name + " " + dic.surname
-		plot.plot_game_info.owner = o
-		
-		dic.money -= price
+		plot.plot_game_info.owner = mansion_scene.petitioner
+		mansion_scene.petitioner.game_info.money -= price
 		money += price
 		start_dialogue("visitor_buying_plot")
 	

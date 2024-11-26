@@ -14,9 +14,10 @@ func tick(actor, blackboard: Blackboard):
 		return RUNNING
 	elif status == 2:
 		status = 0
-		blackboard.get_value("house").build_iteration()
+		var result = blackboard.get_value("house").build_iteration()
 		actor.anim_controller.anim_finished.disconnect(_on_finished)
-		blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
+		if result: #building is done
+			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
 		return SUCCESS
 	
 func _on_finished():

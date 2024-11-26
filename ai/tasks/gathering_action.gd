@@ -16,11 +16,13 @@ func tick(actor, blackboard: Blackboard):
 		status = 0
 		var result = blackboard.get_value("source").gather()
 		resources_gathered += 1
-		if resources_gathered == 10:
-			blackboard.set_value("carrying_resources", resources_gathered)
+		if resources_gathered == 10 || result:
+			blackboard.set_value("carrying_resources", {
+				"type":"apple_basket",
+				"capacity":resources_gathered
+			})
 			resources_gathered = 0
-		if result: #returns true only if this tree is empty
-			blackboard.set_value("carrying_resources", resources_gathered)
+			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
 		actor.anim_controller.anim_finished.disconnect(_on_finished)
 		return SUCCESS
 	

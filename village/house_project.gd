@@ -4,14 +4,15 @@ var construction: int = 0
 var construction_finished = false
 var plot;
 var door
-var resources: int = 0:
+var resources: int = 8:
 	set(value):
 		resources = value
 		show_planks()
 	
 func build_iteration():
-	if resources >= 0.1 && !construction_finished:
+	if resources >= 1 && !construction_finished:
 		construction += 1
+		resources -= 1
 		if construction >= 10:
 			construction = 10
 			construction_finished = true
@@ -24,12 +25,16 @@ func build_iteration():
 			$"house_1/roof /StaticBody3D".collision_layer = 8
 			$"house_1/house ".collision_layer = 8
 			$planks.queue_free()
-		resources -= 1
-		$house_1/house.transparency = 1.0 - float(construction * 0.1)
-		$"house_1/floor ".transparency = 1.0 - float(construction * 0.1)
-		$"house_1/roof ".transparency = 1.0 - float(construction * 0.1)
+			return true
+		else:
+			$house_1/house.transparency = 1.0 - float(construction * 0.1)
+			$"house_1/floor ".transparency = 1.0 - float(construction * 0.1)
+			$"house_1/roof ".transparency = 1.0 - float(construction * 0.1)
+			return false
 	else:
 		print("unnecesary build iteration")
+		return false
+		
 
 
 func _on_door_open_area_entered(area):
@@ -48,4 +53,14 @@ func show_planks():
 			$planks/planks4.show()
 		10:
 			$planks/planks5.show()
+			
+func nightime_door_open(): #called from the door when villager opens at night
+	var house_owner = plot.plot_game_info.owner
+	if house_owner != null:
+		house_owner.blackboard.set_value("awakened", true)
+	else:
+		print("door was opened, but the house owner is null :(")
+		
+func has_owner():
+	return plot.plot_game_info.owner != null
 	

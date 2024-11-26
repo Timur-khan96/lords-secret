@@ -11,7 +11,8 @@ var player_controls;
 var camera_base;
 
 @onready var date_label = $top_right/PanelContainer/VBoxContainer/date_label
-@onready var time_button = $top_right/PanelContainer/VBoxContainer/time_button
+@onready var time_button = $top_right/PanelContainer/VBoxContainer/HBoxContainer/time_button
+@onready var pause_button = $top_right/PanelContainer/VBoxContainer/HBoxContainer/pause_button
 @onready var money_label = $middle_top/TextureRect/MarginContainer/HBoxContainer/money_circle/money_label
 @onready var blood_label = $middle_top/TextureRect/MarginContainer/HBoxContainer/blood_circle/blood_label
 @onready var rep_label = $middle_top/TextureRect/MarginContainer/HBoxContainer/rep_circle/rep_label
@@ -21,7 +22,7 @@ func _ready():
 		c.mouse_entered.connect(_on_ui_mouse_entered)
 		c.mouse_exited.connect(_on_ui_mouse_exited)
 		
-	for c in $top_right/PanelContainer/VBoxContainer.get_children():
+	for c in $top_right/PanelContainer/VBoxContainer/HBoxContainer.get_children():
 		c.mouse_entered.connect(_on_ui_mouse_entered)
 		c.mouse_exited.connect(_on_ui_mouse_exited)
 		
@@ -74,3 +75,12 @@ func hide_bottom_panel(): #during 3d-person and dialogues
 	
 func show_bottom_panel():
 	$middle_bottom.show()
+
+
+func _on_pause_button_toggled(toggled_on):
+	get_tree().paused = toggled_on
+	$paused_label.visible = toggled_on
+	if toggled_on:
+		pause_button.text = "▶"
+	else:
+		pause_button.text = "❚❚"

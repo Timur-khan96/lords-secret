@@ -7,4 +7,7 @@ func tick(actor, blackboard: Blackboard):
 	else:
 		if !actor.check_anim("sleep"):
 			actor.play_animation("sleep")
+		if blackboard.get_value("awakened"):
+			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
+			return FAILURE
 		return RUNNING

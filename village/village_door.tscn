@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://wntukselhu8w" path="res://village/door_1.glb" id="2_2gdqj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dcjyb"]
-size = Vector3(1.3009, 1.94727, 0.246216)
+size = Vector3(1.94375, 1.94727, 0.246216)
 
 [sub_resource type="Animation" id="Animation_ga0kw"]
 length = 0.001
@@ -66,12 +66,12 @@ _data = {
 "open": SubResource("Animation_58eed")
 }
 
-[node name="door_body" type="StaticBody3D" groups=["interactable"]]
+[node name="door_body" type="StaticBody3D" groups=["interactable", "villager_doors"]]
 collision_layer = 64
 script = ExtResource("1_yeedj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0117798, 1.00294, 3.50016)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.021704, 1.00294, 3.50016)
 shape = SubResource("BoxShape3D_dcjyb")
 
 [node name="door_anim" type="AnimationPlayer" parent="."]

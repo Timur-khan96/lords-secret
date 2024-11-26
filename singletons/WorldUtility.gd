@@ -72,6 +72,6 @@ func get_random_point_inside_bounds() -> Vector3:
 	while true:
 		point.x = randf_range(-half_world_size, half_world_size)
 		point.z = randf_range(-half_world_size, half_world_size)
-		if point.distance_squared_to(Vector3.ZERO) >= 40: break
+		if point.distance_to(Vector3.ZERO) >= 60: break #far away from the mansion
 	point.y = POS_Y
 	return point

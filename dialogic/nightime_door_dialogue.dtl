@@ -1,0 +1,18 @@
+Who's there?
+- This is your landlord, it's time to pay your rent.
+	It is a bit late, and you didn't say anything about the rent in the first place!
+	- It is rude to talk with your landlord with your door closed.
+	- Let me in, it's just a formality.
+	jump decider
+- Hurry, I need your help!
+- Isn't it a good time for a little visit?
+	It is night time, sir, and I want to sleep.
+	- Don't be so rude to send a visitor away.
+	- Night time is the best for getting closer.
+	jump decider
+- You either open the door or die at dawn.
+label decider
+if {Global.is_villager_opening_door} == true:
+	Fine, just, please, don't hurt me!
+else:
+	Um... sorry, I am not opening.

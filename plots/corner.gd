@@ -16,11 +16,4 @@ var is_moving: bool = true:
 	set(value):
 		is_moving = value
 		$CollisionShape3D.disabled = value
-	
-		if value:
-			plot.mouse_entered.disconnect(plot._on_mouse_entered)
-			plot.mouse_exited.disconnect(plot._on_mouse_exited)
-		else:
-			plot.mouse_entered.connect(plot._on_mouse_entered)
-			plot.mouse_exited.connect(plot._on_mouse_exited)
 			

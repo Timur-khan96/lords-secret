@@ -44,8 +44,6 @@ func _ready():
 	$UILayer.vampire_pressed.connect(_on_vampire_button_pressed)
 
 func _input(event):
-	if event.is_action_pressed("quit"):
-		get_tree().quit()
 	if $UILayer.mouse_on_ui: return
 	if control_mode == CONTROL_MODES.PLOT:
 		handle_plot_control_mode_input(event)

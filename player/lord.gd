@@ -36,7 +36,6 @@ var lord_state: LORD_STATES:
 		lord_state = value
 
 var mouse_sens = 0.5
-var game_info = {}
 var interactable = null;
 
 var speed = 5.0
@@ -46,7 +45,7 @@ var is_burning = false:
 	set(value):
 		is_burning = value
 		if value:
-			blood_rate = 3
+			blood_rate = 4
 		else:
 			blood_rate = 1
 			
@@ -59,10 +58,6 @@ var is_daytime = false:
 
 func _ready():
 	anim_controller.anim_player = model.get_node("AnimationPlayer")
-	game_info = {
-		"name": Global.lord_name,
-		"gender": 1
-	}
 	Global.lord = self
 	nav_agent.target_reached.connect(_on_nav_target_reached)
 
@@ -75,6 +70,8 @@ func _input(event):
 	elif event.is_action_pressed("LMB") && interactable:
 		if interactable is MansionTable:
 			lord_state = LORD_STATES.DEACTIVATED
+		elif interactable is NPC:
+			start_dialogue()
 		else:
 			interactable.interact()
 	elif event.is_action_pressed("RMB") && interactable:
@@ -82,6 +79,21 @@ func _input(event):
 			blood += randi_range(20,30)
 			$danger_area.lord_attack()
 			interactable.explode()
+			
+func start_dialogue():
+	if is_burning:
+		Global.start_dialogue("lord_burning")
+	elif interactable.in_danger:
+		Global.start_dialogue("in_danger")
+	else:
+		match interactable.game_info.status:
+			NpcUtility.NPC_Status.VISITOR:
+				Global.start_dialogue("visitor_interaction")
+			NpcUtility.NPC_Status.VILLAGER:
+				Global.start_dialogue("villager_interaction")
+			NpcUtility.NPC_Status.LEAVING:
+				Global.start_dialogue("visitor_leaving")
+				#Dialogic.timeline_ended.connect(_on_dialogue_finished)
 
 func _physics_process(delta):
 	match lord_state:

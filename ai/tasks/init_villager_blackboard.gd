@@ -2,9 +2,10 @@ extends ConditionLeaf
 #this is one-time action so it is used to set the initial values for blackboard
 
 func tick(_actor, blackboard: Blackboard):
-	blackboard.set_value("carrying_resources", int(0))
+	blackboard.set_value("carrying_resources", null)
 	blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
 	blackboard.set_value("attached", null)
+	blackboard.set_value("awakened", false)
 	if blackboard.has_value("plot"):
 		var plot = blackboard.get_value("plot")
 		if plot.house == null:

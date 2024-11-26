@@ -25,7 +25,7 @@
 [node name="villager_tree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_cx637")
 blackboard = NodePath("@Node@18004")
-actor = NodePath("..")
+actor = NodePath("")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_a1xil")
@@ -36,13 +36,13 @@ script = ExtResource("3_6xk55")
 [node name="OccupationCheck" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_6fklh")
 
-[node name="moving_Sequence" type="Node" parent="SelectorComposite"]
+[node name="moving_sequence" type="Node" parent="SelectorComposite"]
 script = ExtResource("4_thx05")
 
-[node name="CheckNavigation" type="Node" parent="SelectorComposite/moving_Sequence"]
+[node name="CheckNavigation" type="Node" parent="SelectorComposite/moving_sequence"]
 script = ExtResource("9_wfrgw")
 
-[node name="MoveToDestination" type="Node" parent="SelectorComposite/moving_Sequence"]
+[node name="MoveToDestination" type="Node" parent="SelectorComposite/moving_sequence"]
 script = ExtResource("10_gmtvq")
 
 [node name="building_sequence" type="Node" parent="SelectorComposite"]
@@ -51,7 +51,7 @@ script = ExtResource("4_thx05")
 [node name="is_building" type="Node" parent="SelectorComposite/building_sequence"]
 script = ExtResource("8_c2xdi")
 
-[node name="Building" type="Node" parent="SelectorComposite/building_sequence"]
+[node name="building_action" type="Node" parent="SelectorComposite/building_sequence"]
 script = ExtResource("8_2q6eq")
 
 [node name="chopping_sequence" type="Node" parent="SelectorComposite"]
@@ -60,7 +60,7 @@ script = ExtResource("4_thx05")
 [node name="is_chopping" type="Node" parent="SelectorComposite/chopping_sequence"]
 script = ExtResource("10_77cuo")
 
-[node name="Chopping" type="Node" parent="SelectorComposite/chopping_sequence"]
+[node name="chopping_action" type="Node" parent="SelectorComposite/chopping_sequence"]
 script = ExtResource("10_ifyif")
 
 [node name="carrying_sequence" type="Node" parent="SelectorComposite"]
@@ -78,7 +78,7 @@ script = ExtResource("4_thx05")
 [node name="is_gathering" type="Node" parent="SelectorComposite/gathering_sequence"]
 script = ExtResource("14_utxkd")
 
-[node name="Gathering" type="Node" parent="SelectorComposite/gathering_sequence"]
+[node name="gathering_action" type="Node" parent="SelectorComposite/gathering_sequence"]
 script = ExtResource("15_w6mha")
 
 [node name="eating_sequence" type="Node" parent="SelectorComposite"]
@@ -87,7 +87,7 @@ script = ExtResource("4_thx05")
 [node name="is_eating" type="Node" parent="SelectorComposite/eating_sequence"]
 script = ExtResource("16_ogo5i")
 
-[node name="EatingAction" type="Node" parent="SelectorComposite/eating_sequence"]
+[node name="eating_action" type="Node" parent="SelectorComposite/eating_sequence"]
 script = ExtResource("17_gfwgk")
 
 [node name="sleeping_sequence" type="Node" parent="SelectorComposite"]

@@ -27,7 +27,7 @@ func screen_center_ray_check():
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	query.collide_with_bodies = true;
 	query.collide_with_areas = true;
-	query.set_collision_mask(80)
+	query.set_collision_mask(88)
 	return space.intersect_ray(query);
 	
 			

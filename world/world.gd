@@ -24,20 +24,18 @@ var months = {}
 
 var camera_original_global_pos = Vector3.ZERO
 
-#signal time_of_day_changed
-
 var time_of_day: String = "Night":
 	set(value):
 		if value == time_of_day || value.is_empty(): return
 		else:
 			time_of_day = value
 			UILayer.set_time_of_day_label(value)
-			#time_of_day_changed.emit(value)
 			match(value):
 				"Dawn":
 					Dialogic.VAR.time_of_day = "morning"
 					WorldUtility.is_daytime = true
 					NPCSpawner.morning_spawn()
+					check_villager_doors()
 				"Afternoon":
 					Dialogic.VAR.time_of_day = "afternoon"
 				"Evening":
@@ -176,3 +174,8 @@ func switch_to_world_camera():
 	
 func _on_house_put():
 	nav_region.bake_navigation_mesh()
+	
+func check_villager_doors(): #morning reload
+	for door in get_tree().get_nodes_in_group("villager_doors"):
+		door.visited_this_night = false
+		door.visitor_opened_door = false

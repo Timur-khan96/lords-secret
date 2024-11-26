@@ -8,7 +8,6 @@ var petitioner_is_leaving = false #to nullify petitioner once doors are closed
 
 func _ready():
 	Global.mansion_scene = self
-	doors.is_mansion_door = true
 	
 func append_mansion_queue(villager) -> Vector3:
 	mansion_queue.append(villager)
@@ -40,8 +39,7 @@ func open_doors():
 	doors.open_doors()
 	
 func send_petitioner_to_plot():
-	var o = petitioner.game_info.name + " " + petitioner.game_info.surname
-	var plot = PlotUtility.find_plot_by_owner(o)
+	var plot = PlotUtility.find_plot_by_owner(petitioner)
 	petitioner.blackboard.set_value("plot", plot)
 	petitioner.blackboard.set_value("destination", plot.plot_game_info.center)
 	petitioner.game_info.status = NpcUtility.NPC_Status.VILLAGER
@@ -70,11 +68,14 @@ func _on_villager_exploded(p): #to check queue for changing
 	if mansion_queue.is_empty(): return
 	var indices_to_remove = []
 	for i in range(mansion_queue.size()):
-		if mansion_queue[i].game_info.status == NpcUtility.NPC_Status.LEAVING:
+		if mansion_queue[i] == null:
+			indices_to_remove.append(i)
+		elif mansion_queue[i].game_info.status == NpcUtility.NPC_Status.LEAVING:
 			indices_to_remove.append(i)
 	if !indices_to_remove.is_empty():
 		is_shifting = true
-		for i in range(indices_to_remove.size()):
+		indices_to_remove.reverse() #presumably avoids arr shifting issues
+		for i in indices_to_remove:
 			mansion_queue.remove_at(i)
 	if is_shifting:
 		shift_queue()

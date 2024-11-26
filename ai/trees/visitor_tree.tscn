@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bmtb6am4dijyi"]
+[gd_scene load_steps=12 format=3 uid="uid://bmtb6am4dijyi"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_053cq"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_6ra3o"]
@@ -9,12 +9,13 @@
 [ext_resource type="Script" path="res://ai/tasks/talk_animation.gd" id="7_ua870"]
 [ext_resource type="Script" path="res://ai/tasks/start_dialogue.gd" id="8_lgvnf"]
 [ext_resource type="Script" path="res://ai/tasks/check_leaving.gd" id="9_ed0a3"]
+[ext_resource type="Script" path="res://ai/tasks/is_villager.gd" id="9_mo1we"]
 [ext_resource type="Script" path="res://ai/tasks/idle_animation.gd" id="10_fnnv8"]
 
 [node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_053cq")
 blackboard = NodePath("@Node@18007")
-actor = NodePath("")
+actor = NodePath("..")
 
 [node name="SelectorComposite" type="Node" parent="."]
 script = ExtResource("2_6ra3o")
@@ -39,6 +40,9 @@ script = ExtResource("7_ua870")
 
 [node name="StartDialogue" type="Node" parent="SelectorComposite/Petition_Sequence"]
 script = ExtResource("8_lgvnf")
+
+[node name="is_villager" type="Node" parent="SelectorComposite"]
+script = ExtResource("9_mo1we")
 
 [node name="CheckLeaving" type="Node" parent="SelectorComposite"]
 script = ExtResource("9_ed0a3")

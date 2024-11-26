@@ -29,13 +29,21 @@ BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 
 directories/dch_directory={}
 directories/dtl_directory={
+"in_danger": "res://dialogic/in_danger.dtl",
+"lord_burning": "res://dialogic/lord_burning.dtl",
+"nightime_door_dialogue": "res://dialogic/nightime_door_dialogue.dtl",
+"nightime_door_dialogue_2": "res://dialogic/nightime_door_dialogue_2.dtl",
 "villager_interaction": "res://dialogic/villager_interaction.dtl",
 "visitor_1": "res://dialogic/visitor_1.dtl",
+"visitor_2": "res://dialogic/visitor_2.dtl",
+"visitor_3": "res://dialogic/visitor_3.dtl",
 "visitor_buying_plot": "res://dialogic/visitor_buying_plot.dtl",
 "visitor_interaction": "res://dialogic/visitor_interaction.dtl",
+"visitor_leaving": "res://dialogic/visitor_leaving.dtl",
 "visitor_not_buying_plot": "res://dialogic/visitor_not_buying_plot.dtl"
 }
 variables={
+"is_villager_opening_door": false,
 "time_of_day": "",
 "visitor": {
 "family_size": 0,
@@ -79,6 +87,7 @@ plots=""
 interactable=""
 NPC=""
 apple_trees=""
+villager_doors=""
 
 [input]
 
@@ -146,7 +155,7 @@ shift={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
-quit={
+pause={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]

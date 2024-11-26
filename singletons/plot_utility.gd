@@ -18,10 +18,10 @@ func put_house_project(plot):
 	house_put.emit()
 	return project
 
-func find_plot_by_owner(owner_name): #owner is full name 
+func find_plot_by_owner(plot_owner):
 	for p in get_tree().get_nodes_in_group("plots"):
-		if p.plot_game_info.owner:
-			if p.plot_game_info.owner == owner_name:
+		if p.plot_game_info.owner != null:
+			if p.plot_game_info.owner == plot_owner:
 				return p
 
 func is_concave(points) -> bool:

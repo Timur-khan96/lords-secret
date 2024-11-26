@@ -164,8 +164,14 @@ func set_plot_info():
 	if plot_status == PlotUtility.PLOT_STATUS.EDIT:
 		plot_game_info.size = int(PlotUtility.get_area(get_corners_2D()))
 	%size_label.text = "Size: " + str(plot_game_info.size)
-	if plot_game_info.owner != null:
-		%owner_label.text = "Owner:" + plot_game_info.owner
+	%owner_label.text = "Owner: " + get_plot_owner_name()
+	
+func get_plot_owner_name():
+	if plot_game_info.owner == null:
+		return ""
+	else:
+		var dic = plot_game_info.owner.game_info
+		return dic.name + " " + dic.surname
 
 func _on_accept_button_pressed():
 	plot_game_info.name = %plot_name.text
@@ -193,5 +199,8 @@ func _on_plot_selling_attempt():
 
 func _on_decline_button_pressed():
 	hide_plot_menu()
-	if !plot_game_info.owner:
+	if plot_game_info.owner == null:
 		queue_free()
+		
+func nullify_owner():
+	plot_game_info.owner = null #i get bugs if i do it elsewhere
