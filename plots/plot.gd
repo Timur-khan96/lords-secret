@@ -158,8 +158,7 @@ func get_corners_2D():
 	
 func set_plot_info():
 	if !plot_game_info.name:
-		plot_game_info.name = Global.village_name + " " + str(Global.plot_count)
-		Global.current_plot_project_name = plot_game_info.name
+		plot_game_info.name = Global.village_name + " " + str(Global.num_of_plots + 1)
 		%plot_name.text = plot_game_info.name
 	if plot_status == PlotUtility.PLOT_STATUS.EDIT:
 		plot_game_info.size = int(PlotUtility.get_area(get_corners_2D()))
@@ -169,6 +168,8 @@ func set_plot_info():
 func get_plot_owner_name():
 	if plot_game_info.owner == null:
 		return ""
+	elif plot_game_info.owner is Lord:
+		return Global.lord_name
 	else:
 		var dic = plot_game_info.owner.game_info
 		return dic.name + " " + dic.surname
@@ -188,9 +189,8 @@ func _on_accept_button_pressed():
 		$plot_name_3D.global_position = plot_game_info.center
 		$plot_name_3D.global_position.y += 1.0
 		$plot_name_3D.show()
+		Global.num_of_plots += 1
 		
-		if plot_game_info.name == Global.current_plot_project_name:
-			Global.plot_count += 1;
 	hide_plot_menu()
 	
 func _on_plot_selling_attempt():
@@ -200,7 +200,10 @@ func _on_plot_selling_attempt():
 func _on_decline_button_pressed():
 	hide_plot_menu()
 	if plot_game_info.owner == null:
+		if plot_status == PlotUtility.PLOT_STATUS.DONE:
+			Global.num_of_plots -= 1
 		queue_free()
 		
 func nullify_owner():
+	Global.num_of_villagers -= 1
 	plot_game_info.owner = null #i get bugs if i do it elsewhere

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://de1vatx8ijc0f"]
+[gd_scene load_steps=27 format=3 uid="uid://de1vatx8ijc0f"]
 
 [ext_resource type="Script" path="res://ui/ui_main.gd" id="1_qev2k"]
 [ext_resource type="Texture2D" uid="uid://c8jhbh3fv4gme" path="res://ui/ui_images/middle-bottom.png" id="2_vnvso"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://bhybs0eid5u7q" path="res://ui/ui_images/blood_circle.png" id="9_147k4"]
 [ext_resource type="Texture2D" uid="uid://dqllo42us0ktp" path="res://ui/ui_images/rep_circle.png" id="10_u728y"]
 [ext_resource type="Texture2D" uid="uid://gf80g5iolu5p" path="res://ui/ui_images/tutorial_button.png" id="11_li60a"]
+[ext_resource type="ButtonGroup" uid="uid://djmai401buupr" path="res://ui/tutorial/game_help_button_group.tres" id="12_4bqev"]
+[ext_resource type="Script" path="res://ui/tutorial_panel.gd" id="12_wk4e5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_57cg0"]
 atlas = ExtResource("3_aholr")
@@ -197,7 +199,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 18
-text = "Hello"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -221,7 +222,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 18
-text = "Hello"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -245,19 +245,20 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 18
-text = "Hello"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="tutorial_button" type="TextureButton" parent="middle_top/TextureRect/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+process_mode = 3
 layout_mode = 2
 tooltip_text = "Tutorial"
+toggle_mode = true
 texture_normal = SubResource("AtlasTexture_qqlft")
 texture_pressed = SubResource("AtlasTexture_mc6dn")
 texture_hover = SubResource("AtlasTexture_sxyiq")
 
 [node name="village_name_control" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -279,18 +280,38 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="village_name_control/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="village_name_control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="village_name_control/PanelContainer/MarginContainer"]
+process_mode = 2
 layout_mode = 2
 
-[node name="Label" type="Label" parent="village_name_control/PanelContainer/VBoxContainer"]
+[node name="enter_village_label" type="Label" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Enter the name of your village"
+horizontal_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="village_name_control/PanelContainer/VBoxContainer"]
+[node name="village_name_edit" type="LineEdit" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="village_name_control/PanelContainer/VBoxContainer"]
+[node name="enter_lord_label" type="Label" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+text = "Enter the name of your lord"
+horizontal_alignment = 1
+
+[node name="lord_name_edit" type="LineEdit" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="game_start_button" type="Button" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "START"
 
 [node name="top_right" type="MarginContainer" parent="."]
 anchors_preset = 1
@@ -305,23 +326,33 @@ theme_override_constants/margin_right = 16
 [node name="PanelContainer" type="PanelContainer" parent="top_right"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="top_right/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="top_right/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="top_right/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="time_of_day_label" type="Label" parent="top_right/PanelContainer/VBoxContainer"]
+[node name="time_of_day_label" type="Label" parent="top_right/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Night"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="top_right/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="top_right/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="time_button" type="Button" parent="top_right/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="time_button" type="Button" parent="top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Change time speed"
 text = "00:00 x1"
 
-[node name="pause_button" type="Button" parent="top_right/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="pause_button" type="Button" parent="top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 process_mode = 3
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -329,7 +360,8 @@ toggle_mode = true
 shortcut = SubResource("Shortcut_qvmke")
 text = "❚❚"
 
-[node name="date_label" type="Label" parent="top_right/PanelContainer/VBoxContainer"]
+[node name="date_label" type="Label" parent="top_right/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -340,7 +372,8 @@ offset_right = 40.0
 offset_bottom = 23.0
 theme_override_font_sizes/font_size = 32
 
-[node name="paused_label" type="Label" parent="."]
+[node name="tutorial_panel" type="PanelContainer" parent="."]
+process_mode = 3
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -348,16 +381,141 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -20.0
-offset_top = -11.5
+offset_top = -20.0
 offset_right = 20.0
-offset_bottom = 11.5
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 36
-text = "Game is paused"
+script = ExtResource("12_wk4e5")
+
+[node name="MarginContainer" type="MarginContainer" parent="tutorial_panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="tutorial_panel/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer_1" type="HBoxContainer" parent="tutorial_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Help"
+horizontal_alignment = 1
+
+[node name="close_tutorial_button" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_1"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+tooltip_text = "Close"
+text = "X"
+
+[node name="HBoxContainer_2" type="HBoxContainer" parent="tutorial_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="tutorial_topic_list" type="VBoxContainer" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="camera_controls_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("12_4bqev")
+text = "Camera controls"
+
+[node name="plot_edit_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("12_4bqev")
+text = "Plot edit"
+
+[node name="petitioner_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("12_4bqev")
+text = "Petitioners"
+
+[node name="vampire_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("12_4bqev")
+text = "Vampire control"
+
+[node name="village_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("12_4bqev")
+text = "Village reputation"
+
+[node name="tutorial_text" type="Label" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 2
+
+[node name="initial_message" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="initial_message"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="initial_message/MarginContainer"]
+layout_mode = 2
+
+[node name="initial_message_text" type="Label" parent="initial_message/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(450, 200)
+layout_mode = 2
+text = "It is nice to see you awaken after such a long slumber, my lord. By this time people have already forgotten what you have done when you last felt the pangs of hunger. The village once stood here is no more. However, I have already spread the word of you accepting new settlers, and they will soon come.
+
+Please, do not let yourself starve, but be careful not to attract unnecessary attention when you feast."
+autowrap_mode = 2
+
+[node name="initial_message_button" type="Button" parent="initial_message/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Got it"
+
+[node name="middle_left" type="MarginContainer" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_bottom = 200
+
+[node name="quest_label" type="Label" parent="middle_left"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "◊ Create at least three plots for newcomers (0/3)"
+autowrap_mode = 2
 
 [connection signal="toggled" from="middle_bottom/TextureRect/MarginContainer/HBoxContainer/plot_button" to="." method="_on_plot_button_toggled"]
 [connection signal="pressed" from="middle_bottom/TextureRect/MarginContainer/HBoxContainer/bell_button" to="." method="_on_bell_button_pressed"]
 [connection signal="pressed" from="middle_bottom/TextureRect/MarginContainer/HBoxContainer/vampire_button" to="." method="_on_vampire_button_pressed"]
-[connection signal="pressed" from="top_right/PanelContainer/VBoxContainer/HBoxContainer/time_button" to="." method="_on_time_button_pressed"]
-[connection signal="toggled" from="top_right/PanelContainer/VBoxContainer/HBoxContainer/pause_button" to="." method="_on_pause_button_toggled"]
+[connection signal="toggled" from="middle_top/TextureRect/MarginContainer/HBoxContainer/tutorial_button" to="." method="_on_tutorial_button_toggled"]
+[connection signal="pressed" from="village_name_control/PanelContainer/MarginContainer/VBoxContainer/game_start_button" to="." method="_on_game_start_button_pressed"]
+[connection signal="pressed" from="top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/time_button" to="." method="_on_time_button_pressed"]
+[connection signal="toggled" from="top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/pause_button" to="." method="_on_pause_button_toggled"]
+[connection signal="pressed" from="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_1/close_tutorial_button" to="." method="_on_close_tutorial_button_pressed"]
+[connection signal="pressed" from="initial_message/MarginContainer/VBoxContainer/initial_message_button" to="." method="_on_initial_message_button_pressed"]

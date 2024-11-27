@@ -40,10 +40,12 @@ directories/dtl_directory={
 "visitor_buying_plot": "res://dialogic/visitor_buying_plot.dtl",
 "visitor_interaction": "res://dialogic/visitor_interaction.dtl",
 "visitor_leaving": "res://dialogic/visitor_leaving.dtl",
-"visitor_not_buying_plot": "res://dialogic/visitor_not_buying_plot.dtl"
+"visitor_not_buying_plot": "res://dialogic/visitor_not_buying_plot.dtl",
+"visitor_searching_dead": "res://dialogic/visitor_searching_dead.dtl"
 }
 variables={
 "is_villager_opening_door": false,
+"killed_friend": "",
 "time_of_day": "",
 "visitor": {
 "family_size": 0,

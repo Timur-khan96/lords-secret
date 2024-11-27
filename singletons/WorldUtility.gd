@@ -9,7 +9,7 @@ var is_daytime = false:
 		Global.lord.is_daytime = value
 
 var initial_game_time = {
-	"minute":50,
+	"minute":0,
 	"hour":5,
 	"day":1,
 	"month":4,

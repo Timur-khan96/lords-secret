@@ -1,3 +1,8 @@
 Everything is meaningless, we live in a simulation, sir. The real is not real, your life is a lie.
 - Are you saying it's fine if I kill you?
+	Um.. that's not what I meant, but technically you are correct, anyway, it was nice to talk to you I should be going.
+	do Global.handle_dialogue_result(true)
+	[end_timeline]
 - Go back to your asylum.
+	do Global.handle_dialogue_result(true)
+	[end_timeline]

@@ -1,0 +1,6 @@
+Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. I am looking for my friend, {killed_friend}. I know they went here in search for a new life, but now are nowhere to be found themselves. Would you care to tell me what happened?
+- Never heard of them.
+- Would you like to go where they are now?
+I knew it was a mistake to go to this goddamn place!
+do Global.handle_dialogue_result(true)
+[end_timeline]

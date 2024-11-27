@@ -41,6 +41,7 @@ var time_of_day: String = "Night":
 				"Evening":
 					Dialogic.VAR.time_of_day = "evening"
 				"Dusk":
+					Global.village_reputation += Global.num_of_villagers * 4
 					WorldUtility.is_daytime = false
 					mansion.send_queue_away()
 
@@ -59,12 +60,12 @@ func _ready():
 	OBJSpawner.initial_spawn()
 	nav_region.bake_navigation_mesh()
 	
-	plots.create_plot(Vector3(-10.0,0.0,16.0),Vector3(32.0,0.0,-16.0),"You", "Warmhearth")
+	plots.create_plot(Vector3(-10.0,0.0,16.0),Vector3(32.0,0.0,-16.0),lord, "Warmhearth")
 	plots.hide_plots()
 	Dialogic.Styles.load_style("dialogic_style")
 	
 	day_night.play("day_night_cycle")
-	day_night.seek(180) #6 hours, i think
+	day_night.seek(150) #5 hours, i think
 	PlotUtility.buildings_node = buildings
 	
 	lord.lord_state = lord.LORD_STATES.DEACTIVATED
@@ -148,8 +149,7 @@ func _on_control_mode_changed(control_mode):
 			
 func transition_to_lord_camera():
 	var tween = get_tree().create_tween()
-	%camera_base.set_process_input(false)
-	%camera_base.set_process(false)
+	player_controls.toggle_camera_process(false)
 	var c = lord.get_node("%lords_camera");
 	camera_original_global_pos = camera.global_position
 	tween.tween_property(camera, "global_position", c.global_position, 1.0)
@@ -168,8 +168,7 @@ func transition_to_world_camera():
 	tween.finished.connect(switch_to_world_camera)
 	
 func switch_to_world_camera():
-	%camera_base.set_process_input(true)
-	%camera_base.set_process(true)
+	player_controls.toggle_camera_process(true)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 func _on_house_put():

@@ -16,15 +16,16 @@ var velocity = Vector3.ZERO;
 var model
 var in_danger = false #this one reduces reputation when leaving (+running)
 var speed = 2.5
+var petitioner_dialogue #dialogic timeline id
 
 signal exploded
 
 func _ready():
-	game_info = NpcUtility.get_visitor_game_info(self) #model set here
 	anim_controller.anim_player = model.get_node("AnimationPlayer")
 	anim_controller.anim_player.animation_finished.connect(anim_controller._on_anim_finished)
 	blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.VISITING)
 	blackboard.set_value("desired_distance", 1.0) #at first it is fine
+	
 	init_tree()
 	
 func init_tree():
@@ -63,9 +64,14 @@ func interact():
 	look_at(global_position + direction, Vector3.UP)
 	play_animation("talk")
 	Dialogic.timeline_ended.connect(_on_dialogue_finished)
+	
+	if !WorldUtility.is_daytime:
+		blackboard.set_value("awakened", true)
 		
 func _on_dialogue_finished():
 	Dialogic.timeline_ended.disconnect(_on_dialogue_finished)
+	if !in_danger && !blackboard.get_value("awakened"):
+		blackboard.set_value("awakened", false)
 	current_tree.enabled = true
 	
 func lord_attack():
@@ -76,7 +82,6 @@ func lord_attack():
 	
 func explode():
 	if blackboard.has_value("plot"):
-		print("exploded, owner should be nullified")
 		blackboard.get_value("plot").nullify_owner()
 	exploded.emit(self)
 	queue_free.call_deferred()

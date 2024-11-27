@@ -45,6 +45,7 @@ func send_petitioner_to_plot():
 	petitioner.game_info.status = NpcUtility.NPC_Status.VILLAGER
 	petitioner_is_leaving = true
 	open_doors()
+	Global.num_of_villagers += 1
 	
 func send_petitioner_away():
 	var point = WorldUtility.get_random_point_outside_bounds()

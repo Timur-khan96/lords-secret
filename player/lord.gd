@@ -45,7 +45,7 @@ var is_burning = false:
 	set(value):
 		is_burning = value
 		if value:
-			blood_rate = 4
+			blood_rate = 8
 		else:
 			blood_rate = 1
 			
@@ -71,6 +71,7 @@ func _input(event):
 		if interactable is MansionTable:
 			lord_state = LORD_STATES.DEACTIVATED
 		elif interactable is NPC:
+			interactable.interact()
 			start_dialogue()
 		else:
 			interactable.interact()

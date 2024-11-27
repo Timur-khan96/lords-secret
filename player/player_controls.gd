@@ -142,6 +142,10 @@ func hide_bottom_panel():
 func show_bottom_panel():
 	$UILayer.show_bottom_panel()
 	
+func toggle_camera_process(toggled_on):
+	%camera_base.set_process_input(toggled_on)
+	%camera_base.set_process(toggled_on)
+	
 func lord_deactivated():
 	control_mode = CONTROL_MODES.VILLAGE
 	

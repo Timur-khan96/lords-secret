@@ -16,7 +16,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_edfeh")
 
 [node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_1j2vh")]
-blackboard = NodePath("@Node@116697")
+blackboard = NodePath("@Node@97873")
 actor = NodePath("..")
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]

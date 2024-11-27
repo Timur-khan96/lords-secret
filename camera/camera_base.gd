@@ -37,8 +37,6 @@ func _process(delta:float) -> void:
 	camera_rotate(delta);
 	
 func _input(event:InputEvent) -> void:
-	#if event.is_action_pressed("pause"):
-		#$UILayer.pause_button.button_pressed = !$UILayer.pause_button.button_pressed
 	if event.is_action("camera_zoom_in"): 
 		zoom_direction -= 1;
 		update_pan_speed()
