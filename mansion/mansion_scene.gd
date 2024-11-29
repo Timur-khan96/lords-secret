@@ -54,6 +54,9 @@ func send_petitioner_away():
 	petitioner_is_leaving = true
 	open_doors()
 	
+func petitioner_attack():
+	petitioner.lord_attack()
+	
 func send_queue_away(): #currently happens at dusk #TO CHANGE
 	while !mansion_queue.is_empty():
 		var v = mansion_queue.pop_back()

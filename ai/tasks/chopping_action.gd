@@ -8,7 +8,7 @@ func tick(actor, blackboard: Blackboard):
 		actor.show_attached("axe")
 		actor.play_animation("attack")
 		status = 1
-		actor.anim_controller.anim_finished.connect(_on_finished)
+		get_tree().create_timer(0.86).timeout.connect(_on_hit)
 		return RUNNING
 	elif status == 1:
 		return RUNNING
@@ -22,8 +22,7 @@ func tick(actor, blackboard: Blackboard):
 			})
 			actor.hide_attached("axe")
 			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
-		actor.anim_controller.anim_finished.disconnect(_on_finished)
 		return SUCCESS
 	
-func _on_finished():
+func _on_hit():
 	status = 2

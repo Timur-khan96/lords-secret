@@ -15,7 +15,8 @@ var game_info = {}
 var velocity = Vector3.ZERO;
 var model
 var in_danger = false #this one reduces reputation when leaving (+running)
-var speed = 2.5
+var is_combatant = false #if he runs or attacks the lord
+var speed = 4
 var petitioner_dialogue #dialogic timeline id
 
 signal exploded
@@ -25,6 +26,7 @@ func _ready():
 	anim_controller.anim_player.animation_finished.connect(anim_controller._on_anim_finished)
 	blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.VISITING)
 	blackboard.set_value("desired_distance", 1.0) #at first it is fine
+	blackboard.set_value("idle_animation", "idle")
 	
 	init_tree()
 	
@@ -75,10 +77,19 @@ func _on_dialogue_finished():
 	current_tree.enabled = true
 	
 func lord_attack():
-	speed *= 2;
 	in_danger = true
-	game_info.status = NpcUtility.NPC_Status.LEAVING
-	blackboard.set_value("destination", WorldUtility.get_random_point_outside_bounds())
+	if is_combatant:
+		game_info.status = NpcUtility.NPC_Status.ENEMY
+		blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.ATTACKING)
+		blackboard.set_value("destination", Global.lord.global_position)
+		blackboard.set_value("attack_target", Global.lord)
+	else:
+		speed = 7;
+		game_info.status = NpcUtility.NPC_Status.LEAVING
+		blackboard.set_value("destination", WorldUtility.get_random_point_outside_bounds())
+		if blackboard.get_value("occupation") == NpcUtility.OCCUPATIONS.SLEEPING:
+			if randf() < 0.5:
+				blackboard.set_value("awakened", true)
 	
 func explode():
 	if blackboard.has_value("plot"):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://de1vatx8ijc0f"]
+[gd_scene load_steps=32 format=3 uid="uid://de1vatx8ijc0f"]
 
 [ext_resource type="Script" path="res://ui/ui_main.gd" id="1_qev2k"]
 [ext_resource type="Texture2D" uid="uid://c8jhbh3fv4gme" path="res://ui/ui_images/middle-bottom.png" id="2_vnvso"]
@@ -12,7 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://dqllo42us0ktp" path="res://ui/ui_images/rep_circle.png" id="10_u728y"]
 [ext_resource type="Texture2D" uid="uid://gf80g5iolu5p" path="res://ui/ui_images/tutorial_button.png" id="11_li60a"]
 [ext_resource type="ButtonGroup" uid="uid://djmai401buupr" path="res://ui/tutorial/game_help_button_group.tres" id="12_4bqev"]
+[ext_resource type="StyleBox" uid="uid://bq80y6bgd8uqj" path="res://ui/style_box_panel_texture.tres" id="12_jhd7y"]
 [ext_resource type="Script" path="res://ui/tutorial_panel.gd" id="12_wk4e5"]
+[ext_resource type="StyleBox" uid="uid://bt4a2g2ky50wk" path="res://ui/hovered_button_style_box_texture.tres" id="13_x8lfq"]
+[ext_resource type="StyleBox" uid="uid://cu3w78r1qt6s7" path="res://ui/pressed_button_style_box_texture.tres" id="14_amcbk"]
+[ext_resource type="StyleBox" uid="uid://b1bpncbpthns1" path="res://ui/normal_button_style_box_texture.tres" id="15_5v321"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_57cg0"]
 atlas = ExtResource("3_aholr")
@@ -45,6 +49,10 @@ region = Rect2(0, 0, 60, 0)
 [sub_resource type="AtlasTexture" id="AtlasTexture_pg8je"]
 atlas = ExtResource("5_ea385")
 region = Rect2(60, 0, 60, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vl1nv"]
+atlas = ExtResource("5_ea385")
+region = Rect2(0, 0, 60, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qqlft"]
 atlas = ExtResource("11_li60a")
@@ -144,10 +152,13 @@ texture_pressed = SubResource("AtlasTexture_adfcu")
 texture_hover = SubResource("AtlasTexture_jlxbo")
 
 [node name="vampire_button" type="TextureButton" parent="middle_bottom/TextureRect/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Switch to the lord"
+disabled = true
 texture_normal = SubResource("AtlasTexture_s463a")
 texture_hover = SubResource("AtlasTexture_pg8je")
+texture_disabled = SubResource("AtlasTexture_vl1nv")
 
 [node name="middle_top" type="MarginContainer" parent="."]
 anchors_preset = 5
@@ -204,7 +215,7 @@ vertical_alignment = 1
 
 [node name="blood_circle" type="TextureRect" parent="middle_top/TextureRect/MarginContainer/HBoxContainer"]
 layout_mode = 2
-tooltip_text = "Blood"
+tooltip_text = "Blood level"
 texture = ExtResource("9_147k4")
 
 [node name="blood_label" type="Label" parent="middle_top/TextureRect/MarginContainer/HBoxContainer/blood_circle"]
@@ -279,38 +290,36 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = ExtResource("12_jhd7y")
 
-[node name="MarginContainer" type="MarginContainer" parent="village_name_control/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="village_name_control/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="village_name_control/PanelContainer"]
 process_mode = 2
 layout_mode = 2
+theme_override_constants/separation = 8
 
-[node name="enter_village_label" type="Label" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="enter_village_label" type="Label" parent="village_name_control/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Enter the name of your village"
 horizontal_alignment = 1
 
-[node name="village_name_edit" type="LineEdit" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="village_name_edit" type="LineEdit" parent="village_name_control/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="enter_lord_label" type="Label" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="enter_lord_label" type="Label" parent="village_name_control/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Enter the name of your lord"
 horizontal_alignment = 1
 
-[node name="lord_name_edit" type="LineEdit" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="lord_name_edit" type="LineEdit" parent="village_name_control/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="game_start_button" type="Button" parent="village_name_control/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="game_start_button" type="Button" parent="village_name_control/PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 text = "START"
 
 [node name="top_right" type="MarginContainer" parent="."]
@@ -325,42 +334,45 @@ theme_override_constants/margin_right = 16
 
 [node name="PanelContainer" type="PanelContainer" parent="top_right"]
 layout_mode = 2
+theme_override_styles/panel = ExtResource("12_jhd7y")
 
-[node name="MarginContainer" type="MarginContainer" parent="top_right/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="top_right/PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+theme_override_constants/separation = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="top_right/PanelContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="time_of_day_label" type="Label" parent="top_right/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="time_of_day_label" type="Label" parent="top_right/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Night"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="top_right/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="top_right/PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="time_button" type="Button" parent="top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="time_button" type="Button" parent="top_right/PanelContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Change time speed"
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 text = "00:00 x1"
 
-[node name="pause_button" type="Button" parent="top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="pause_button" type="Button" parent="top_right/PanelContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 process_mode = 3
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+theme_override_styles/disabled = ExtResource("15_5v321")
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 toggle_mode = true
 shortcut = SubResource("Shortcut_qvmke")
 text = "❚❚"
 
-[node name="date_label" type="Label" parent="top_right/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="date_label" type="Label" parent="top_right/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
@@ -386,74 +398,90 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = ExtResource("12_jhd7y")
 script = ExtResource("12_wk4e5")
 
-[node name="MarginContainer" type="MarginContainer" parent="tutorial_panel"]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="tutorial_panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="tutorial_panel"]
 layout_mode = 2
 
-[node name="HBoxContainer_1" type="HBoxContainer" parent="tutorial_panel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer_1" type="HBoxContainer" parent="tutorial_panel/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 0
 
-[node name="Label" type="Label" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_1"]
+[node name="Label" type="Label" parent="tutorial_panel/VBoxContainer/HBoxContainer_1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Help"
 horizontal_alignment = 1
 
-[node name="close_tutorial_button" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_1"]
+[node name="close_tutorial_button" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_1"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "Close"
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 text = "X"
 
-[node name="HBoxContainer_2" type="HBoxContainer" parent="tutorial_panel/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer_2" type="HBoxContainer" parent="tutorial_panel/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
-[node name="tutorial_topic_list" type="VBoxContainer" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2"]
+[node name="tutorial_topic_list" type="VBoxContainer" parent="tutorial_panel/VBoxContainer/HBoxContainer_2"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="camera_controls_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+[node name="camera_controls_tutorial" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
 layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 toggle_mode = true
 button_group = ExtResource("12_4bqev")
 text = "Camera controls"
 
-[node name="plot_edit_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+[node name="plot_edit_tutorial" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
 layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 toggle_mode = true
 button_group = ExtResource("12_4bqev")
-text = "Plot edit"
+text = "Plots"
 
-[node name="petitioner_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+[node name="petitioner_tutorial" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
 layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 toggle_mode = true
 button_group = ExtResource("12_4bqev")
 text = "Petitioners"
 
-[node name="vampire_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+[node name="vampire_tutorial" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
 layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 toggle_mode = true
 button_group = ExtResource("12_4bqev")
-text = "Vampire control"
+text = "Lord"
 
-[node name="village_tutorial" type="Button" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+[node name="village_tutorial" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
 layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 toggle_mode = true
 button_group = ExtResource("12_4bqev")
 text = "Village reputation"
 
-[node name="tutorial_text" type="Label" parent="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_2"]
+[node name="tutorial_text" type="Label" parent="tutorial_panel/VBoxContainer/HBoxContainer_2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 300)
+custom_minimum_size = Vector2(600, 350)
 layout_mode = 2
+autowrap_mode = 3
 
 [node name="initial_message" type="PanelContainer" parent="."]
 visible = false
@@ -468,18 +496,13 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = ExtResource("12_jhd7y")
 
-[node name="MarginContainer" type="MarginContainer" parent="initial_message"]
+[node name="VBoxContainer" type="VBoxContainer" parent="initial_message"]
 layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/separation = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="initial_message/MarginContainer"]
-layout_mode = 2
-
-[node name="initial_message_text" type="Label" parent="initial_message/MarginContainer/VBoxContainer"]
+[node name="initial_message_text" type="Label" parent="initial_message/VBoxContainer"]
 custom_minimum_size = Vector2(450, 200)
 layout_mode = 2
 text = "It is nice to see you awaken after such a long slumber, my lord. By this time people have already forgotten what you have done when you last felt the pangs of hunger. The village once stood here is no more. However, I have already spread the word of you accepting new settlers, and they will soon come.
@@ -487,8 +510,12 @@ text = "It is nice to see you awaken after such a long slumber, my lord. By this
 Please, do not let yourself starve, but be careful not to attract unnecessary attention when you feast."
 autowrap_mode = 2
 
-[node name="initial_message_button" type="Button" parent="initial_message/MarginContainer/VBoxContainer"]
+[node name="initial_message_button" type="Button" parent="initial_message/VBoxContainer"]
+process_mode = 3
 layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
 text = "Got it"
 
 [node name="middle_left" type="MarginContainer" parent="."]
@@ -514,8 +541,8 @@ autowrap_mode = 2
 [connection signal="pressed" from="middle_bottom/TextureRect/MarginContainer/HBoxContainer/bell_button" to="." method="_on_bell_button_pressed"]
 [connection signal="pressed" from="middle_bottom/TextureRect/MarginContainer/HBoxContainer/vampire_button" to="." method="_on_vampire_button_pressed"]
 [connection signal="toggled" from="middle_top/TextureRect/MarginContainer/HBoxContainer/tutorial_button" to="." method="_on_tutorial_button_toggled"]
-[connection signal="pressed" from="village_name_control/PanelContainer/MarginContainer/VBoxContainer/game_start_button" to="." method="_on_game_start_button_pressed"]
-[connection signal="pressed" from="top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/time_button" to="." method="_on_time_button_pressed"]
-[connection signal="toggled" from="top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/pause_button" to="." method="_on_pause_button_toggled"]
-[connection signal="pressed" from="tutorial_panel/MarginContainer/VBoxContainer/HBoxContainer_1/close_tutorial_button" to="." method="_on_close_tutorial_button_pressed"]
-[connection signal="pressed" from="initial_message/MarginContainer/VBoxContainer/initial_message_button" to="." method="_on_initial_message_button_pressed"]
+[connection signal="pressed" from="village_name_control/PanelContainer/VBoxContainer/game_start_button" to="." method="_on_game_start_button_pressed"]
+[connection signal="pressed" from="top_right/PanelContainer/VBoxContainer/HBoxContainer/time_button" to="." method="_on_time_button_pressed"]
+[connection signal="toggled" from="top_right/PanelContainer/VBoxContainer/HBoxContainer/pause_button" to="." method="_on_pause_button_toggled"]
+[connection signal="pressed" from="tutorial_panel/VBoxContainer/HBoxContainer_1/close_tutorial_button" to="." method="_on_close_tutorial_button_pressed"]
+[connection signal="pressed" from="initial_message/VBoxContainer/initial_message_button" to="." method="_on_initial_message_button_pressed"]

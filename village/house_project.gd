@@ -4,7 +4,7 @@ var construction: int = 0
 var construction_finished = false
 var plot;
 var door
-var resources: int = 0:
+var resources: int = 8:
 	set(value):
 		resources = value
 		show_planks()

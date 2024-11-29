@@ -91,11 +91,35 @@ func handle_dialogue_result(is_leaving = false):
 				village_reputation -= 3
 			"visitor_searching_dead":
 				village_reputation -= 5
+			"visitor_4":
+				if Dialogic.VAR.lord_gave_money:
+					Dialogic.VAR.lord_gave_money = false
+					money -= Dialogic.VAR.money_demand
+					village_reputation += 5
+				elif money > Dialogic.VAR.money_demand:
+					village_reputation -= 1
+			"visitor_5":
+				if Dialogic.VAR.lord_gave_money:
+					Dialogic.VAR.lord_gave_money = false
+					money -= Dialogic.VAR.money_demand
+					lord.blood += randi_range(20,50)
+					NpcUtility.set_blood_seller(mansion_scene.petitioner)
+			"visitor_5_2":
+				if Dialogic.VAR.lord_gave_money:
+					Dialogic.VAR.lord_gave_money = false
+					money -= Dialogic.VAR.money_demand
+					lord.blood += randi_range(20,50)
+				else:
+					NpcUtility.blood_seller_game_info = null
 		mansion_scene.send_petitioner_away()
 	else:
 		match current_dialogue:
 			"visitor_buying_plot":
 				mansion_scene.send_petitioner_to_plot()
+			"visitor_7":
+				if Dialogic.VAR.visitor_attack:
+					Dialogic.VAR.visitor_attack = false
+					mansion_scene.petitioner_attack()
 		
 func plot_selling(): #for giving selected plot to villagers, called from Dialogic
 	player_controls.is_selling_plot = true
@@ -106,6 +130,9 @@ func plot_selling_end(plot): #called on plot accept button as signal
 	var price = plot.plot_game_info.price
 	if price > desired_cost:
 		start_dialogue("visitor_not_buying_plot")
+	elif price == 0:
+		start_dialogue("visitor_gifted_plot")
+		village_reputation += 5
 	else:
 		plot.plot_game_info.owner = mansion_scene.petitioner
 		mansion_scene.petitioner.game_info.money -= price
@@ -135,4 +162,10 @@ func get_current_quest_text():
 			return t % [village_reputation, current_quest_goal]
 		_:
 			return ""
+			
+func get_random_demand_money(): #used for dialogic beggers and racketeers
+	var demand_money = randi_range(20, 100)
+	Dialogic.VAR.money_demand = demand_money
+	return demand_money
+	
 	

@@ -1,0 +1,17 @@
+Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. The truth is I know your secret, but fear not, as I am the one some call sympathizer.
+do Global.get_random_demand_money()
+- So what is it you want?
+- Name one reason to leave you alive.
+It is simple, for a humble amount of {money_demand}. I am ready to sell you my vial of pure good-quality sangre. And if you are interested, I might bring more.
+- Fine, you can have this. Let me see what you got. | [if {Global.money} >= {money_demand}]
+	Pleasure doing business with you.
+	set {lord_gave_money} = true
+	do Global.handle_dialogue_result(true)
+	[end_timeline]
+- I don't have such funds. | [if {Global.money} < {money_demand}]
+	I understand, life is tough and we all do what we can. Maybe another time.
+	do Global.handle_dialogue_result(true)
+	[end_timeline]
+- Get lost.
+	do Global.handle_dialogue_result(true)
+	[end_timeline]

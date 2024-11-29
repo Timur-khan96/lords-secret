@@ -1,0 +1,55 @@
+[gd_scene load_steps=13 format=3 uid="uid://c7mar8sh2c24y"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_fxdgo"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_dx4u3"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="3_0xq1b"]
+[ext_resource type="Script" path="res://ai/tasks/movement_action.gd" id="4_4n4xw"]
+[ext_resource type="Script" path="res://ai/tasks/is_petitioner.gd" id="6_vvbbq"]
+[ext_resource type="Script" path="res://ai/tasks/talk_animation.gd" id="7_ujvn6"]
+[ext_resource type="Script" path="res://ai/tasks/start_dialogue.gd" id="8_by7w3"]
+[ext_resource type="Script" path="res://ai/tasks/is_attacking.gd" id="8_pnl7v"]
+[ext_resource type="Script" path="res://ai/tasks/attack_action.gd" id="9_k88tc"]
+[ext_resource type="Script" path="res://ai/tasks/is_villager.gd" id="9_nbeg1"]
+[ext_resource type="Script" path="res://ai/tasks/is_leaving.gd" id="10_48mti"]
+[ext_resource type="Script" path="res://ai/tasks/visitor_idle.gd" id="11_e22bo"]
+
+[node name="BeehaveTree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_fxdgo")
+blackboard = NodePath("@Node@17997")
+actor = NodePath("")
+
+[node name="SelectorComposite" type="Node" parent="."]
+script = ExtResource("2_dx4u3")
+
+[node name="movement_action" type="Node" parent="SelectorComposite"]
+script = ExtResource("4_4n4xw")
+
+[node name="Petition_Sequence" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_0xq1b")
+
+[node name="is_petitioner" type="Node" parent="SelectorComposite/Petition_Sequence"]
+script = ExtResource("6_vvbbq")
+
+[node name="TalkAnimation" type="Node" parent="SelectorComposite/Petition_Sequence"]
+script = ExtResource("7_ujvn6")
+
+[node name="StartDialogue" type="Node" parent="SelectorComposite/Petition_Sequence"]
+script = ExtResource("8_by7w3")
+
+[node name="attacking_sequence" type="Node" parent="SelectorComposite"]
+script = ExtResource("3_0xq1b")
+
+[node name="is_attacking" type="Node" parent="SelectorComposite/attacking_sequence"]
+script = ExtResource("8_pnl7v")
+
+[node name="attack_action" type="Node" parent="SelectorComposite/attacking_sequence"]
+script = ExtResource("9_k88tc")
+
+[node name="is_villager" type="Node" parent="SelectorComposite"]
+script = ExtResource("9_nbeg1")
+
+[node name="CheckLeaving" type="Node" parent="SelectorComposite"]
+script = ExtResource("10_48mti")
+
+[node name="visitor_idle" type="Node" parent="SelectorComposite"]
+script = ExtResource("11_e22bo")

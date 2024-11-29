@@ -1,16 +1,15 @@
-[gd_scene load_steps=22 format=3 uid="uid://by0oqkg6vpfdf"]
+[gd_scene load_steps=23 format=3 uid="uid://by0oqkg6vpfdf"]
 
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_cx637"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_a1xil"]
 [ext_resource type="Script" path="res://ai/tasks/occupation_check.gd" id="3_6fklh"]
 [ext_resource type="Script" path="res://ai/tasks/init_villager_blackboard.gd" id="3_6xk55"]
-[ext_resource type="Script" path="res://ai/tasks/idle_animation.gd" id="4_h7ewt"]
+[ext_resource type="Script" path="res://ai/tasks/idle_action.gd" id="4_h7ewt"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_thx05"]
 [ext_resource type="Script" path="res://ai/tasks/building_action.gd" id="8_2q6eq"]
 [ext_resource type="Script" path="res://ai/tasks/is_building.gd" id="8_c2xdi"]
-[ext_resource type="Script" path="res://ai/tasks/check_navigation.gd" id="9_wfrgw"]
+[ext_resource type="Script" path="res://ai/tasks/movement_action.gd" id="9_wfrgw"]
 [ext_resource type="Script" path="res://ai/tasks/is_chopping.gd" id="10_77cuo"]
-[ext_resource type="Script" path="res://ai/tasks/MoveToDestination.gd" id="10_gmtvq"]
 [ext_resource type="Script" path="res://ai/tasks/chopping_action.gd" id="10_ifyif"]
 [ext_resource type="Script" path="res://ai/tasks/is_carrying.gd" id="12_dwlbq"]
 [ext_resource type="Script" path="res://ai/tasks/finish_carrying.gd" id="13_lamjc"]
@@ -19,12 +18,14 @@
 [ext_resource type="Script" path="res://ai/tasks/is_eating.gd" id="16_ogo5i"]
 [ext_resource type="Script" path="res://ai/tasks/eating_action.gd" id="17_gfwgk"]
 [ext_resource type="Script" path="res://ai/tasks/is_sleeping.gd" id="18_2p3de"]
-[ext_resource type="Script" path="res://ai/tasks/check_leaving.gd" id="18_nqrd0"]
+[ext_resource type="Script" path="res://ai/tasks/is_leaving.gd" id="18_nqrd0"]
 [ext_resource type="Script" path="res://ai/tasks/sleeping_action.gd" id="19_4sxpt"]
+[ext_resource type="Script" path="res://ai/tasks/is_attacking.gd" id="19_neagp"]
+[ext_resource type="Script" path="res://ai/tasks/attack_action.gd" id="20_7v0se"]
 
 [node name="villager_tree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("1_cx637")
-blackboard = NodePath("@Node@18026")
+blackboard = NodePath("@Node@18002")
 actor = NodePath("")
 
 [node name="SelectorComposite" type="Node" parent="."]
@@ -36,14 +37,8 @@ script = ExtResource("3_6xk55")
 [node name="OccupationCheck" type="Node" parent="SelectorComposite"]
 script = ExtResource("3_6fklh")
 
-[node name="moving_sequence" type="Node" parent="SelectorComposite"]
-script = ExtResource("4_thx05")
-
-[node name="CheckNavigation" type="Node" parent="SelectorComposite/moving_sequence"]
+[node name="MovementAction" type="Node" parent="SelectorComposite"]
 script = ExtResource("9_wfrgw")
-
-[node name="MoveToDestination" type="Node" parent="SelectorComposite/moving_sequence"]
-script = ExtResource("10_gmtvq")
 
 [node name="building_sequence" type="Node" parent="SelectorComposite"]
 script = ExtResource("4_thx05")
@@ -99,8 +94,17 @@ script = ExtResource("18_2p3de")
 [node name="sleeping_action" type="Node" parent="SelectorComposite/sleeping_sequence"]
 script = ExtResource("19_4sxpt")
 
+[node name="attacking_sequence" type="Node" parent="SelectorComposite"]
+script = ExtResource("4_thx05")
+
+[node name="is_attacking" type="Node" parent="SelectorComposite/attacking_sequence"]
+script = ExtResource("19_neagp")
+
+[node name="attack_action" type="Node" parent="SelectorComposite/attacking_sequence"]
+script = ExtResource("20_7v0se")
+
 [node name="CheckLeaving" type="Node" parent="SelectorComposite"]
 script = ExtResource("18_nqrd0")
 
-[node name="idle_animation" type="Node" parent="SelectorComposite"]
+[node name="idle_action" type="Node" parent="SelectorComposite"]
 script = ExtResource("4_h7ewt")

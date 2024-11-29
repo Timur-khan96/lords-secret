@@ -4,7 +4,7 @@ var status = 0 #enum-like: 0-not started 1 running 2 finished
 var resources_gathered: int = 0
 
 func tick(actor, blackboard: Blackboard):
-	if !actor.check_anim("attack") && status == 0:
+	if !actor.check_anim("gather") && status == 0:
 		actor.look_at(blackboard.get_value("destination"), Vector3.UP)
 		actor.play_animation("gather")
 		status = 1

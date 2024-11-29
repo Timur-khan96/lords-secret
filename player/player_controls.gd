@@ -147,7 +147,8 @@ func toggle_camera_process(toggled_on):
 	%camera_base.set_process(toggled_on)
 	
 func lord_deactivated():
-	control_mode = CONTROL_MODES.VILLAGE
+	if control_mode == CONTROL_MODES.VAMPIRE:
+		control_mode = CONTROL_MODES.VILLAGE
 	
 
 				

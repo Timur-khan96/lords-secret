@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bs4osscxqcpcy"]
 
 [ext_resource type="Script" path="res://villagers/villager.gd" id="1_i5sqc"]
-[ext_resource type="PackedScene" uid="uid://bmtb6am4dijyi" path="res://ai/trees/visitor_tree.tscn" id="2_1j2vh"]
+[ext_resource type="PackedScene" uid="uid://c7mar8sh2c24y" path="res://ai/trees/visitor_tree_test.tscn" id="4_abhbk"]
 [ext_resource type="Script" path="res://addons/beehave/blackboard.gd" id="9_8h0k3"]
 [ext_resource type="Script" path="res://animations/anim_controller.gd" id="13_a14y5"]
 
@@ -14,10 +14,6 @@ script = ExtResource("1_i5sqc")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_edfeh")
-
-[node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("2_1j2vh")]
-blackboard = NodePath("@Node@97873")
-actor = NodePath("..")
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
 path_height_offset = 0.4
@@ -39,6 +35,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.33235, 0)
 billboard = 1
 text = "Hello"
 font_size = 64
+
+[node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("4_abhbk")]
+blackboard = NodePath("@Node@57688")
+actor = NodePath("..")
 
 [connection signal="navigation_finished" from="nav_agent" to="." method="_on_nav_agent_navigation_finished"]
 [connection signal="timeout" from="hunger_timer" to="." method="_on_hunger_timer_timeout"]

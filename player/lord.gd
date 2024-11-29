@@ -6,6 +6,7 @@ class_name Lord
 @onready var model = $model
 @onready var anim_controller = $anim_controller
 @onready var nav_agent = $nav_agent
+@onready var blood_timer = $blood_timer
 
 signal deactivated
 signal wild_on
@@ -40,14 +41,13 @@ var interactable = null;
 
 var speed = 5.0
 var blood = 100
-var blood_rate = 1 #how fast blood runs out
 var is_burning = false:
 	set(value):
 		is_burning = value
 		if value:
-			blood_rate = 8
+			blood_timer.wait_time = 2
 		else:
-			blood_rate = 1
+			blood_timer.wait_time = 12
 			
 var is_daytime = false:
 	set(value):
@@ -136,8 +136,8 @@ func handle_navigation_movement():
 	velocity.y = 0
 	look_at(global_position + velocity, Vector3.UP)
 	move_and_slide()
-	if !check_anim("walk"):
-		play_animation("walk")
+	if !check_anim("run"):
+		play_animation("run")
 				
 func get_wild_state_victim():
 	var arr = get_tree().get_nodes_in_group("NPC")
@@ -175,8 +175,10 @@ func handle_movement(delta):
 
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var move_anim = "walk"
 	if direction:
 		if Input.is_action_pressed("shift"):
+			move_anim = "run"
 			speed = 7.0
 		else:
 			speed = 5.0
@@ -188,10 +190,13 @@ func handle_movement(delta):
 	
 	if velocity.length() > 0:
 		move_and_slide()
-		if !check_anim("walk"):
-			play_animation("walk")
+		if !check_anim(move_anim):
+			play_animation(move_anim)
 	elif !check_anim("idle"):
 		play_animation("idle")
+		
+func hit():
+	blood -= randi_range(5, 10)
 		
 func play_animation(anim_name: String):
 	anim_controller.play_animation(anim_name)
@@ -207,7 +212,7 @@ func deactivate_lord():
 	deactivated.emit()
 
 func _on_blood_timer_timeout():
-	blood -= blood_rate
+	blood -= 1
 	if blood < 1:
 		blood = 0;
 		if lord_state != LORD_STATES.WILD:

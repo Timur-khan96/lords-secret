@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://52avnsgxo2ak"]
+[gd_scene load_steps=12 format=3 uid="uid://52avnsgxo2ak"]
 
 [ext_resource type="Script" path="res://plots/plot.gd" id="1_ai81j"]
 [ext_resource type="PackedScene" uid="uid://s7lvb474oiqx" path="res://plots/corner.tscn" id="2_gg7m8"]
 [ext_resource type="Material" uid="uid://cnlhpp84l2rur" path="res://plots/abstract_corner_material.tres" id="3_fvgms"]
+[ext_resource type="StyleBox" uid="uid://bq80y6bgd8uqj" path="res://ui/style_box_panel_texture.tres" id="4_873kw"]
 [ext_resource type="Texture2D" uid="uid://dwu8x0d7iffst" path="res://ui/ui_images/round_check_atlas.png" id="4_snuto"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_cdh1v"]
@@ -85,9 +86,11 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_873kw")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/plot_control/PanelContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="plot_name" type="LineEdit" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -119,6 +122,7 @@ allow_greater = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="accept_button" type="TextureButton" parent="CanvasLayer/plot_control/PanelContainer/VBoxContainer/HBoxContainer"]

@@ -11,7 +11,20 @@ func tick(actor, blackboard: Blackboard):
 			if !is_eat_time(actor, blackboard):
 				if !blackboard.get_value("house").construction_finished:
 					handle_house_construction(actor, blackboard)
+				else:
+					handle_idle(actor, blackboard)
 	return FAILURE
+	
+func handle_idle(_actor, blackboard):
+	print("handling idle mode")
+	match randi_range(0, 1):
+		0:
+			blackboard.set_value("idle_animation", "idle")
+		1:
+			blackboard.set_value("idle_animation", "sit")
+		3: #wondering
+			blackboard.set_value("destination", WorldUtility.get_random_point_inside_bounds())
+			blackboard.set_value("desired_distance", 4.0)
 			
 func is_sleep_time(blackboard) -> bool:
 	if !WorldUtility.is_daytime:

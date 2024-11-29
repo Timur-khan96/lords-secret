@@ -1,0 +1,19 @@
+Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. You may have heard of my family name, as my distant ancestors used to live on this land. I came here with a hope that those terrible days are long gone and we can start here anew.
+- Do you have funds for the land?
+	I hoped you might provide it free of charge, but sure, I've got some {visitor.money}. However, half of that should go on getting back on feet, right?
+	- Let's see what we can do
+		do Global.plot_selling()
+		[end_timeline]
+	- Out of my sight!
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+- I respect your ancestry, and provide you a plot of land for free.
+	do Global.plot_selling()
+	[end_timeline]
+- Do you want to go to your ancestors?
+	I do not like your tone, maybe coming here was a bad idea.
+	do Global.handle_dialogue_result(true)
+	[end_timeline]
+- I didn't ask for the story of your people, go to hell.
+	do Global.handle_dialogue_result(true)
+	[end_timeline]

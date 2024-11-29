@@ -2,33 +2,43 @@
 
 [ext_resource type="Script" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="1_abc32"]
 [ext_resource type="Script" path="res://addons/dialogic/Resources/dialogic_style.gd" id="2_h6qgf"]
-[ext_resource type="PackedScene" uid="uid://bquja8jyk8kbr" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_layer.tscn" id="2_xi7ti"]
+[ext_resource type="PackedScene" uid="uid://d27281rqqefga" path="res://dialogic/VisualNovelTextbox/custom_visual_novel_textbox.tscn" id="2_kxlym"]
 [ext_resource type="PackedScene" uid="uid://bj7kwxu52u64m" path="res://dialogic/CenteredChoices/custom_centered_choices.tscn" id="3_v2qb7"]
 
 [sub_resource type="Resource" id="Resource_jgqvh"]
 script = ExtResource("1_abc32")
-overrides = {}
-
-[sub_resource type="Resource" id="Resource_n42cw"]
-script = ExtResource("1_abc32")
-scene = ExtResource("2_xi7ti")
 overrides = {
-"box_color_custom": "Color(0, 0, 0, 0.894118)",
-"box_margin_bottom": "100.0"
+"global_bg_color": "Color(0.384314, 0.431373, 0.560784, 1)"
 }
 
 [sub_resource type="Resource" id="Resource_nuusy"]
 script = ExtResource("1_abc32")
 scene = ExtResource("3_v2qb7")
-overrides = {}
+overrides = {
+"boxes_stylebox_focused": "\"res://ui/pressed_button_style_box_texture.tres\"",
+"boxes_stylebox_hovered": "\"res://ui/hovered_button_style_box_texture.tres\"",
+"boxes_stylebox_normal": "\"res://ui/normal_button_style_box_texture.tres\"",
+"boxes_stylebox_pressed": "\"res://ui/pressed_button_style_box_texture.tres\""
+}
+
+[sub_resource type="Resource" id="Resource_b4of2"]
+script = ExtResource("1_abc32")
+scene = ExtResource("2_kxlym")
+overrides = {
+"box_color_custom": "Color(0.137255, 0.407843, 0.65098, 1)",
+"box_color_use_global": "false",
+"box_panel": "\"res://ui/style_box_panel_texture.tres\"",
+"box_size": "Vector2(800, 300)",
+"typing_sounds_enabled": "false"
+}
 
 [resource]
 script = ExtResource("2_h6qgf")
 name = "dialogic_style"
-layer_list = Array[String](["10", "12"])
+layer_list = Array[String](["12", "10"])
 layer_info = {
 "": SubResource("Resource_jgqvh"),
-"10": SubResource("Resource_n42cw"),
+"10": SubResource("Resource_b4of2"),
 "12": SubResource("Resource_nuusy")
 }
 base_overrides = {}

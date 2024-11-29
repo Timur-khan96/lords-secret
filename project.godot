@@ -37,7 +37,13 @@ directories/dtl_directory={
 "visitor_1": "res://dialogic/visitor_1.dtl",
 "visitor_2": "res://dialogic/visitor_2.dtl",
 "visitor_3": "res://dialogic/visitor_3.dtl",
+"visitor_4": "res://dialogic/visitor_4.dtl",
+"visitor_5": "res://dialogic/visitor_5.dtl",
+"visitor_5_2": "res://dialogic/visitor_5_2.dtl",
+"visitor_6": "res://dialogic/visitor_6.dtl",
+"visitor_7": "res://dialogic/visitor_7.dtl",
 "visitor_buying_plot": "res://dialogic/visitor_buying_plot.dtl",
+"visitor_gifted_plot": "res://dialogic/visitor_gifted_plot.dtl",
 "visitor_interaction": "res://dialogic/visitor_interaction.dtl",
 "visitor_leaving": "res://dialogic/visitor_leaving.dtl",
 "visitor_not_buying_plot": "res://dialogic/visitor_not_buying_plot.dtl",
@@ -46,13 +52,16 @@ directories/dtl_directory={
 variables={
 "is_villager_opening_door": false,
 "killed_friend": "",
+"lord_gave_money": false,
+"money_demand": 0,
 "time_of_day": "",
 "visitor": {
 "family_size": 0,
 "money": 0,
 "name": "",
 "surname": ""
-}
+},
+"visitor_attack": false
 }
 layout/style_list=["res://dialogic/dialogic_style.tres"]
 layout/default_style="res://dialogic/dialogic_style.tres"

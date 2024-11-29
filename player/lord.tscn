@@ -280,6 +280,8 @@ script = ExtResource("6_nvpiw")
 
 [node name="day_burning" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166077, 0)
+visible = false
+layers = 2
 emitting = false
 amount = 128
 process_material = SubResource("ParticleProcessMaterial_tgxnl")
@@ -304,6 +306,13 @@ shape = SubResource("CylinderShape3D_ixjx2")
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
 target_desired_distance = 2.0
+
+[node name="GPUParticlesAttractorSphere3D" type="GPUParticlesAttractorSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.679371, 0)
+strength = 20.0
+attenuation = 0.297302
+cull_mask = 4294967293
+radius = 0.8
 
 [connection signal="timeout" from="blood_timer" to="." method="_on_blood_timer_timeout"]
 [connection signal="area_entered" from="danger_area" to="danger_area" method="_on_area_entered"]

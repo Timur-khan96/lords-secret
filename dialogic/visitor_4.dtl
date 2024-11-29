@@ -1,0 +1,33 @@
+Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. You might have heard of the fire that errupt in the middle of our village nearby. Unfortunately, we are left with no choice but to go around and beg.
+do Global.get_random_demand_money()
+- So what is it you want?
+	Not much, a fair sum of {money_demand} will do.
+	- Sure, you can have this. | [if {Global.money} >= {money_demand}]
+		Much obliged, rest assured I spread the word of your generosity.
+		set {lord_gave_money} = true
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+	- I don't do charity, get lost.
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+	- I don't have such funds. | [if {Global.money} < {money_demand}]
+		I understand, life is tough and we all do what we can. It was nice to meet you.
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+- Why would I care?
+	I hoped you would be kind enough to provide a fair sum of {money_demand}.
+	- Fine, you can have this. | [if {Global.money} >= {money_demand}]
+		Much obliged, rest assured I spread the word of your generosity.
+		set {lord_gave_money} = true
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+	- I don't do charity, get lost.
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+	- I don't have such funds. | [if {Global.money} < {money_demand}]
+		I understand, life is tough and we all do what we can. It was nice to meet you.
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+- Try your luck somewhere else.
+	do Global.handle_dialogue_result(true)
+	[end_timeline]

@@ -25,7 +25,7 @@ func _ready():
 		c.mouse_entered.connect(_on_ui_mouse_entered)
 		c.mouse_exited.connect(_on_ui_mouse_exited)
 		
-	for c in $top_right/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer.get_children():
+	for c in $top_right/PanelContainer/VBoxContainer/HBoxContainer.get_children():
 		c.mouse_entered.connect(_on_ui_mouse_entered)
 		c.mouse_exited.connect(_on_ui_mouse_exited)
 		
@@ -62,8 +62,8 @@ func _on_plot_selling_start():
 	$selling_overlay/Label.text = """Select a plot or establish a new one
 	desired cost: """ + str(c)
 	$selling_overlay.show()
-	#if !%plot_button.button_pressed:
-		#%plot_button.button_pressed = true
+	if !%plot_button.button_pressed:
+		%plot_button.button_pressed = true
 	
 func _on_plot_selling_end():
 	$selling_overlay.hide()
@@ -115,4 +115,5 @@ func _on_close_tutorial_button_pressed():
 
 func _on_initial_message_button_pressed():
 	%quest_label.show()
+	%vampire_button.disabled = false
 	$initial_message.queue_free()

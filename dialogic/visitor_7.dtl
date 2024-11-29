@@ -1,0 +1,20 @@
+Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. As you can see from my uniform, I am a soldier and have spent the last years of my life defending our country from all sorts of scum. Now that my duty to my homeland has been paid, I would like to begin a peaceful life here, if you allow me.
+- Do you have funds for the land?
+	I hoped you might provide it free of charge, but sure, I've got some {visitor.money}. However, half of that should go on getting back on feet, right?
+	- Let's see what we can do.
+		do Global.plot_selling()
+		[end_timeline]
+	- Find yourself a hole near some barricades and live there!
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+- We respect veterans here, let us see what we can do.
+	do Global.plot_selling()
+	[end_timeline]
+- Never seen a soldier so feminine, have you ever unsheathed your sword?
+	I do not like your tone, sir, if you doubt my skills, let me demonstrate them. En garde!
+	set {visitor_attack} = true
+	do Global.handle_dialogue_result(false)
+	[end_timeline]
+- We don't need tin cans here, go jingle somewhere else.
+	do Global.handle_dialogue_result(true)
+	[end_timeline]

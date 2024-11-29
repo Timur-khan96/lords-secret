@@ -36,14 +36,19 @@ var time_of_day: String = "Night":
 					WorldUtility.is_daytime = true
 					NPCSpawner.morning_spawn()
 					check_villager_doors()
+					$music_player.play_day_music()
 				"Afternoon":
 					Dialogic.VAR.time_of_day = "afternoon"
+					$music_player.play_day_music()
 				"Evening":
 					Dialogic.VAR.time_of_day = "evening"
 				"Dusk":
 					Global.village_reputation += Global.num_of_villagers * 4
 					WorldUtility.is_daytime = false
 					mansion.send_queue_away()
+					$music_player.play_night_music()
+				"Night":
+					$music_player.play_night_music()
 
 func _ready():
 	player_controls.control_mode_changed.connect(_on_control_mode_changed)
@@ -178,3 +183,14 @@ func check_villager_doors(): #morning reload
 	for door in get_tree().get_nodes_in_group("villager_doors"):
 		door.visited_this_night = false
 		door.visitor_opened_door = false
+		
+func NPC_exploded(curr_NPC):
+	if curr_NPC.petitioner_dialogue == "visitor_5_2":
+		NpcUtility.blood_seller_game_info = null
+	var pos = curr_NPC.global_position
+	NPCSpawner.killed_people.append(str(curr_NPC.game_info.name + " " + curr_NPC.game_info.surname))
+	var blood_explosion = load("res://effects/blood_explosion.tscn").instantiate()
+	lord.add_child(blood_explosion)
+	blood_explosion.global_position = pos
+	blood_explosion.global_position.y += 1.2
+	blood_explosion.emitting = true;
