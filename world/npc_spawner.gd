@@ -2,6 +2,7 @@ extends Node3D
 
 var villager_scene = load("res://villagers/villager.tscn")
 var has_spawned_villagers = false
+var is_first_visitor = true;
 
 var vowels = ['a', 'e', 'i', 'o', 'u']
 var consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 
@@ -23,13 +24,7 @@ var killed_people = []
 var petitioner_dialogues = ["visitor_1", "visitor_2", "visitor_3", 
 "visitor_4", "visitor_5", "visitor_6", "visitor_7"]
 var curr_dialogues = []
-#1 - has money to buy plot
-#2 - has no money wants to get a plot
-#3 - simulation stuff, one-timer
-#4 - beggar
-#5 - sells blood
-#6 - ancestry stuff, just sell/gift plot
-#7 - veteran, combatant, wants a plot
+var prev_dialogue = ""
 
 func morning_spawn():
 	has_spawned_villagers = true
@@ -37,7 +32,7 @@ func morning_spawn():
 	var spawn_count = roundi(Global.village_reputation * 0.1)
 	if spawn_count > 0:
 		for i in range(spawn_count):
-			var spawn_delay = randf_range(10.0, 20.0)
+			var spawn_delay = randf_range(20, 40)
 			spawn_villager(WorldUtility.get_random_point_outside_bounds())
 			await get_tree().create_timer(spawn_delay).timeout
 	else:
@@ -47,7 +42,12 @@ func spawn_villager(pos: Vector3):
 	var v = villager_scene.instantiate()
 	v.exploded.connect(get_parent().NPC_exploded)
 	v.game_info = set_visitor_game_info(v)
-	v.petitioner_dialogue = set_new_petitioner_dialogue()
+	if is_first_visitor:
+		is_first_visitor = false
+		v.petitioner_dialogue = "visitor_1"
+	else:
+		v.petitioner_dialogue = set_new_petitioner_dialogue()
+		
 	if v.petitioner_dialogue == "visitor_2":
 		v.game_info.money = 0
 	elif v.petitioner_dialogue == "visitor_5_2":
@@ -65,6 +65,7 @@ func set_combatant(npc):
 	npc.is_combatant = true
 	npc.model.queue_free()
 	npc.model = load("res://villagers/combatant.tscn").instantiate()
+	npc.game_info.gender = 1
 	npc.add_child(npc.model)
 	
 func spawn_baddies():
@@ -90,16 +91,18 @@ func set_new_petitioner_dialogue():
 			Dialogic.VAR.killed_friend = killed
 			killed_people.erase(killed)
 			return "visitor_searching_dead"
-		
-	var result = curr_dialogues.pick_random()
-	if result == "visitor_3":
-		curr_dialogues.erase(result)
-		petitioner_dialogues.erase(result)
-	elif result == "visitor_5": #sells blood once per day
-		curr_dialogues.erase(result)
-		if NpcUtility.blood_seller_game_info != null:
-			return "visitor_5_2"
-	return "visitor_7"
+	var result = prev_dialogue
+	while result == prev_dialogue:
+		result = curr_dialogues.pick_random()
+		if result == "visitor_3":
+			curr_dialogues.erase(result)
+			petitioner_dialogues.erase(result)
+		elif result == "visitor_5": #sells blood once per day
+			curr_dialogues.erase(result)
+			if NpcUtility.blood_seller_game_info != null:
+				result = "visitor_5_2"
+	prev_dialogue = result
+	return result
 
 func set_random_name(pattern: String):
 	var n = ""

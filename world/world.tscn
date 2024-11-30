@@ -1,7 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://da4y2mlnmjic6"]
+[gd_scene load_steps=30 format=3 uid="uid://da4y2mlnmjic6"]
 
 [ext_resource type="Script" path="res://world/world.gd" id="1_wiqad"]
-[ext_resource type="Texture2D" uid="uid://ddyj2lca6g2c1" path="res://aerial_grass_rock_diff_1k.jpg" id="2_0vngl"]
+[ext_resource type="Texture2D" uid="uid://ddyj2lca6g2c1" path="res://world/aerial_grass_rock_diff_1k.jpg" id="2_0vngl"]
 [ext_resource type="Script" path="res://world/npc_spawner.gd" id="2_ds2w1"]
 [ext_resource type="Script" path="res://world/object_spawner.gd" id="3_y03j2"]
 [ext_resource type="Script" path="res://player/player_controls.gd" id="4_1pruo"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bp6utlfdm5xmu" path="res://player/lord.tscn" id="12_8d6ve"]
 [ext_resource type="PackedScene" uid="uid://mta5rl6u8s0o" path="res://world/models/mouintains_1.glb" id="12_i1qgd"]
 [ext_resource type="Script" path="res://audio/music_player.gd" id="13_d3tf7"]
+[ext_resource type="AudioStream" uid="uid://6bm2fvgypcjh" path="res://audio/SFX/transition.mp3" id="14_o255c"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_drvy8"]
 vertices = PackedVector3Array(-6, 1, -8, -4, 1, -8, -4, 1, -224.5, -6.25, 1, -6.25, -224.5, 1, -224.5, -224.5, 1, -6.5, 8, 1, -8, 8, 1, -224.5, 10, 1, -8, 10.25, 1, -6.25, 224.5, 1, -6.5, 224.5, 1, -224.5, 9.5, 7, 2.25, 10.5, 6.75, 2, 10.5, 6.75, -2, 9.5, 7, -2.25, -5, 7, -7.5, -5, 7, 7.5, 9.5, 7, 7.5, 9.5, 7, -7.5, -1, 1, 6.75, -1.25, 1, 2, -2.25, 1, 1.75, -4.75, 1, 6.75, -2.25, 1, -2, 0, 1, -2.25, 0, 1, -6.75, -4.75, 1, -6.75, 10, 1, 0.75, 10.75, 1, 0.5, 10.75, 1, -0.25, 10, 1, -0.5, 0.5, 1, -2, 9, 1, -2, 9, 1, -6.75, 9, 1, 2, 10, 1, 1.75, 10, 1, -1.75, 0.5, 1, 1.75, 9, 1, 6.75, -224.5, 1, 6.75, -6.25, 1, 6.5, 10.25, 1, -3, 11.75, 1, -3, 12, 1, -2.25, 224.5, 1, -2.25, 11.5, 1, 0.75, 11.5, 1, -0.5, 12, 1, 2.5, 224.5, 1, 2.5, -1.25, 2, -1.25, -1.25, 2, 1, -0.5, 2, 1, -0.5, 2, -1.25, 11.75, 1, 3.25, 10.25, 1, 3.25, 10.25, 1, 6.5, 224.5, 1, 6.75, -4.75, 1, 224.5, -4.5, 1, 8.25, -6.25, 1, 8, -224.5, 1, 224.5, 10, 1, 8.25, 8.75, 1, 224.5, 224.5, 1, 224.5, 8.5, 1, 8.25)
@@ -25,15 +26,15 @@ geometry_source_group_name = &"navigation_mesh_group"
 [sub_resource type="BoxShape3D" id="BoxShape3D_ggtxq"]
 size = Vector3(450, 1, 450)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7c2ly"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jo0gy"]
 albedo_color = Color(1, 1, 1, 0.560784)
 albedo_texture = ExtResource("2_0vngl")
 metallic_specular = 0.0
-uv1_scale = Vector3(20, 20, 20)
+uv1_scale = Vector3(50, 50, 50)
 
 [sub_resource type="BoxMesh" id="BoxMesh_tarkb"]
-material = SubResource("StandardMaterial3D_7c2ly")
-size = Vector3(450, 1, 450)
+material = SubResource("StandardMaterial3D_jo0gy")
+size = Vector3(1200, 1, 1200)
 
 [sub_resource type="Animation" id="Animation_mejjv"]
 length = 0.001
@@ -200,7 +201,7 @@ _data = {
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_l3jfh"]
 noise_type = 0
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6guiq"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_koa4w"]
 seamless = true
 color_ramp = SubResource("Gradient_c2nll")
 noise = SubResource("FastNoiseLite_l3jfh")
@@ -208,16 +209,16 @@ noise = SubResource("FastNoiseLite_l3jfh")
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vslq3"]
 sky_top_color = Color(0.226122, 0.465928, 0.678869, 1)
 sky_curve = 0.0265165
-sky_cover = SubResource("NoiseTexture2D_6guiq")
+sky_cover = SubResource("NoiseTexture2D_koa4w")
 sky_cover_modulate = Color(0.370364, 0.370364, 0.370364, 1)
 sun_angle_max = 62.22
 
-[sub_resource type="Sky" id="Sky_iyjfn"]
+[sub_resource type="Sky" id="Sky_eycw0"]
 sky_material = SubResource("ProceduralSkyMaterial_vslq3")
 
 [sub_resource type="Environment" id="Environment_c7cso"]
 background_mode = 2
-sky = SubResource("Sky_iyjfn")
+sky = SubResource("Sky_eycw0")
 adjustment_brightness = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uftnu"]
@@ -308,6 +309,11 @@ cast_shadow = 0
 mesh = SubResource("ImmediateMesh_gd50d")
 
 [node name="music_player" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
 script = ExtResource("13_d3tf7")
+
+[node name="transition_stream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_o255c")
+bus = &"SFX"
 
 [connection signal="timeout" from="game_timer" to="." method="_on_game_timer_timeout"]

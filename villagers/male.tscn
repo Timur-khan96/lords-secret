@@ -50,7 +50,7 @@ bones/40/rotation = Quaternion(0.205305, 0.481485, -0.838367, -0.152193)
 bones/41/rotation = Quaternion(-0.0258253, 0.99957, -0.00559294, -0.0127453)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/GeneralSkeleton" index="1"]
-transform = Transform3D(-0.00569296, -0.648614, 0.761096, 0.810674, -0.448607, -0.376244, 0.58547, 0.614859, 0.528369, -0.625834, 0.938253, -0.140159)
+transform = Transform3D(-0.00569394, -0.648615, 0.761095, 0.810675, -0.448606, -0.376243, 0.585469, 0.614859, 0.52837, -0.625835, 0.938253, -0.140159)
 bone_name = "RightHand"
 bone_idx = 24
 
@@ -69,6 +69,7 @@ visible = false
 [node name="axe" parent="Armature/GeneralSkeleton/BoneAttachment3D/Attached" index="2" instance=ExtResource("4_1jvpf")]
 unique_name_in_owner = true
 transform = Transform3D(-0.84151, 0, 0.540241, -1.49012e-07, 1, 1.49012e-08, -0.54024, 2.98023e-08, -0.841511, 0.44995, -0.00660756, -0.0499539)
+visible = false
 
 [node name="hammer" parent="Armature/GeneralSkeleton/BoneAttachment3D/Attached" index="3" instance=ExtResource("5_jlopn")]
 unique_name_in_owner = true

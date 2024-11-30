@@ -7,31 +7,31 @@ lifetime_randomness = 0.5
 emission_shape = 3
 emission_box_extents = Vector3(0.4, 0.6, 0.4)
 direction = Vector3(0, 1, 0)
+spread = 35.0
+initial_velocity_min = 0.1
 initial_velocity_max = 1.0
 gravity = Vector3(0, 0, 0)
-tangential_accel_min = -1.0
-tangential_accel_max = 0.999998
-scale_min = 0.1
+tangential_accel_min = -2.0
+tangential_accel_max = 2.0
+scale_min = 0.5
 scale_max = 1.2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x5qq6"]
-albedo_color = Color(0.746585, 2.00946e-06, 8.66354e-07, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5a2yi"]
+albedo_color = Color(0.592448, 2.20198e-06, 4.33177e-07, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_8tajq"]
-material = SubResource("StandardMaterial3D_x5qq6")
-radius = 0.08
-height = 0.15
-radial_segments = 16
-rings = 5
+[sub_resource type="SphereMesh" id="SphereMesh_sqmdj"]
+material = SubResource("StandardMaterial3D_5a2yi")
+radius = 0.05
+height = 0.1
 
 [node name="blood_explosion" type="GPUParticles3D"]
 emitting = false
-amount = 256
+amount = 384
 lifetime = 8.0
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_4vtil")
-draw_pass_1 = SubResource("SphereMesh_8tajq")
+draw_pass_1 = SubResource("SphereMesh_sqmdj")
 script = ExtResource("1_6koba")
 
 [connection signal="finished" from="." to="." method="_on_finished"]

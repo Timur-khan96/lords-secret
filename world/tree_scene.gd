@@ -9,6 +9,7 @@ func hit(): #returns true if the blow is final
 	health -= 1;
 	if health == 0:
 		$AnimationPlayer.play("fall")
+		$tree_fall.play()
 		$death_timer.start()
 		var s = stump.instantiate()
 		get_parent().add_child(s)

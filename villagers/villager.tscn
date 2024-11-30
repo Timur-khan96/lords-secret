@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bs4osscxqcpcy"]
+[gd_scene load_steps=7 format=3 uid="uid://bs4osscxqcpcy"]
 
 [ext_resource type="Script" path="res://villagers/villager.gd" id="1_i5sqc"]
-[ext_resource type="PackedScene" uid="uid://c7mar8sh2c24y" path="res://ai/trees/visitor_tree_test.tscn" id="4_abhbk"]
+[ext_resource type="PackedScene" uid="uid://c7mar8sh2c24y" path="res://ai/trees/visitor_tree.tscn" id="4_abhbk"]
+[ext_resource type="Script" path="res://villagers/villager_sound_controller.gd" id="5_pm560"]
 [ext_resource type="Script" path="res://addons/beehave/blackboard.gd" id="9_8h0k3"]
 [ext_resource type="Script" path="res://animations/anim_controller.gd" id="13_a14y5"]
 
@@ -30,15 +31,22 @@ wait_time = 240.0
 one_shot = true
 autostart = true
 
-[node name="occupation" type="Label3D" parent="."]
+[node name="occupation_label" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.33235, 0)
+visible = false
 billboard = 1
 text = "Hello"
 font_size = 64
 
 [node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("4_abhbk")]
-blackboard = NodePath("@Node@57688")
+blackboard = NodePath("@Node@18227")
 actor = NodePath("..")
+
+[node name="villager_sound_controller" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.52009, 0)
+unit_size = 20.0
+bus = &"Voice"
+script = ExtResource("5_pm560")
 
 [connection signal="navigation_finished" from="nav_agent" to="." method="_on_nav_agent_navigation_finished"]
 [connection signal="timeout" from="hunger_timer" to="." method="_on_hunger_timer_timeout"]

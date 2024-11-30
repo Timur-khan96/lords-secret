@@ -11,10 +11,11 @@ func _ready():
 
 
 func _on_game_help_button_pressed():
+	get_parent().pop_play()
 	var b = game_help_button_group.get_pressed_button()
 	if b:
 		match b.name:
-			"camera_controls_tutorial":
+			"main_controls_tutorial":
 				%tutorial_text.text = tutorial_arr[1]
 			"plot_edit_tutorial":
 				%tutorial_text.text = tutorial_arr[2]

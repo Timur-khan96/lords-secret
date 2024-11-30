@@ -4,10 +4,14 @@ var construction: int = 0
 var construction_finished = false
 var plot;
 var door
-var resources: int = 8:
+var resources: int = 0:
 	set(value):
 		resources = value
 		show_planks()
+		
+var house_owner:
+	get():
+		return plot.plot_game_info.owner
 	
 func build_iteration():
 	if resources >= 1 && !construction_finished:
@@ -35,8 +39,6 @@ func build_iteration():
 		print("unnecesary build iteration")
 		return false
 		
-
-
 func _on_door_open_area_entered(area):
 	if area is NPC:
 		door.open_doors()
@@ -55,16 +57,14 @@ func show_planks():
 			$planks/planks5.show()
 			
 func nightime_door_open(): #called from the door when villager opens at night
-	var house_owner = plot.plot_game_info.owner
 	if house_owner != null:
 		house_owner.blackboard.set_value("awakened", true)
 	else:
 		print("door was opened, but the house owner is null :(")
 		
 func has_owner_inside(): #this one only for checking before night time dialogue
-	var o = plot.plot_game_info.owner
-	if o == null:
+	if house_owner == null:
 		return false
 	else: 
-		return o.blackboard.get_value("occupation") == NpcUtility.OCCUPATIONS.SLEEPING
+		return house_owner.blackboard.get_value("occupation") == NpcUtility.OCCUPATIONS.SLEEPING
 	

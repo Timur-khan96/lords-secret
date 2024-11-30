@@ -11,16 +11,6 @@ overrides = {
 "global_bg_color": "Color(0.384314, 0.431373, 0.560784, 1)"
 }
 
-[sub_resource type="Resource" id="Resource_nuusy"]
-script = ExtResource("1_abc32")
-scene = ExtResource("3_v2qb7")
-overrides = {
-"boxes_stylebox_focused": "\"res://ui/pressed_button_style_box_texture.tres\"",
-"boxes_stylebox_hovered": "\"res://ui/hovered_button_style_box_texture.tres\"",
-"boxes_stylebox_normal": "\"res://ui/normal_button_style_box_texture.tres\"",
-"boxes_stylebox_pressed": "\"res://ui/pressed_button_style_box_texture.tres\""
-}
-
 [sub_resource type="Resource" id="Resource_b4of2"]
 script = ExtResource("1_abc32")
 scene = ExtResource("2_kxlym")
@@ -30,6 +20,16 @@ overrides = {
 "box_panel": "\"res://ui/style_box_panel_texture.tres\"",
 "box_size": "Vector2(800, 300)",
 "typing_sounds_enabled": "false"
+}
+
+[sub_resource type="Resource" id="Resource_nuusy"]
+script = ExtResource("1_abc32")
+scene = ExtResource("3_v2qb7")
+overrides = {
+"boxes_stylebox_focused": "\"res://ui/pressed_button_style_box_texture.tres\"",
+"boxes_stylebox_hovered": "\"res://ui/hovered_button_style_box_texture.tres\"",
+"boxes_stylebox_normal": "\"res://ui/normal_button_style_box_texture.tres\"",
+"boxes_stylebox_pressed": "\"res://ui/pressed_button_style_box_texture.tres\""
 }
 
 [resource]

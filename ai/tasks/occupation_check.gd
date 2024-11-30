@@ -16,13 +16,13 @@ func tick(actor, blackboard: Blackboard):
 	return FAILURE
 	
 func handle_idle(_actor, blackboard):
-	print("handling idle mode")
-	match randi_range(0, 1):
+	match randi_range(0, 2):
 		0:
 			blackboard.set_value("idle_animation", "idle")
 		1:
 			blackboard.set_value("idle_animation", "sit")
-		3: #wondering
+		2: #wondering
+			print("villager wandering")
 			blackboard.set_value("destination", WorldUtility.get_random_point_inside_bounds())
 			blackboard.set_value("desired_distance", 4.0)
 			
@@ -130,5 +130,5 @@ func get_closest_apple_tree(actor_pos):
 		for i in range(arr.size()):
 			if actor_pos.distance_squared_to(result.global_position) > actor_pos.distance_squared_to(arr[i].global_position):
 				result = arr[i]
-		result.remove_from_group("apple_trees") #so others won't take it, i guess
+		#result.remove_from_group("apple_trees") #so others won't take it, i guess
 		return result

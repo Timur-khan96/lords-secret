@@ -8,11 +8,12 @@ func tick(actor, blackboard: Blackboard):
 		actor.show_attached("axe")
 		actor.play_animation("attack")
 		status = 1
-		get_tree().create_timer(0.86).timeout.connect(_on_hit)
+		get_tree().create_timer(0.8).timeout.connect(_on_hit)
 		return RUNNING
 	elif status == 1:
 		return RUNNING
 	elif status == 2:
+		actor.play_sound("chop")
 		status = 0
 		var result = blackboard.get_value("source").hit() #subject of change
 		if result: 

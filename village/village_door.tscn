@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://28s2ltomwb0x"]
+[gd_scene load_steps=8 format=3 uid="uid://28s2ltomwb0x"]
 
 [ext_resource type="Script" path="res://village/doors_script.gd" id="1_yeedj"]
 [ext_resource type="PackedScene" uid="uid://wntukselhu8w" path="res://village/door_1.glb" id="2_2gdqj"]
@@ -60,10 +60,26 @@ tracks/1/keys = {
 "values": [false, true]
 }
 
+[sub_resource type="Animation" id="Animation_4drfe"]
+resource_name = "open_no_invite"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("door_1/door:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -2.51327, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_db4df"]
 _data = {
 "RESET": SubResource("Animation_ga0kw"),
-"open": SubResource("Animation_58eed")
+"open": SubResource("Animation_58eed"),
+"open_no_invite": SubResource("Animation_4drfe")
 }
 
 [node name="door_body" type="StaticBody3D" groups=["interactable", "villager_doors"]]
@@ -80,5 +96,7 @@ libraries = {
 }
 
 [node name="door_1" parent="." instance=ExtResource("2_2gdqj")]
+
+[node name="door_sound" type="AudioStreamPlayer3D" parent="."]
 
 [editable path="door_1"]

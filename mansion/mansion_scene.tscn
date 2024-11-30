@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d2c8qp07tqnfl"]
+[gd_scene load_steps=22 format=3 uid="uid://d2c8qp07tqnfl"]
 
 [ext_resource type="Script" path="res://mansion/mansion_scene.gd" id="1_r84c0"]
 [ext_resource type="PackedScene" uid="uid://b2v5uf0876wqg" path="res://mansion/mansion.glb" id="1_y6y34"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://mansion/mansion_bell.gd" id="5_dhb2t"]
 [ext_resource type="PackedScene" uid="uid://chxpsicsfb61" path="res://mansion/table.blend" id="6_4kevg"]
 [ext_resource type="PackedScene" uid="uid://rq1c8guqqfa1" path="res://mansion/bell.blend" id="8_gg6tj"]
+[ext_resource type="AudioStream" uid="uid://b781ojl0ndkn" path="res://audio/SFX/bell_ring.mp3" id="9_ije0w"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vvxby"]
 size = Vector3(15.2615, 1, 15.6699)
@@ -103,7 +104,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4uw7a"]
-size = Vector3(6.2587, 1, 2.75818)
+size = Vector3(4.37688, 1, 2.75818)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xoayy"]
 size = Vector3(1.46191, 1, 3.12445)
@@ -219,13 +220,15 @@ libraries = {
 "": SubResource("AnimationLibrary_m3atm")
 }
 
+[node name="door_sound" type="AudioStreamPlayer3D" parent="doors_body"]
+
 [node name="door_open_area" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.0664, 0, -1.449)
 collision_layer = 256
 collision_mask = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="door_open_area"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.34441, 1.38853, 1.33877)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.63163, 1.38853, 1.33877)
 shape = SubResource("BoxShape3D_4uw7a")
 
 [node name="queue_start" type="Node3D" parent="."]
@@ -263,7 +266,12 @@ libraries = {
 "": SubResource("AnimationLibrary_1ppi0")
 }
 
+[node name="bell_ringing" type="AudioStreamPlayer" parent="mansion_bell"]
+stream = ExtResource("9_ije0w")
+
+[connection signal="area_entered" from="door_open_area" to="." method="_on_door_open_area_entered"]
 [connection signal="body_entered" from="door_open_area" to="." method="_on_door_open_area_body_entered"]
+[connection signal="animation_finished" from="mansion_bell/AnimationPlayer" to="mansion_bell" method="_on_animation_player_animation_finished"]
 
 [editable path="mansion"]
 [editable path="mansion_bell/bell"]

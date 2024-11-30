@@ -1,6 +1,5 @@
 extends Node3D
 
-@onready var debug_label = $player_controls/UILayer.get_node("debug_label")
 @onready var mansion = $mansion_scene
 @onready var NPCSpawner = $NPCSpawner
 @onready var OBJSpawner = $ObjectSpawner
@@ -79,9 +78,8 @@ func _ready():
 	lord.wild_off.connect(player_controls.show_bottom_panel)
 	
 func _process(_delta):
-	debug_label.text = "FPS " + str(float(Engine.get_frames_per_second()))
 	if camera.current:
-		if camera.global_position.distance_squared_to(Vector3.ZERO) < 20:
+		if camera.global_position.distance_to(Vector3.ZERO) < 20:
 			mansion.hide_roof()
 		else:
 			mansion.show_roof()
@@ -89,8 +87,8 @@ func _process(_delta):
 func set_world_bounds():
 	$Floor/CollisionShape3D.shape.size.x = WORLD_SIZE * 1.5;
 	$Floor/CollisionShape3D.shape.size.z = WORLD_SIZE * 1.5;
-	$Floor/MeshInstance3D.mesh.size.x = WORLD_SIZE * 1.5
-	$Floor/MeshInstance3D.mesh.size.z = WORLD_SIZE * 1.5
+	$Floor/MeshInstance3D.mesh.size.x = WORLD_SIZE * 3
+	$Floor/MeshInstance3D.mesh.size.z = WORLD_SIZE * 3
 	var half_world = WORLD_SIZE * 0.5
 	%camera_base.bound_camera(half_world)
 	border_mesh.mesh.surface_begin(Mesh.PRIMITIVE_LINES)
@@ -157,6 +155,7 @@ func transition_to_lord_camera():
 	player_controls.toggle_camera_process(false)
 	var c = lord.get_node("%lords_camera");
 	camera_original_global_pos = camera.global_position
+	$transition_stream.play()
 	tween.tween_property(camera, "global_position", c.global_position, 1.0)
 	tween.finished.connect(switch_to_lord)
 	
@@ -166,6 +165,7 @@ func switch_to_lord():
 	lord.lord_state = lord.LORD_STATES.ACTIVATED
 	
 func transition_to_world_camera():
+	$transition_stream.play()
 	camera.current = true;
 	var tween = get_tree().create_tween()
 	tween.tween_property(camera, "global_position", camera_original_global_pos, 1.0)
@@ -185,12 +185,15 @@ func check_villager_doors(): #morning reload
 		door.visitor_opened_door = false
 		
 func NPC_exploded(curr_NPC):
+	if mansion.petitioner != null:
+		if mansion.petitioner == curr_NPC && player_controls.is_selling_plot:
+			player_controls.is_selling_plot = false
 	if curr_NPC.petitioner_dialogue == "visitor_5_2":
 		NpcUtility.blood_seller_game_info = null
 	var pos = curr_NPC.global_position
 	NPCSpawner.killed_people.append(str(curr_NPC.game_info.name + " " + curr_NPC.game_info.surname))
 	var blood_explosion = load("res://effects/blood_explosion.tscn").instantiate()
-	lord.add_child(blood_explosion)
+	add_child(blood_explosion)
 	blood_explosion.global_position = pos
 	blood_explosion.global_position.y += 1.2
 	blood_explosion.emitting = true;

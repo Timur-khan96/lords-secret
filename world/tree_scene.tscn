@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://d8eqwr8ld3i5"]
+[gd_scene load_steps=10 format=3 uid="uid://d8eqwr8ld3i5"]
 
 [ext_resource type="PackedScene" uid="uid://b4nmf1ohh826e" path="res://world/models/tree_1.glb" id="1_2jy25"]
 [ext_resource type="Script" path="res://world/tree_scene.gd" id="1_ldpi2"]
 [ext_resource type="PackedScene" uid="uid://cyl715yq3k44d" path="res://world/models/tree_2.glb" id="2_bfena"]
+[ext_resource type="AudioStream" uid="uid://bwbkwr53j7hgh" path="res://audio/SFX/tree_fall.mp3" id="4_km0dv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q5rd4"]
 size = Vector3(0.573517, 1.50145, 0.652908)
@@ -83,5 +84,8 @@ libraries = {
 
 [node name="death_timer" type="Timer" parent="."]
 wait_time = 6.0
+
+[node name="tree_fall" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_km0dv")
 
 [connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]

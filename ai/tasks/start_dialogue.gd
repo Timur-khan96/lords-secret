@@ -9,7 +9,10 @@ func tick(actor, _blackboard: Blackboard):
 		v.surname = g.surname
 		v.family_size = g.family_size
 		v.money = g.money
-		actor.look_at(Global.lord.global_position, Vector3.UP)
+		var direction = (Global.lord.global_position - actor.global_position).normalized()
+		direction.y = 0
+		actor.look_at(actor.global_position + direction, Vector3.UP)
+		actor.play_voice("visitor")
 		Global.start_dialogue(actor.petitioner_dialogue)
 	return SUCCESS
 	

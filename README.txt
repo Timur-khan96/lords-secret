@@ -1,6 +1,13 @@
 - This is the game tutorial that can be found both in the game and the github source repository. If you are reading it from the latter you can find the executable file in the EXPORTS folder. If you are already in the game select a topic from the list on the left.
 
-- You can move camera by moving your mouse to the edges of the game window, zoom with the mouse wheel, and rotate with "Q" and "E" keys. When switched to the lord, camera is controlled only by mouse motion.
+Male voices by wolfb0yKilla
+Female voices by Diana Bitsenko https://www.instagram.com/diana_bitsenko?igsh=MW9qNmRud3R2MXE0bg%3D%3D&utm_source=qr
+Dialogic and Beehave addons for Godot are used.
+Character models and animations are taken from mixamo.com.
+Textures are taken from polyhaven.com
+Sounds are taken from freesound.org
+
+- You can move camera by moving your mouse to the edges of the game window, zoom with the mouse wheel, and rotate with "Q" and "E" keys. You can speed up time and pause the game by pressing the corresponding buttons in the top-right bar. When switched to the lord, camera is controlled only by mouse motion. 
 
 - You can switch to the plot edit mode by pressing the corresponding button in the middle-bottom bar. Click on the ground (LMB) and move the mouse to start editing, once the rectangle turns green you can click again to establish a new plot. Right mouse button cancels plot creation. You can adjust plot corners by clicking on them and moving them to another position. Once the plot is established you need to click on it to open the plot menu, set plot information, and finish plot creation by pressing accept button in the menu.
 

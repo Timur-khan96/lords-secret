@@ -17,6 +17,8 @@
 [ext_resource type="StyleBox" uid="uid://bt4a2g2ky50wk" path="res://ui/hovered_button_style_box_texture.tres" id="13_x8lfq"]
 [ext_resource type="StyleBox" uid="uid://cu3w78r1qt6s7" path="res://ui/pressed_button_style_box_texture.tres" id="14_amcbk"]
 [ext_resource type="StyleBox" uid="uid://b1bpncbpthns1" path="res://ui/normal_button_style_box_texture.tres" id="15_5v321"]
+[ext_resource type="AudioStream" uid="uid://b0u0tdjm5jpnw" path="res://audio/SFX/button.mp3" id="18_gsjw0"]
+[ext_resource type="Script" path="res://ui/esc_panel.gd" id="19_nvir3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_57cg0"]
 atlas = ExtResource("3_aholr")
@@ -66,12 +68,6 @@ region = Rect2(120, 0, 60, 0)
 atlas = ExtResource("11_li60a")
 region = Rect2(60, 0, 60, 0)
 
-[sub_resource type="InputEventAction" id="InputEventAction_j4c3l"]
-action = &"pause"
-
-[sub_resource type="Shortcut" id="Shortcut_qvmke"]
-events = [SubResource("InputEventAction_j4c3l")]
-
 [node name="UILayer" type="CanvasLayer"]
 script = ExtResource("1_qev2k")
 
@@ -96,6 +92,7 @@ Desired cost: "
 horizontal_alignment = 1
 
 [node name="middle_bottom" type="MarginContainer" parent="."]
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -106,7 +103,6 @@ offset_top = -40.0
 offset_right = 20.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/margin_bottom = 4
 
 [node name="TextureRect" type="TextureRect" parent="middle_bottom"]
 layout_mode = 2
@@ -155,12 +151,12 @@ texture_hover = SubResource("AtlasTexture_jlxbo")
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Switch to the lord"
-disabled = true
 texture_normal = SubResource("AtlasTexture_s463a")
 texture_hover = SubResource("AtlasTexture_pg8je")
 texture_disabled = SubResource("AtlasTexture_vl1nv")
 
 [node name="middle_top" type="MarginContainer" parent="."]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -169,7 +165,6 @@ offset_right = 150.0
 offset_bottom = 71.0
 grow_horizontal = 2
 mouse_filter = 2
-theme_override_constants/margin_top = 4
 
 [node name="TextureRect" type="TextureRect" parent="middle_top"]
 layout_mode = 2
@@ -369,7 +364,6 @@ theme_override_styles/hover = ExtResource("13_x8lfq")
 theme_override_styles/pressed = ExtResource("14_amcbk")
 theme_override_styles/normal = ExtResource("15_5v321")
 toggle_mode = true
-shortcut = SubResource("Shortcut_qvmke")
 text = "❚❚"
 
 [node name="date_label" type="Label" parent="top_right/PanelContainer/VBoxContainer"]
@@ -432,14 +426,14 @@ theme_override_constants/separation = 16
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="camera_controls_tutorial" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
+[node name="main_controls_tutorial" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
 layout_mode = 2
 theme_override_styles/hover = ExtResource("13_x8lfq")
 theme_override_styles/pressed = ExtResource("14_amcbk")
 theme_override_styles/normal = ExtResource("15_5v321")
 toggle_mode = true
 button_group = ExtResource("12_4bqev")
-text = "Camera controls"
+text = "Main controls"
 
 [node name="plot_edit_tutorial" type="Button" parent="tutorial_panel/VBoxContainer/HBoxContainer_2/tutorial_topic_list"]
 layout_mode = 2
@@ -537,6 +531,80 @@ layout_mode = 2
 text = "◊ Create at least three plots for newcomers (0/3)"
 autowrap_mode = 2
 
+[node name="pop_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_gsjw0")
+
+[node name="esc_panel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -37.5
+offset_right = 150.0
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("12_jhd7y")
+script = ExtResource("19_nvir3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="esc_panel"]
+layout_mode = 2
+
+[node name="music_label" type="Label" parent="esc_panel/VBoxContainer"]
+layout_mode = 2
+text = "Music"
+horizontal_alignment = 1
+
+[node name="music_slider" type="HSlider" parent="esc_panel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+
+[node name="SFX_label" type="Label" parent="esc_panel/VBoxContainer"]
+layout_mode = 2
+text = "SFX"
+horizontal_alignment = 1
+
+[node name="sfx_slider" type="HSlider" parent="esc_panel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+
+[node name="voice_label" type="Label" parent="esc_panel/VBoxContainer"]
+layout_mode = 2
+text = "Voice
+"
+horizontal_alignment = 1
+
+[node name="voice_slider" type="HSlider" parent="esc_panel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+
+[node name="resume_button" type="Button" parent="esc_panel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
+text = "Resume
+"
+
+[node name="exit_button" type="Button" parent="esc_panel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = ExtResource("13_x8lfq")
+theme_override_styles/pressed = ExtResource("14_amcbk")
+theme_override_styles/normal = ExtResource("15_5v321")
+text = "Exit
+"
+
 [connection signal="toggled" from="middle_bottom/TextureRect/MarginContainer/HBoxContainer/plot_button" to="." method="_on_plot_button_toggled"]
 [connection signal="pressed" from="middle_bottom/TextureRect/MarginContainer/HBoxContainer/bell_button" to="." method="_on_bell_button_pressed"]
 [connection signal="pressed" from="middle_bottom/TextureRect/MarginContainer/HBoxContainer/vampire_button" to="." method="_on_vampire_button_pressed"]
@@ -546,3 +614,8 @@ autowrap_mode = 2
 [connection signal="toggled" from="top_right/PanelContainer/VBoxContainer/HBoxContainer/pause_button" to="." method="_on_pause_button_toggled"]
 [connection signal="pressed" from="tutorial_panel/VBoxContainer/HBoxContainer_1/close_tutorial_button" to="." method="_on_close_tutorial_button_pressed"]
 [connection signal="pressed" from="initial_message/VBoxContainer/initial_message_button" to="." method="_on_initial_message_button_pressed"]
+[connection signal="value_changed" from="esc_panel/VBoxContainer/music_slider" to="esc_panel" method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="esc_panel/VBoxContainer/sfx_slider" to="esc_panel" method="_on_sfx_slider_value_changed"]
+[connection signal="value_changed" from="esc_panel/VBoxContainer/voice_slider" to="esc_panel" method="_on_voice_slider_value_changed"]
+[connection signal="pressed" from="esc_panel/VBoxContainer/resume_button" to="esc_panel" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="esc_panel/VBoxContainer/exit_button" to="esc_panel" method="_on_exit_button_pressed"]

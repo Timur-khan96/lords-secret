@@ -17,7 +17,7 @@ var zoom_speed = 20.0
 var zoom_speed_damp = 0.9
 var zoom_direction = 0.0
 var zoom_min = 1.0
-var zoom_max = 80.0
+var zoom_max = 40.0
 
 var can_rotate:bool = true
 var is_rotating:bool = false

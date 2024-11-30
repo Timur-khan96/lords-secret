@@ -19,7 +19,7 @@ func tick(actor, blackboard: Blackboard):
 		if hunger_left <= 0:
 			blackboard.set_value("is_hungry", false)
 			actor.reload_hunger_timer()
-			hunger_left = 10
+			hunger_left = 10 #for next time
 			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.IDLE)
 		if result: # is true when basket is empty
 			blackboard.get_value("plot").food_storage = null

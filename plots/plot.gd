@@ -134,7 +134,7 @@ func draw_line(pos_1: Vector3, pos_2: Vector3):
 		
 func show_plot_menu(is_selling = false):
 	set_plot_info()
-	Global.context_menu_opened(%plot_control)
+	Global.menu_opened(%plot_control)
 	await get_tree().create_timer(0.5).timeout
 	%accept_button.pressed.connect(_on_accept_button_pressed)
 	%decline_button.pressed.connect(_on_decline_button_pressed)
@@ -143,7 +143,7 @@ func show_plot_menu(is_selling = false):
 		%accept_button.pressed.connect(_on_plot_selling_attempt)
 	
 func hide_plot_menu():
-	Global.context_menu_closed(%plot_control)
+	Global.menu_closed(%plot_control)
 	%accept_button.pressed.disconnect(_on_accept_button_pressed)
 	%decline_button.pressed.disconnect(_on_decline_button_pressed)
 	
@@ -175,6 +175,7 @@ func get_plot_owner_name():
 		return dic.name + " " + dic.surname
 
 func _on_accept_button_pressed():
+	%plot_signing_sound.play()
 	plot_game_info.name = %plot_name.text
 	plot_game_info.price = int(%price_box.value)
 	$plot_name_3D.text = plot_game_info.name
@@ -198,6 +199,7 @@ func _on_plot_selling_attempt():
 	%accept_button.pressed.disconnect(_on_plot_selling_attempt)
 
 func _on_decline_button_pressed():
+	%plot_signing_sound.play()
 	hide_plot_menu()
 	if plot_game_info.owner == null:
 		if plot_status == PlotUtility.PLOT_STATUS.DONE:

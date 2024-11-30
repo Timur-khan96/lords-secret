@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://t28ou6ww6jg1"
 path.s3tc="res://.godot/imported/house_1_weathered_brown_planks_nor_gl_16k.png-3887cd002db2cb38abebc3e6098fc3c4.s3tc.ctex"
+path.etc2="res://.godot/imported/house_1_weathered_brown_planks_nor_gl_16k.png-3887cd002db2cb38abebc3e6098fc3c4.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://village/house_1_weathered_brown_planks_nor_gl_16k.png"
-dest_files=["res://.godot/imported/house_1_weathered_brown_planks_nor_gl_16k.png-3887cd002db2cb38abebc3e6098fc3c4.s3tc.ctex"]
+dest_files=["res://.godot/imported/house_1_weathered_brown_planks_nor_gl_16k.png-3887cd002db2cb38abebc3e6098fc3c4.s3tc.ctex", "res://.godot/imported/house_1_weathered_brown_planks_nor_gl_16k.png-3887cd002db2cb38abebc3e6098fc3c4.etc2.ctex"]
 
 [params]
 

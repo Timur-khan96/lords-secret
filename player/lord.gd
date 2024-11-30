@@ -28,6 +28,7 @@ var lord_state: LORD_STATES:
 				if lord_state == LORD_STATES.ACTIVATED:
 					deactivate_lord()
 			LORD_STATES.WILD:
+				$lord_audio_controller.play("wild_turn")
 				if lord_state == LORD_STATES.ACTIVATED:
 					deactivate_lord() #deactivates danger_area
 				$danger_area/CollisionShape3D.disabled = false
@@ -62,7 +63,7 @@ func _ready():
 	nav_agent.target_reached.connect(_on_nav_target_reached)
 
 func _input(event):
-	if Global.menu_opened: return
+	if Global.is_menu_opened: return
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x / 100 * mouse_sens)
 		$camera_base.rotate_x(-event.relative.y / 100 * mouse_sens)
@@ -71,26 +72,31 @@ func _input(event):
 		if interactable is MansionTable:
 			lord_state = LORD_STATES.DEACTIVATED
 		elif interactable is NPC:
+			if interactable.is_combatant && interactable.in_danger: return
 			interactable.interact()
 			start_dialogue()
 		else:
 			interactable.interact()
 	elif event.is_action_pressed("RMB") && interactable:
 		if interactable.is_in_group("NPC"):
+			$lord_audio_controller.play_sound("lord_attack")
 			blood += randi_range(20,30)
 			$danger_area.lord_attack()
 			interactable.explode()
 			
 func start_dialogue():
 	if is_burning:
+		interactable.play_voice("lord_burning")
 		Global.start_dialogue("lord_burning")
 	elif interactable.in_danger:
+		interactable.play_voice("in_danger")
 		Global.start_dialogue("in_danger")
 	else:
 		match interactable.game_info.status:
 			NpcUtility.NPC_Status.VISITOR:
 				Global.start_dialogue("visitor_interaction")
 			NpcUtility.NPC_Status.VILLAGER:
+				interactable.play_voice("villager_interaction")
 				Global.start_dialogue("villager_interaction")
 			NpcUtility.NPC_Status.LEAVING:
 				Global.start_dialogue("visitor_leaving")
@@ -196,7 +202,14 @@ func handle_movement(delta):
 		play_animation("idle")
 		
 func hit():
+	$lord_audio_controller.play_sound("hurt")
 	blood -= randi_range(5, 10)
+	var explosion = load("res://effects/blood_explosion.tscn").instantiate()
+	explosion.amount = 64
+	explosion.set_layer_mask_value(1, false)
+	explosion.set_layer_mask_value(2, true)
+	add_child(explosion)
+	explosion.emitting = true
 		
 func play_animation(anim_name: String):
 	anim_controller.play_animation(anim_name)

@@ -3,7 +3,7 @@ extends Node
 var village_name: String = "Brightlands"
 var lord_name: String = "Vlad Stoker"
 
-var menu_opened = false;
+var is_menu_opened = false;
 var current_dialogue = null
 
 var current_quest = 1;
@@ -49,16 +49,16 @@ func _process(_delta):
 				if current_quest_count >= current_quest_goal:
 					current_quest += 1
 
-func context_menu_opened(menu = null):
-	menu_opened = true
+func menu_opened(menu = null):
+	is_menu_opened = true
 	player_controls.set_process_input(false)
 	if player_controls.control_mode == player_controls.CONTROL_MODES.VAMPIRE:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	if menu:
 		menu.show()
 	
-func context_menu_closed(menu = null):
-	menu_opened = false
+func menu_closed(menu = null):
+	is_menu_opened = false
 	player_controls.set_process_input(true)
 	if player_controls.control_mode == player_controls.CONTROL_MODES.VAMPIRE:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -67,20 +67,15 @@ func context_menu_closed(menu = null):
 		
 func start_dialogue(dialogue_name: String):
 	current_dialogue = dialogue_name
-	player_controls.hide_bottom_panel()
-	player_controls.toggle_camera_process(false)
-	context_menu_opened()
+	menu_opened()
 	Dialogic.start(dialogue_name)
 	Dialogic.timeline_ended.connect(end_dialogue)
 	
 func end_dialogue():
-	if player_controls.control_mode != player_controls.CONTROL_MODES.VAMPIRE:
-		player_controls.show_bottom_panel()
-		player_controls.toggle_camera_process(true)
 	handle_dialogue_result()
 	current_dialogue = null
 	Dialogic.timeline_ended.disconnect(end_dialogue)
-	context_menu_closed()
+	menu_closed()
 	
 func handle_dialogue_result(is_leaving = false):
 	if is_leaving:
@@ -116,6 +111,9 @@ func handle_dialogue_result(is_leaving = false):
 		match current_dialogue:
 			"visitor_buying_plot":
 				mansion_scene.send_petitioner_to_plot()
+			"visitor_gifted_plot":
+				village_reputation += 5
+				mansion_scene.send_petitioner_to_plot()
 			"visitor_7":
 				if Dialogic.VAR.visitor_attack:
 					Dialogic.VAR.visitor_attack = false
@@ -129,14 +127,17 @@ func plot_selling_end(plot): #called on plot accept button as signal
 	var desired_cost = roundi(Dialogic.VAR.visitor.money * 0.5)
 	var price = plot.plot_game_info.price
 	if price > desired_cost:
+		mansion_scene.petitioner.play_voice("visitor_not_buying_plot")
 		start_dialogue("visitor_not_buying_plot")
 	elif price == 0:
+		plot.plot_game_info.owner = mansion_scene.petitioner
+		mansion_scene.petitioner.play_voice("visitor_gifted_plot")
 		start_dialogue("visitor_gifted_plot")
-		village_reputation += 5
 	else:
 		plot.plot_game_info.owner = mansion_scene.petitioner
 		mansion_scene.petitioner.game_info.money -= price
 		money += price
+		mansion_scene.petitioner.play_voice("visitor_buying_plot")
 		start_dialogue("visitor_buying_plot")
 		
 func check_current_quest():

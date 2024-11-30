@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bdf6rixhutf4i"
 path.s3tc="res://.godot/imported/female_Peasant_Girl_normal.png-a008304c7820d3ecf61bb15dbf3a015c.s3tc.ctex"
+path.etc2="res://.godot/imported/female_Peasant_Girl_normal.png-a008304c7820d3ecf61bb15dbf3a015c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://villagers/models/female_Peasant_Girl_normal.png"
-dest_files=["res://.godot/imported/female_Peasant_Girl_normal.png-a008304c7820d3ecf61bb15dbf3a015c.s3tc.ctex"]
+dest_files=["res://.godot/imported/female_Peasant_Girl_normal.png-a008304c7820d3ecf61bb15dbf3a015c.s3tc.ctex", "res://.godot/imported/female_Peasant_Girl_normal.png-a008304c7820d3ecf61bb15dbf3a015c.etc2.ctex"]
 
 [params]
 

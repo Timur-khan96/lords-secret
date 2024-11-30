@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cn7wlwipkffvd"
 path.s3tc="res://.godot/imported/mansion_rock_wall_08_rough_1k.png-363432409e65ed3cbfdcb2efa78885cd.s3tc.ctex"
+path.etc2="res://.godot/imported/mansion_rock_wall_08_rough_1k.png-363432409e65ed3cbfdcb2efa78885cd.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://mansion/mansion_rock_wall_08_rough_1k.png"
-dest_files=["res://.godot/imported/mansion_rock_wall_08_rough_1k.png-363432409e65ed3cbfdcb2efa78885cd.s3tc.ctex"]
+dest_files=["res://.godot/imported/mansion_rock_wall_08_rough_1k.png-363432409e65ed3cbfdcb2efa78885cd.s3tc.ctex", "res://.godot/imported/mansion_rock_wall_08_rough_1k.png-363432409e65ed3cbfdcb2efa78885cd.etc2.ctex"]
 
 [params]
 

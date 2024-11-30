@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://i1b11qd51diq"
 path.s3tc="res://.godot/imported/house_1_thatch_roof_angled_diff_1k.jpg-ef1e5463aa8e48a0749c1e9046f106ac.s3tc.ctex"
+path.etc2="res://.godot/imported/house_1_thatch_roof_angled_diff_1k.jpg-ef1e5463aa8e48a0749c1e9046f106ac.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://village/house_1_thatch_roof_angled_diff_1k.jpg"
-dest_files=["res://.godot/imported/house_1_thatch_roof_angled_diff_1k.jpg-ef1e5463aa8e48a0749c1e9046f106ac.s3tc.ctex"]
+dest_files=["res://.godot/imported/house_1_thatch_roof_angled_diff_1k.jpg-ef1e5463aa8e48a0749c1e9046f106ac.s3tc.ctex", "res://.godot/imported/house_1_thatch_roof_angled_diff_1k.jpg-ef1e5463aa8e48a0749c1e9046f106ac.etc2.ctex"]
 
 [params]
 

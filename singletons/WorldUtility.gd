@@ -1,6 +1,6 @@
 extends Node
 
-var world_size = 200.0
+var world_size = 400.0
 var half_world_size = world_size * 0.5
 var POS_Y = 0.6 #subject of change, hopefully
 var is_daytime = false:

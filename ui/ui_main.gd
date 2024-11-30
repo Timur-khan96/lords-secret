@@ -59,8 +59,8 @@ func _on_ui_mouse_exited():
 	
 func _on_plot_selling_start():
 	var c = roundi(Dialogic.VAR.visitor.money * 0.5)
-	$selling_overlay/Label.text = """Select a plot or establish a new one
-	desired cost: """ + str(c)
+	$selling_overlay/Label.text = """Select a plot or establish a new one.
+	Minimum desired cost: """ + str(c)
 	$selling_overlay.show()
 	if !%plot_button.button_pressed:
 		%plot_button.button_pressed = true
@@ -69,15 +69,19 @@ func _on_plot_selling_end():
 	$selling_overlay.hide()
 
 func _on_time_button_pressed():
+	pop_play()
 	time_button_pressed.emit()
 
 func _on_bell_button_pressed():
+	pop_play()
 	bell_pressed.emit()
 	
 func _on_plot_button_toggled(toggled_on):
+	pop_play()
 	plot_edit_toggled.emit(toggled_on)
 
 func _on_vampire_button_pressed():
+	pop_play()
 	vampire_pressed.emit()
 	
 func hide_bottom_panel(): #during 3d-person and dialogues 
@@ -88,6 +92,7 @@ func show_bottom_panel():
 
 
 func _on_pause_button_toggled(toggled_on):
+	pop_play()
 	get_tree().paused = toggled_on
 	if toggled_on:
 		pause_button.text = "▶"
@@ -95,6 +100,7 @@ func _on_pause_button_toggled(toggled_on):
 		pause_button.text = "❚❚"
 
 func _on_game_start_button_pressed():
+	pop_play()
 	Global.village_name = village_name_edit.text
 	Global.lord_name = lord_name_edit.text
 	$village_name_control.hide()
@@ -106,14 +112,21 @@ func _on_game_start_button_pressed():
 	$initial_message.show()
 	
 func _on_tutorial_button_toggled(toggled_on):
+	pop_play()
 	$tutorial_panel.visible = toggled_on
 	$tutorial_panel._on_game_help_button_pressed()
 	pause_button.button_pressed = toggled_on
 
 func _on_close_tutorial_button_pressed():
+	pop_play()
 	%tutorial_button.button_pressed = false
 
 func _on_initial_message_button_pressed():
+	pop_play()
 	%quest_label.show()
-	%vampire_button.disabled = false
+	$middle_bottom.show()
+	$middle_top.show()
 	$initial_message.queue_free()
+	
+func pop_play():
+	$pop_sound.play()

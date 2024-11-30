@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://52avnsgxo2ak"]
+[gd_scene load_steps=13 format=3 uid="uid://52avnsgxo2ak"]
 
 [ext_resource type="Script" path="res://plots/plot.gd" id="1_ai81j"]
 [ext_resource type="PackedScene" uid="uid://s7lvb474oiqx" path="res://plots/corner.tscn" id="2_gg7m8"]
 [ext_resource type="Material" uid="uid://cnlhpp84l2rur" path="res://plots/abstract_corner_material.tres" id="3_fvgms"]
 [ext_resource type="StyleBox" uid="uid://bq80y6bgd8uqj" path="res://ui/style_box_panel_texture.tres" id="4_873kw"]
 [ext_resource type="Texture2D" uid="uid://dwu8x0d7iffst" path="res://ui/ui_images/round_check_atlas.png" id="4_snuto"]
+[ext_resource type="AudioStream" uid="uid://bfa6wepby0ahu" path="res://audio/SFX/plot_sign.mp3" id="6_nfw2j"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_cdh1v"]
 resource_local_to_scene = true
@@ -142,3 +143,8 @@ texture_normal = SubResource("AtlasTexture_n5kje")
 texture_hover = SubResource("AtlasTexture_6jxrm")
 ignore_texture_size = true
 stretch_mode = 0
+
+[node name="plot_signing_sound" type="AudioStreamPlayer" parent="CanvasLayer"]
+unique_name_in_owner = true
+stream = ExtResource("6_nfw2j")
+bus = &"SFX"

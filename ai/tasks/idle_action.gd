@@ -3,7 +3,7 @@ extends ActionLeaf
 var status = 0 #enum-like: 0-not started 1 running 2 finished
 
 func tick(actor, blackboard: Blackboard):
-	if blackboard.get_value("occupation") != NpcUtility.OCCUPATIONS.IDLE:
+	if blackboard.get_value("occupation") != NpcUtility.OCCUPATIONS.IDLE || actor.in_danger:
 		return FAILURE
 	if status == 0:
 		var a = blackboard.get_value("idle_animation")

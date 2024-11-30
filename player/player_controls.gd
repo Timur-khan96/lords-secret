@@ -42,6 +42,8 @@ func _ready():
 	$UILayer.player_controls = self
 	$UILayer.plot_edit_toggled.connect(_on_plot_button_toggled)
 	$UILayer.vampire_pressed.connect(_on_vampire_button_pressed)
+	Dialogic.timeline_started.connect(_on_dialogue_started)
+	Dialogic.timeline_ended.connect(_on_dialogue_ended)
 
 func _input(event):
 	if $UILayer.mouse_on_ui: return
@@ -145,6 +147,18 @@ func show_bottom_panel():
 func toggle_camera_process(toggled_on):
 	%camera_base.set_process_input(toggled_on)
 	%camera_base.set_process(toggled_on)
+	
+func _on_dialogue_started():
+	for b in get_tree().get_nodes_in_group('dialogic_choice_button'):
+		b.mouse_entered.connect(_on_ui_mouse_entered)
+		b.mouse_exited.connect(_on_ui_mouse_exited)
+	#%camera_base.can_zoom = false
+	hide_bottom_panel()
+		
+func _on_dialogue_ended():
+	#%camera_base.can_zoom = true
+	if control_mode != CONTROL_MODES.VAMPIRE:
+		show_bottom_panel()
 	
 func lord_deactivated():
 	if control_mode == CONTROL_MODES.VAMPIRE:

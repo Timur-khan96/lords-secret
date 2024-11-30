@@ -19,4 +19,10 @@ collision_layer = 32
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0125885, 0.722824, 0.0223618)
 shape = SubResource("BoxShape3D_cjewe")
 
+[node name="apple_growth" type="Timer" parent="."]
+wait_time = 720.0
+autostart = true
+
+[connection signal="timeout" from="apple_growth" to="." method="_on_apple_growth_timeout"]
+
 [editable path="apple_tree"]
