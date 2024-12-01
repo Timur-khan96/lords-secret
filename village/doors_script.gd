@@ -17,11 +17,6 @@ func close_doors():
 	$door_sound.play()
 	opened = false
 	$door_anim.play_backwards("open");
-	if !is_in_group("villager_doors"): #mansion door then
-		var p = get_parent()
-		if p.petitioner_is_leaving:
-			p.petitioner_is_leaving = false
-			p.petitioner = null
 	
 func interact():
 	if is_in_group("villager_doors"):
@@ -32,11 +27,12 @@ func interact():
 				if visitor_opened_door:
 					open_doors()
 				else:
-					if visited_this_night:
-						get_parent().house_owner.play_voice("nightime_door_dialogue_2")
+					var o = get_parent().house_owner
+					if visited_this_night || o.in_danger:
+						o.play_voice("nightime_door_dialogue_2")
 						Global.start_dialogue("nightime_door_dialogue_2")
 					else:
-						get_parent().house_owner.play_voice("nightime_door_dialogue")
+						o.play_voice("nightime_door_dialogue")
 						Global.start_dialogue("nightime_door_dialogue")
 						Dialogic.timeline_ended.connect(_on_nightime_dialogue_ended)
 			else:

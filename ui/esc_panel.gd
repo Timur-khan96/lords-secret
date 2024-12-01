@@ -18,6 +18,11 @@ func toggle_esc():
 	visible = !visible
 	pause_button.button_pressed = visible
 	pause_button.disabled = get_tree().paused
+	if visible:
+		Global.menu_opened()
+	else:
+		Global.menu_closed()
+			
 	
 func _on_resume_button_pressed():
 	toggle_esc()

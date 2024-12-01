@@ -6,13 +6,10 @@ func play_sound(sound):
 	bus = "SFX"
 	match sound:
 		"scream":
-			match randi_range(0,2):
-				0:
-					stream = load(voice_path + "scream_1.mp3")
-				1:
-					stream = load(voice_path + "scream_2.mp3")
-				2:
-					return
+			if randf() > 0.5:
+				stream = load(voice_path + "scream_1.mp3")
+			else:
+				stream = load(voice_path + "scream_2.mp3")
 		"chop":
 			match randi_range(0,2):
 				0:

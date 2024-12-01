@@ -4,6 +4,10 @@ var construction: int = 0
 var construction_finished = false
 var plot;
 var door
+@onready var bed = $bed
+var bed_global_rotation:
+	get():
+		bed.global_transform.basis.get_euler()
 var resources: int = 0:
 	set(value):
 		resources = value
@@ -20,6 +24,7 @@ func build_iteration():
 		if construction >= 10:
 			construction = 10
 			construction_finished = true
+			$bed.show()
 			$house_1/house.transparency = 0.0
 			$"house_1/floor ".transparency = 0.0
 			$"house_1/roof ".transparency = 0.0
@@ -36,7 +41,6 @@ func build_iteration():
 			$"house_1/roof ".transparency = 1.0 - float(construction * 0.1)
 			return false
 	else:
-		print("unnecesary build iteration")
 		return false
 		
 func _on_door_open_area_entered(area):
@@ -66,5 +70,5 @@ func has_owner_inside(): #this one only for checking before night time dialogue
 	if house_owner == null:
 		return false
 	else: 
-		return house_owner.blackboard.get_value("occupation") == NpcUtility.OCCUPATIONS.SLEEPING
+		return house_owner.check_anim("sleep")
 	

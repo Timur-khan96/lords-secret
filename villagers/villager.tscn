@@ -39,7 +39,7 @@ text = "Hello"
 font_size = 64
 
 [node name="visitor_tree" parent="." node_paths=PackedStringArray("blackboard", "actor") instance=ExtResource("4_abhbk")]
-blackboard = NodePath("@Node@18227")
+blackboard = NodePath("@Node@37059")
 actor = NodePath("..")
 
 [node name="villager_sound_controller" type="AudioStreamPlayer3D" parent="."]

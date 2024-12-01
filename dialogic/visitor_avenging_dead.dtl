@@ -1,0 +1,3 @@
+I know what you did with my friend {killed_friend}, say your last prayers to the devil, fiend!
+do Global.handle_dialogue_result(false)
+[end_timeline]

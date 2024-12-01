@@ -2,14 +2,18 @@ Good {time_of_day}, my lord. Do you remember me?
 do Global.get_random_demand_money()
 - Should I?
 - I recollect us meeting.
-Yes, it is me, {visitor.name} {visitor.surname}. I brought what you crave once more. The price is {money_demand} now, I know it fluctuates, the market is unstable these days.
+Yes, it is me, {visitor.name}. I brought what you crave once more. The price is {money_demand} now, I know it fluctuates, the market is unstable these days.
 - You brought me some dog piss, if I ever see you again...
 	Got it, got it, there are more who are interested in my goods, you know.
 	set {lord_gave_money} = true
 	do Global.handle_dialogue_result(true)
 	[end_timeline]
-- Let us trade, then, hope it is as good as last time.
+- Let us trade, then, hope it is as good as last time. | [if {Global.money} >= {money_demand}]
 	Pleasure doing business with you.
 	set {lord_gave_money} = true
+	do Global.handle_dialogue_result(true)
+	[end_timeline]
+- I don't have such funds. | [if {Global.money} < {money_demand}]
+	I understand, life is tough and we all do what we can. Maybe another time.
 	do Global.handle_dialogue_result(true)
 	[end_timeline]

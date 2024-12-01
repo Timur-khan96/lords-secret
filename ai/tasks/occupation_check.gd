@@ -3,9 +3,16 @@ extends ConditionLeaf
 func tick(actor, blackboard: Blackboard):
 	var curr_occup = blackboard.get_value("occupation")
 	if actor.game_info.status == NpcUtility.NPC_Status.LEAVING:
-		if !curr_occup == NpcUtility.OCCUPATIONS.LEAVING:
+		if curr_occup != NpcUtility.OCCUPATIONS.LEAVING:
 			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.LEAVING)
 			blackboard.set_value("destination", WorldUtility.get_random_point_outside_bounds())
+	elif actor.game_info.status == NpcUtility.NPC_Status.ENEMY:
+		if curr_occup != NpcUtility.OCCUPATIONS.ATTACKING:
+			blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.ATTACKING)
+			blackboard.set_value("destination", Global.lord.global_position)
+			blackboard.set_value("attack_target", Global.lord)
+			blackboard.set_value("desired_distance", 3.0)
+			actor.show_attached("axe")
 	elif curr_occup == NpcUtility.OCCUPATIONS.IDLE:
 		if !is_sleep_time(blackboard):
 			if !is_eat_time(actor, blackboard):
@@ -22,7 +29,6 @@ func handle_idle(_actor, blackboard):
 		1:
 			blackboard.set_value("idle_animation", "sit")
 		2: #wondering
-			print("villager wandering")
 			blackboard.set_value("destination", WorldUtility.get_random_point_inside_bounds())
 			blackboard.set_value("desired_distance", 4.0)
 			

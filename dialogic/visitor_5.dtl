@@ -1,4 +1,4 @@
-Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. The truth is I know your secret, but fear not, as I am the one some call sympathizer.
+Good {time_of_day}, my lord. My name is {visitor.name}. The truth is I know your secret, but fear not, as I am the one some call sympathizer.
 do Global.get_random_demand_money()
 - So what is it you want?
 - Name one reason to leave you alive.

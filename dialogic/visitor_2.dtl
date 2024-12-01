@@ -1,4 +1,4 @@
-Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. I hope you are in a good mood today, as I bring bad news, there was a terrible fire in our region and we were left without a home and means of subsistence.
+Good {time_of_day}, my lord. My name is {visitor.name}. I hope you are in a good mood today, as I bring bad news, there was a terrible fire in our region and we were left without a home and means of subsistence.
 - So what is it you want?
 	I hoped you would be kind enough to provide some land for me to start life over in a new place.
 	- Sure, let us see what we can do.

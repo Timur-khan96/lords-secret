@@ -9,6 +9,4 @@ func play_sound(sound_name):
 				stream = load("res://audio/SFX/lord_hurt_2.mp3")
 		"lord_attack":
 			stream = load("res://audio/SFX/lord_attack.mp3")
-		"wild_turn":
-			stream = load("res://audio/SFX/wild_turn.mp3")
-	play()
+	if !playing: play()

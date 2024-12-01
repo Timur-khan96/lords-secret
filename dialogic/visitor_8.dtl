@@ -1,0 +1,32 @@
+What a nice little place you've got here, it would be a nightmare to see someone turning it into ruins, wouldn't it?
+do Global.get_random_demand_money()
+- What are you implying?
+	All I am saying is that if someone decides to destroy all you've created, who is there to protect you? For a fair sum of {money_demand}, me and my brothers-in-arms will keep your village safe at night.
+	- Fine, here's your money. | [if {Global.money} >= {money_demand}]
+		Pleasure doing business with you.
+		set {lord_gave_money} = true
+		set {lord_paid_bandits} = true
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+	- You have no idea what you're getting yourself into.
+		I take it as a no. You will regret this.
+		set {bandit_demand} = {money_demand} * 2
+		set {night_attack} = true
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+	- How about you pay me for not kicking your ass?
+		There is no need for that, see you at night.
+		set {bandit_demand} = {money_demand} * 2
+		set {night_attack} = true
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+	- I don't have such funds. | [if {Global.money} < {money_demand}]
+		I understand, life is tough and we all do what we can. Rest assured, I come the other day.
+		do Global.handle_dialogue_result(true)
+		[end_timeline]
+- Come closer and I turn your face into ruins.
+	There is no need for that, see you at night.
+	set {bandit_demand} = {money_demand} * 2
+	set {night_attack} = true
+	do Global.handle_dialogue_result(true)
+	[end_timeline]

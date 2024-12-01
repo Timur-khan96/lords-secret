@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name Lord
 
+@onready var blood_explosion = load("res://effects/blood_explosion.tscn")
+
 @onready var camera = %lords_camera
 @onready var pointer = $"UILayer2/3dperson/pointer"
 @onready var model = $model
@@ -28,7 +30,7 @@ var lord_state: LORD_STATES:
 				if lord_state == LORD_STATES.ACTIVATED:
 					deactivate_lord()
 			LORD_STATES.WILD:
-				$lord_audio_controller.play("wild_turn")
+				$wild_turn_stream.play()
 				if lord_state == LORD_STATES.ACTIVATED:
 					deactivate_lord() #deactivates danger_area
 				$danger_area/CollisionShape3D.disabled = false
@@ -41,14 +43,20 @@ var mouse_sens = 0.5
 var interactable = null;
 
 var speed = 5.0
-var blood = 100
+var blood = 100:
+	set(value):
+		blood = value
+		if blood < 1:
+			blood = 0;
+			if lord_state != LORD_STATES.WILD:
+				lord_state = LORD_STATES.WILD
 var is_burning = false:
 	set(value):
+		if value == is_burning: return
 		is_burning = value
 		if value:
-			blood_timer.wait_time = 2
-		else:
-			blood_timer.wait_time = 12
+			blood_timer.stop()
+			_on_blood_timer_timeout()
 			
 var is_daytime = false:
 	set(value):
@@ -100,7 +108,8 @@ func start_dialogue():
 				Global.start_dialogue("villager_interaction")
 			NpcUtility.NPC_Status.LEAVING:
 				Global.start_dialogue("visitor_leaving")
-				#Dialogic.timeline_ended.connect(_on_dialogue_finished)
+			NpcUtility.NPC_Status.ENEMY:
+				Global.start_dialogue("bandit_last_chance")
 
 func _physics_process(delta):
 	match lord_state:
@@ -113,7 +122,9 @@ func _physics_process(delta):
 		LORD_STATES.WILD:
 			handle_wild_search()
 			handle_navigation_movement()
-				
+	if is_burning:
+		if !$burning_stream.playing:
+			$burning_stream.play()
 	if is_daytime: handle_day_raycast()
 	
 func handle_wild_search():
@@ -204,10 +215,16 @@ func handle_movement(delta):
 func hit():
 	$lord_audio_controller.play_sound("hurt")
 	blood -= randi_range(5, 10)
-	var explosion = load("res://effects/blood_explosion.tscn").instantiate()
+	var explosion = blood_explosion.instantiate()
 	explosion.amount = 64
 	explosion.set_layer_mask_value(1, false)
 	explosion.set_layer_mask_value(2, true)
+	add_child(explosion)
+	explosion.emitting = true
+	
+func get_blood():
+	blood += randi_range(20, 40)
+	var explosion = blood_explosion.instantiate()
 	add_child(explosion)
 	explosion.emitting = true
 		
@@ -226,10 +243,10 @@ func deactivate_lord():
 
 func _on_blood_timer_timeout():
 	blood -= 1
-	if blood < 1:
-		blood = 0;
-		if lord_state != LORD_STATES.WILD:
-			lord_state = LORD_STATES.WILD
+	if is_burning:
+		blood_timer.start(1)
+	else:
+		blood_timer.start(10)
 		
 func _on_nav_target_reached():
 	if lord_state == LORD_STATES.WILD:
@@ -242,6 +259,7 @@ func _on_nav_target_reached():
 			wild_off.emit()
 		wild_victim_pos = Vector3.ZERO
 		velocity = Vector3.ZERO
-	else:
-		print("lord's nav_agent target reached but it isn't wild, wut???????")
 		
+func _on_burning_stream_finished():
+	if is_burning:
+		$burning_stream.play()

@@ -26,6 +26,7 @@ func _ready():
 	anim_controller.anim_player = model.get_node("AnimationPlayer")
 	anim_controller.anim_player.animation_finished.connect(anim_controller._on_anim_finished)
 	blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.VISITING)
+	blackboard.set_value("destination", Vector3.ZERO) #just in case
 	blackboard.set_value("desired_distance", 1.0) #at first it is fine
 	blackboard.set_value("idle_animation", "idle")
 	if game_info.gender:
@@ -87,14 +88,16 @@ func _on_dialogue_finished():
 		blackboard.set_value("awakened", false)
 	current_tree.enabled = true
 	
-func lord_attack():
+func lord_attack(): #it is actually used for all fighters to start fighting
 	in_danger = true
 	if is_combatant:
 		game_info.status = NpcUtility.NPC_Status.ENEMY
 		blackboard.set_value("occupation", NpcUtility.OCCUPATIONS.ATTACKING)
+		blackboard.set_value("awakened", true)
 		blackboard.set_value("attack_target", Global.lord)
 		blackboard.set_value("desired_distance", 3.0)
 		show_attached("axe")
+		play_sound("scream")
 	else:
 		speed = 7;
 		game_info.status = NpcUtility.NPC_Status.LEAVING
@@ -124,3 +127,7 @@ func show_attached(attached: String):
 	
 func hide_attached(attached: String):
 	model.get_node("%" + attached).hide()
+	
+func _falling_back_to_sleep():
+	if !in_danger:
+		blackboard.set_value("awakened", false)

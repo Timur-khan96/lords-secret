@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bp6utlfdm5xmu"]
+[gd_scene load_steps=20 format=3 uid="uid://bp6utlfdm5xmu"]
 
 [ext_resource type="Script" path="res://player/lord.gd" id="1_fv86s"]
 [ext_resource type="Script" path="res://camera/camera.gd" id="2_d8cc3"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://dh2h4b2uxngy6" path="res://effects/fire_01.png" id="7_2d0am"]
 [ext_resource type="Script" path="res://player/danger_area.gd" id="8_jce3h"]
 [ext_resource type="Script" path="res://player/lord_audio_controller.gd" id="9_ctvo5"]
+[ext_resource type="AudioStream" uid="uid://cqrvmgj0glmon" path="res://audio/SFX/wild_turn.mp3" id="10_03pex"]
+[ext_resource type="AudioStream" uid="uid://trbocok8e2dx" path="res://audio/SFX/lord_burning.mp3" id="11_r4ery"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5li63"]
 
@@ -187,9 +189,11 @@ script = ExtResource("2_d8cc3")
 
 [node name="3dperson" type="Control" parent="UILayer2"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -207,7 +211,6 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_01o7l")
-stretch_mode = 2
 
 [node name="model" parent="." instance=ExtResource("4_px752")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1, 0)
@@ -288,7 +291,8 @@ process_material = SubResource("ParticleProcessMaterial_tgxnl")
 draw_pass_1 = SubResource("QuadMesh_umu3h")
 
 [node name="blood_timer" type="Timer" parent="."]
-wait_time = 12.0
+wait_time = 10.0
+one_shot = true
 autostart = true
 
 [node name="roof_check" type="RayCast3D" parent="."]
@@ -318,8 +322,16 @@ radius = 0.8
 bus = &"SFX"
 script = ExtResource("9_ctvo5")
 
+[node name="wild_turn_stream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_03pex")
+bus = &"SFX"
+
+[node name="burning_stream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_r4ery")
+
 [connection signal="timeout" from="blood_timer" to="." method="_on_blood_timer_timeout"]
 [connection signal="area_entered" from="danger_area" to="danger_area" method="_on_area_entered"]
 [connection signal="area_exited" from="danger_area" to="danger_area" method="_on_area_exited"]
+[connection signal="finished" from="burning_stream" to="." method="_on_burning_stream_finished"]
 
 [editable path="model"]

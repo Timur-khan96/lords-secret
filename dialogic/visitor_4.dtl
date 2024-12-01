@@ -1,4 +1,4 @@
-Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. You might have heard of the fire that errupt in the middle of our village nearby. Unfortunately, we are left with no choice but to go around and beg.
+Good {time_of_day}, my lord. My name is {visitor.name}. You might have heard of the fire that errupt in the middle of our village nearby. Unfortunately, we are left with no choice but to go around and beg.
 do Global.get_random_demand_money()
 - So what is it you want?
 	Not much, a fair sum of {money_demand} will do.

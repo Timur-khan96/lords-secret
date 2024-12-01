@@ -5,15 +5,12 @@ const POS_Y = 0.6
 
 func tick(actor, blackboard: Blackboard):
 	var a = actor.nav_agent
-	if blackboard.get_value("occupation") == NpcUtility.OCCUPATIONS.ATTACKING:
-		var t = blackboard.get_value("attack_target").global_position
-		if actor.global_position.distance_to(t) <= blackboard.get_value("desired_distance"):
-			return FAILURE
-		else:
-			blackboard.set_value("destination", t)
-		
+	if actor.game_info.status == NpcUtility.NPC_Status.ENEMY:
+		if blackboard.get_value("occupation") == NpcUtility.OCCUPATIONS.VISITING:
+			blackboard.set_value("destination", Global.lord.global_position)
+	
 	if a.is_navigation_finished():
-		if curr_destination:
+		if curr_destination != null:
 			var d = blackboard.get_value("destination")
 			d.y = POS_Y
 			if curr_destination == d:

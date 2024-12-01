@@ -53,6 +53,7 @@ func menu_opened(menu = null):
 	is_menu_opened = true
 	player_controls.set_process_input(false)
 	if player_controls.control_mode == player_controls.CONTROL_MODES.VAMPIRE:
+		lord.get_node("UILayer2").hide()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	if menu:
 		menu.show()
@@ -61,6 +62,7 @@ func menu_closed(menu = null):
 	is_menu_opened = false
 	player_controls.set_process_input(true)
 	if player_controls.control_mode == player_controls.CONTROL_MODES.VAMPIRE:
+		lord.get_node("UILayer2").show()
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if menu:
 		menu.hide()
@@ -72,7 +74,7 @@ func start_dialogue(dialogue_name: String):
 	Dialogic.timeline_ended.connect(end_dialogue)
 	
 func end_dialogue():
-	handle_dialogue_result()
+	#handle_dialogue_result()
 	current_dialogue = null
 	Dialogic.timeline_ended.disconnect(end_dialogue)
 	menu_closed()
@@ -97,15 +99,23 @@ func handle_dialogue_result(is_leaving = false):
 				if Dialogic.VAR.lord_gave_money:
 					Dialogic.VAR.lord_gave_money = false
 					money -= Dialogic.VAR.money_demand
-					lord.blood += randi_range(20,50)
+					lord.get_blood()
 					NpcUtility.set_blood_seller(mansion_scene.petitioner)
 			"visitor_5_2":
 				if Dialogic.VAR.lord_gave_money:
 					Dialogic.VAR.lord_gave_money = false
 					money -= Dialogic.VAR.money_demand
-					lord.blood += randi_range(20,50)
+					lord.get_blood()
 				else:
 					NpcUtility.blood_seller_game_info = null
+			"visitor_8":
+				if Dialogic.VAR.lord_gave_money:
+					Dialogic.VAR.lord_gave_money = false
+					money -= Dialogic.VAR.money_demand
+			"bandit_last_chance":
+				if Dialogic.VAR.lord_gave_money:
+					Dialogic.VAR.lord_gave_money = false
+					NpcUtility.band_leave()
 		mansion_scene.send_petitioner_away()
 	else:
 		match current_dialogue:
@@ -118,6 +128,10 @@ func handle_dialogue_result(is_leaving = false):
 				if Dialogic.VAR.visitor_attack:
 					Dialogic.VAR.visitor_attack = false
 					mansion_scene.petitioner_attack()
+			"bandit_last_chance":
+				NpcUtility.band_attack()
+			"visitor_avenging_dead":
+				mansion_scene.petitioner_attack()
 		
 func plot_selling(): #for giving selected plot to villagers, called from Dialogic
 	player_controls.is_selling_plot = true
@@ -165,7 +179,7 @@ func get_current_quest_text():
 			return ""
 			
 func get_random_demand_money(): #used for dialogic beggers and racketeers
-	var demand_money = randi_range(20, 100)
+	var demand_money = randi_range(25, 100)
 	Dialogic.VAR.money_demand = demand_money
 	return demand_money
 	

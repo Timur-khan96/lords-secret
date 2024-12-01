@@ -30,6 +30,7 @@ BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 
 directories/dch_directory={}
 directories/dtl_directory={
+"bandit_last_chance": "res://dialogic/bandit_last_chance.dtl",
 "in_danger": "res://dialogic/in_danger.dtl",
 "lord_burning": "res://dialogic/lord_burning.dtl",
 "nightime_door_dialogue": "res://dialogic/nightime_door_dialogue.dtl",
@@ -43,6 +44,8 @@ directories/dtl_directory={
 "visitor_5_2": "res://dialogic/visitor_5_2.dtl",
 "visitor_6": "res://dialogic/visitor_6.dtl",
 "visitor_7": "res://dialogic/visitor_7.dtl",
+"visitor_8": "res://dialogic/visitor_8.dtl",
+"visitor_avenging_dead": "res://dialogic/visitor_avenging_dead.dtl",
 "visitor_buying_plot": "res://dialogic/visitor_buying_plot.dtl",
 "visitor_gifted_plot": "res://dialogic/visitor_gifted_plot.dtl",
 "visitor_interaction": "res://dialogic/visitor_interaction.dtl",
@@ -51,16 +54,17 @@ directories/dtl_directory={
 "visitor_searching_dead": "res://dialogic/visitor_searching_dead.dtl"
 }
 variables={
+"bandit_demand": 0,
 "is_villager_opening_door": false,
 "killed_friend": "",
 "lord_gave_money": false,
+"lord_paid_bandits": false,
 "money_demand": 0,
+"night_attack": false,
 "time_of_day": "",
 "visitor": {
-"family_size": 0,
 "money": 0,
-"name": "",
-"surname": ""
+"name": ""
 },
 "visitor_attack": false
 }

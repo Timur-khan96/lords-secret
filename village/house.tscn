@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0d82otwxx4am"]
+[gd_scene load_steps=6 format=3 uid="uid://c0d82otwxx4am"]
 
 [ext_resource type="Script" path="res://village/house_project.gd" id="1_lakpe"]
 [ext_resource type="PackedScene" uid="uid://btdvbqb88iw8k" path="res://village/house_1.glb" id="2_q18p8"]
+[ext_resource type="PackedScene" uid="uid://p474jpk1l85a" path="res://village/bed.glb" id="4_q0cc5"]
 [ext_resource type="PackedScene" uid="uid://bxxh0oo3yo878" path="res://village/planks.glb" id="5_gsain"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w15qg"]
@@ -61,6 +62,10 @@ visible = false
 
 [node name="planks5" parent="planks" instance=ExtResource("5_gsain")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.60104)
+visible = false
+
+[node name="bed" parent="." instance=ExtResource("4_q0cc5")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 visible = false
 
 [editable path="house_1"]

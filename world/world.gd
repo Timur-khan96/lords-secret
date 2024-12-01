@@ -47,6 +47,7 @@ var time_of_day: String = "Night":
 					mansion.send_queue_away()
 					$music_player.play_night_music()
 				"Night":
+					NPCSpawner.check_night_attack()
 					$music_player.play_night_music()
 
 func _ready():
@@ -110,7 +111,6 @@ func _on_time_button_pressed():
 	if time_scale > MAX_TIME_SCALE:
 		time_scale = 1.0
 	Engine.time_scale = time_scale
-	#print(str(Engine.time_scale))
 	%camera_base.update_pan_speed()
 
 func _on_game_timer_timeout():
@@ -185,13 +185,21 @@ func check_villager_doors(): #morning reload
 		door.visitor_opened_door = false
 		
 func NPC_exploded(curr_NPC):
+	create_blood_explosion(curr_NPC.global_position)
 	if mansion.petitioner != null:
 		if mansion.petitioner == curr_NPC && player_controls.is_selling_plot:
 			player_controls.is_selling_plot = false
 	if curr_NPC.petitioner_dialogue == "visitor_5_2":
 		NpcUtility.blood_seller_game_info = null
-	var pos = curr_NPC.global_position
-	NPCSpawner.killed_people.append(str(curr_NPC.game_info.name + " " + curr_NPC.game_info.surname))
+		return
+	if curr_NPC.get_parent() == NpcUtility.band || curr_NPC.petitioner_dialogue == "visitor_8":
+		if NpcUtility.band.get_children().size() == 1:
+			NpcUtility.band.queue_free.call_deferred()
+			NpcUtility.band = null
+		return
+	NPCSpawner.killed_people.append(curr_NPC.game_info.name)
+	
+func create_blood_explosion(pos):
 	var blood_explosion = load("res://effects/blood_explosion.tscn").instantiate()
 	add_child(blood_explosion)
 	blood_explosion.global_position = pos

@@ -1,0 +1,14 @@
+This is your last chance, pay us {bandit_demand} or else!
+- Fine, here's your money. | [if {Global.money} >= {bandit_demand}]
+	Now we are talking. Pleasure doing business with you.
+	set {lord_gave_money} = true
+	set {lord_paid_bandits} = true
+	do Global.handle_dialogue_result(true)
+	[end_timeline]
+- I wish meat would jump onto my plate like this every day.
+	do Global.handle_dialogue_result(false)
+	[end_timeline]
+- I don't have such funds. | [if {Global.money} < {bandit_demand}]
+	That's too bad, boys give him hell!
+	do Global.handle_dialogue_result(false)
+	[end_timeline]

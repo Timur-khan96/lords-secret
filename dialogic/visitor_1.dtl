@@ -1,4 +1,4 @@
-Good {time_of_day}, my lord. My name is {visitor.name} {visitor.surname}. I am here to ask you for some land for my humble family of... me, I am ready to pay as long as the pay is fair.
+Good {time_of_day}, my lord. My name is {visitor.name}. I am here to ask you for some land for my humble family of... me, I am ready to pay as long as the pay is fair.
 - Let's see what we can do.
 	do Global.plot_selling()
 	[end_timeline]

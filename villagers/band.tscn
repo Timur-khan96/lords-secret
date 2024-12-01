@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2la4tp3tl7x1"]
+
+[ext_resource type="PackedScene" uid="uid://bs4osscxqcpcy" path="res://villagers/villager.tscn" id="1_ogexx"]
+
+[node name="band" type="Node3D"]
+
+[node name="bandit_leader" parent="." instance=ExtResource("1_ogexx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="bandit_1" parent="." instance=ExtResource("1_ogexx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.24541, -2.38419e-07, -2.58327)
+
+[node name="bandit_2" parent="." instance=ExtResource("1_ogexx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.61615, 0, -2.10934)

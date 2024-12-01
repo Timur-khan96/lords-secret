@@ -4,7 +4,6 @@ extends Node3D
 
 var mansion_queue = []
 var petitioner = null #current petitioner
-var petitioner_is_leaving = false #to nullify petitioner once doors are closed
 
 func _ready():
 	Global.mansion_scene = self
@@ -25,7 +24,6 @@ func pop_mansion_queue(): #ringing a bell
 		petitioner = mansion_queue.pop_front()
 		petitioner.blackboard.set_value("destination", $petition_pos.global_position)
 		petitioner.game_info.status = NpcUtility.NPC_Status.PETITIONER
-		#open_doors()
 		shift_queue()
 		
 func shift_queue():
@@ -43,16 +41,15 @@ func send_petitioner_to_plot():
 	petitioner.blackboard.set_value("plot", plot)
 	petitioner.blackboard.set_value("destination", plot.plot_game_info.center)
 	petitioner.game_info.status = NpcUtility.NPC_Status.VILLAGER
-	petitioner_is_leaving = true
-	#open_doors()
+	petitioner = null
 	Global.num_of_villagers += 1
 	
 func send_petitioner_away():
-	var point = WorldUtility.get_random_point_outside_bounds()
-	petitioner.blackboard.set_value("destination", point)
-	petitioner.game_info.status = NpcUtility.NPC_Status.LEAVING
-	petitioner_is_leaving = true
-	#open_doors()
+	if petitioner != null: #might be bandits
+		var point = WorldUtility.get_random_point_outside_bounds()
+		petitioner.blackboard.set_value("destination", point)
+		petitioner.game_info.status = NpcUtility.NPC_Status.LEAVING
+		petitioner = null
 	
 func petitioner_attack():
 	petitioner.lord_attack()
@@ -96,7 +93,6 @@ func _on_door_open_area_body_entered(body):
 	if body is Lord:
 		if body.lord_state == body.LORD_STATES.WILD:
 			open_doors()
-
 
 func _on_door_open_area_entered(area):
 	if area is NPC:

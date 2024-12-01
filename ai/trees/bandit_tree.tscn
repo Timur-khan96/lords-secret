@@ -1,0 +1,51 @@
+[gd_scene load_steps=12 format=3 uid="uid://bb55rgwbv65cj"]
+
+[ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="1_ig2e7"]
+[ext_resource type="Script" path="res://ai/tasks/movement_action.gd" id="2_b15x5"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="2_rvc73"]
+[ext_resource type="Script" path="res://ai/tasks/start_dialogue.gd" id="4_df6sj"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="5_eiot8"]
+[ext_resource type="Script" path="res://ai/tasks/visitor_idle.gd" id="5_fxot7"]
+[ext_resource type="Script" path="res://ai/tasks/is_talking.gd" id="5_mp6kw"]
+[ext_resource type="Script" path="res://ai/tasks/talk_animation.gd" id="5_tf0xb"]
+[ext_resource type="Script" path="res://ai/tasks/is_attacking.gd" id="6_jb3we"]
+[ext_resource type="Script" path="res://ai/tasks/is_leaving.gd" id="6_mwukv"]
+[ext_resource type="Script" path="res://ai/tasks/attack_action.gd" id="7_qsiwu"]
+
+[node name="bandit_tree" type="Node" node_paths=PackedStringArray("blackboard", "actor")]
+script = ExtResource("1_ig2e7")
+blackboard = NodePath("@Node@18250")
+actor = NodePath("")
+
+[node name="SelectorComposite" type="Node" parent="."]
+script = ExtResource("2_rvc73")
+
+[node name="movement" type="Node" parent="SelectorComposite"]
+script = ExtResource("2_b15x5")
+
+[node name="talking_sequence" type="Node" parent="SelectorComposite"]
+script = ExtResource("5_eiot8")
+
+[node name="is_talking" type="Node" parent="SelectorComposite/talking_sequence"]
+script = ExtResource("5_mp6kw")
+
+[node name="talk_animation" type="Node" parent="SelectorComposite/talking_sequence"]
+script = ExtResource("5_tf0xb")
+
+[node name="start_dialogue" type="Node" parent="SelectorComposite/talking_sequence"]
+script = ExtResource("4_df6sj")
+
+[node name="attacking_sequence" type="Node" parent="SelectorComposite"]
+script = ExtResource("5_eiot8")
+
+[node name="is_attacking" type="Node" parent="SelectorComposite/attacking_sequence"]
+script = ExtResource("6_jb3we")
+
+[node name="attack_action" type="Node" parent="SelectorComposite/attacking_sequence"]
+script = ExtResource("7_qsiwu")
+
+[node name="is_leaving" type="Node" parent="SelectorComposite"]
+script = ExtResource("6_mwukv")
+
+[node name="visitor_idle" type="Node" parent="SelectorComposite"]
+script = ExtResource("5_fxot7")
